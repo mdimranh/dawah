@@ -1,0 +1,267 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_link %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}'">
+<style>
+.main-content1{
+    box-shadow: 0 0 6px rgb(0, 0, 0, 0.3);
+    margin-top: 110px;
+    padding-top: 10px;
+    border-radius: 10px;
+}
+
+.btn:focus{
+    box-shadow: none;
+}
+
+.form-control:focus{
+    box-shadow: none;
+}
+
+.profile1{
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    border: 1px solid #1A1952;
+}
+
+input{
+    display: none;
+}
+
+.label
+	{
+		width: 45px;
+		height: 45px;
+		cursor: pointer;
+		margin-left: 90px;
+		margin-top: -45px;
+        border-radius: 50%;
+	}
+
+.emage:hover{
+    cursor: pointer;
+}
+
+.name{
+    width: 250px;
+    margin-top: -18px;
+}
+
+.progress{
+    height: 6px;
+}
+
+.progress-bar{
+    width: 20%;
+}
+
+.border{
+    height: 120px;
+}
+
+.img-fluid{
+    width: auto;
+    height: auto;
+    max-height: 750px;
+}
+</style>
+<title>Hello, world!</title>
+{% endblock  %}
+
+{% block body %}
+
+<div class="container main-content1">
+        <div class="row">
+        <form method="post" enctype='multipart/form-data' onsubmit="onProfileUpdate(event);">
+            <div class="col-12">
+                <div class="d-flex flex-row-reverse justify-content-between">
+                {% if user.phone|length >= 1 %}
+                    <button onclick="myFunction()" type="button" class="btn btn-sm btn-success">Edit Profile</button>
+                {% endif %}
+                    {% if no_channel == 0 %}
+                        <a href="/account/channel/create-channel">
+                            <button type="button" class="btn btn-sm btn-primary">Create Channel</button>
+                        </a>
+                    {% endif %}
+                </div>
+                <div class="d-flex flex-column align-items-center">
+                    <div class="emage d-flex flex-column">
+                        {% for logo in logo %}
+                        <img id="profile" class="profile1" src="{{logo.image}}" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        {% endfor %}
+                        <label for="file-input">
+                        <img id="add-person" class="label" style="display: none;" src="{% static 'img/camera.png' %}"/>
+                    </div>
+                        <input id="file-input" type="file" accept="image/*" onchange="loadFile(event)"/>
+                        <h4 id='name' class="name text-center mt-2">{{user.first_name}} {{user.last_name}}</h4>
+                        <input style="display: none;" id='name1' name='new_first_name' type="text" class="form-control name mt-2" value="{{user.first_name}}"></input>
+                        <input style="display: none;" id='name2' name='new_last_name' type="text" class="form-control name mt-2" value="{{user.last_name}}"></input>
+                </div>
+            </div>
+            {% if user.phone|length >= 1 %}
+            <div class="col-12">
+                <hr class="mx-5">
+            </div>
+            {% endif %}
+            <div class="col-12">
+                <div id="edit">
+                {% if user.phone|length >= 1 %}
+                    <p class="w-100 text-center my-0">Phone : {{user.phone}}</p>
+                    {% endif %}
+                </div>
+                <div id="edit1" class="flex-column align-items-center" style="display: none;">
+                    <div class="d-flex justify-content-center mt-2">
+                        <div class="col-12">
+                            <div class="row mb-3">
+                            {% if user.phone|length >= 1 %}
+                                <label for="phone" class="col-2 col-form-label text-end">Phone</label>
+                                <div class="col-10">
+                                    <input type="phone" name='new_phone' class="form-control" id="phone" value="{{user.phone}}">
+                                </div>
+                            {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="save-btn" class="flex-fill justify-content-center mt-1" style="display: none">
+                    <button type="submit" class="btn btn-sm btn-info">Save Change</button>
+                    <button type="button" onclick="myFunction()" class="btn btn-sm btn-secondary ms-2">Cancel</button>
+                </div>
+            </div>
+            </form>
+            <div class="col-12 mt-3">
+                <div class="progress">
+                    <div class="progress-bar bg-success" role="progressbar"></div>
+                    <div class="progress-bar bg-warning" role="progressbar"></div>
+                    <div class="progress-bar bg-info" role="progressbar"></div>
+                    <div class="progress-bar bg-danger" role="progressbar"></div>
+                    <div class="progress-bar" role="progressbar"></div>
+                </div>
+            </div>
+            <div class="col-12 mt-3">
+                <div class="d-flex flex-fill justify-content-around">
+                {% for user in logo %}
+                    <div class="w-100 d-flex flex-column align-items-center">
+                        <i class="fa fa-star fa-2x"></i>
+                        <p>Following</p>
+                        <p class="mt-1">{{user.total_following}}</p>
+                    </div>
+                {% endfor %}
+                    <p class="border"></p>
+                    <div class="w-100 d-flex flex-column align-items-center">
+                        <i class="fa fa-desktop fa-2x"></i>
+                        <p>View</p>
+                        <p class="mt-1">{{views}}</p>
+                    </div>
+                    <p class="border"></p>
+                    <div class="w-100 d-flex flex-column align-items-center">
+                        <i class="fa fa-thumbs-up fa-2x"></i>
+                        <p>Like</p>
+                        <p class="mt-1">{{likes}}</p>
+                    </div>
+                    <p class="border"></p>
+                    <div class="w-100 d-flex flex-column align-items-center">
+                        <i class="fa fa-pencil-square fa-2x"></i>
+                        <p>Comment</p>
+                        <p class="mt-1">326</p>
+                    </div>
+                    <p class="border"></p>
+                    <div class="w-100 d-flex flex-column align-items-center">
+                        <i class="fa fa-share-alt fa-2x"></i>
+                        <p>Share</p>
+                        <p class="mt-1">35</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+            <div class="modal-header">
+            <div class="modal-title h6">{{user.first_name}} {{user.last_name}}</div>
+                <button type="button" class="btn-close btn" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex">
+                    {% for logo in logo %}
+                    <img class='img-fluid' src="{{logo.image}}" alt="">
+                    {% endfor %}
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock  %}
+
+{% block extra_script %}
+<script>
+        function myFunction() {
+        var x = document.getElementById("edit");
+        var y = document.getElementById("edit1");
+        var name = document.getElementById("name");
+        var name1 = document.getElementById("name1");
+        var name2 = document.getElementById("name2");
+        var save_btn = document.getElementById("save-btn");
+        var add_person = document.getElementById("add-person");
+        if (x.style.display === "none") {
+            x.style.display = "";
+            y.style.display = "none";
+            name.style.display = "";
+            name1.style.display = "none";
+            name2.style.display = "none";
+            save_btn.style.display = "none";
+            add_person.style.display = "none";
+        } else {
+            x.style.display = "none";
+            y.style.display = "flex";
+            name.style.display = "none";
+            name1.style.display = "flex";
+            name2.style.display = "flex";
+            save_btn.style.display = "flex";
+            add_person.style.display = "flex";
+        }
+        }
+    </script>
+
+    <script>
+        var loadFile = function(event) {
+            var output = document.getElementById('profile');
+            output.src = URL.createObjectURL(event.target.files[0]);
+            output.onload = function() {
+            URL.revokeObjectURL(output.src) // free memory
+            }
+        };
+    </script>
+
+
+    <script>
+        function onProfileUpdate(event){
+            event.preventDefault();
+
+            var formData = new FormData();
+            formData.append("new_first_name", document.getElementById("name1").value);
+            formData.append("new_last_name", document.getElementById("name2").value);
+            formData.append("new_phone", document.getElementById("phone").value);
+            formData.append("new_logo", document.getElementById("file-input").files[0]);
+            
+            console.log(formData);
+
+            var xhr=new XMLHttpRequest();
+            {% for channel in channel %}
+            xhr.open("POST", "http://localhost:8000/account/profile_update", true);
+            {% endfor %}
+            xhr.addEventListener('load', (event) =>{
+            });
+            xhr.send(formData);
+        }
+    </script>
+
+
+{% endblock  %}

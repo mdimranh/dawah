@@ -1,0 +1,728 @@
+{% extends 'base.html' %} {% load static %} {% block extra_link %}
+<link rel="stylesheet" href="{% static 'css/tail.select-teal.css' %}" />
+<link rel="stylesheet" href="{% static 'css/multi.min.css' %}" />
+<script src="{% static 'js/multi.min.js' %}"></script>
+<style>
+/*----------video button container ---------------*/
+  .video-input{
+    display: none;
+  }
+
+  .video-details{
+    background: white;
+    position: sticky;
+    top: 36px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+
+  .main-title {
+    margin-top: 70px;
+  }
+
+  .text-box:focus {
+    box-shadow: none;
+  }
+
+  .text-box {
+    background: #eceff0 none repeat scroll 0 0;
+    border-color: #dcdfdf;
+    border-radius: 2px;
+    font-size: 13px;
+  }
+
+  .thumbnail{
+    max-height: 107px;
+    cursor: pointer;
+    border: 1px solid gray;
+  }
+
+  .thumbnail1{
+    max-height: 173px;
+    max-width: 307px;
+    cursor: pointer;
+    border: 1px solid gray;
+  }
+
+  .thumbnail-input{
+    display: none;
+  }
+
+  .custom-select {
+    background-color: #eceff0;
+    border-color: #dcdfdf;
+    border-radius: 3px;
+    font-size: 13px;
+  }
+
+  .custom-select:focus {
+    box-shadow: none;
+  }
+
+  label {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 5px;
+  }
+
+  .imgplace {
+    border : 1px solid green;
+    background-color: #C1CCFC;
+    background-image: url({% static 'img/add-video.jpg' %});
+    background-position: center;
+    background-size: 400px 350px;
+    background-repeat: no-repeat;
+    border-radius: 3px;
+    max-height: 324px;
+    width: auto;
+    cursor: pointer;
+  }
+  .osahan-title {
+    margin-top: 8px;
+    color: #000;
+    font-weight: 600;
+  }
+  .osahan-size {
+    font-size: 11px;
+  }
+  .osahan-progress .progress {
+    border-radius: 2px;
+    height: 8px;
+    margin: 5px 0;
+  }
+  .osahan-desc {
+    font-size: 12px;
+    opacity: 0.7;
+  }
+
+  .folder {
+    margin-top: 15px;
+  }
+
+  /*----------Folder selector ---------------*/
+
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.dropdown-container, .instructions {
+  margin: 15px auto 0;
+  font-size: 14px;
+  overflow: auto;
+}
+
+.instructions {
+  width: 100%;
+  text-align: center;
+}
+
+.dropdown-button {
+  float: left;
+  width: 100%;
+  height: 40px;
+  background: whitesmoke;
+  padding: 10px 12px;
+  cursor: pointer;
+  border: 1px solid lightgray;
+  box-sizing: border-box;
+}
+.dropdown-button .dropdown-label, .dropdown-button .dropdown-quantity {
+  float: left;
+}
+.dropdown-button .dropdown-quantity {
+  margin-left: 4px;
+}
+.dropdown-button .fa-folder-open {
+  float: right;
+}
+
+.dropdown-list {
+  float: left;
+  width: 100%;
+  border: 1px solid lightgray;
+  border-top: none;
+  box-sizing: border-box;
+  padding: 10px 12px;
+}
+
+.dropdown-list input[type=search] {
+  padding: 5px 5px;
+}
+
+.dropdown-list .dropdown-search:focus {
+  box-shadow: none;
+}
+
+.dropdown-list ul {
+  margin: 10px 0;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.dropdown-list ul li {
+  margin-left: 5px;
+}
+.dropdown-list ul input[type=checkbox] {
+  position: relative;
+  box-shadow: none;
+  top: 2px;
+}
+
+.create-folder{
+  margin-left: -13px;
+  margin-right: -13px;
+  border-top: 1px solid lightgray;
+  padding-top: 5px;
+}
+
+.create-folder-btn{
+  margin-bottom: -5px;
+}
+
+.create-folder-btn:focus{
+  box-shadow: none;
+}
+
+
+
+  /*----------tag container ---------------*/
+  .tag-container {
+    border: 1.5px solid rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    margin-top: -2px;
+  }
+
+  .tag-input {
+  }
+
+  .tag-container .tag {
+    height: 30px;
+    margin: 5px;
+    padding: 5px 6px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background: rgba(0, 169, 128, 0.75);
+    display: flex;
+    align-items: center;
+    color: white;
+    box-shadow: 0 0 4px rgba(170, 226, 212, 1), inset 0 1px 1px green;
+    cursor: default;
+  }
+  .tag i {
+    font-size: 16px;
+    color: white;
+    margin-left: 5px;
+  }
+  .tag-container input {
+    padding: 5px;
+    font-size: 16px;
+    border: 0;
+    outline: none;
+    font-family: "Rubik";
+    color: #333;
+    flex: 1;
+  }
+
+  .btn::focus{
+    box-shadow: none;
+  }
+
+ .modal.active{
+   overflow: hidden;
+ }
+
+ .toastimg{
+    width: 80px;
+    height: 55px;
+    object-fit: cover;
+    object-position: center;
+  }
+</style>
+{% endblock %} {% block body %}
+<body id="page-top">
+<form method='post' enctype='multipart/form-data' onsubmit="onVideoFormSubmit(event)">
+  <div id="wrapper" class="mt-3 main-content">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 pb-2 mb-3 video-details">
+          <div class="main-title">
+            <h4 class="text-center">Video Details</h4>
+          </div>
+        </div>
+        <div class="col-lg-12">
+        <div class="d-flex flex-fill justify-content-center">
+          <label for="file-input">
+          <video autoplay muted id="video" class="imgplace">
+            <source id='source' type='video/mp4'>
+          </video>
+          <input class='video-input' id="file-input" name='video' type="file" accept="video/*" onchange="loadFile(this);"/>
+        </div>
+        </div>
+        <div class="col-lg-12">
+        <div class="d-flex flex-fill justify-content-center">
+          <div id='file-name' class="mx-0 osahan-title user-select-all"></div>
+        </div>
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="osahan-form">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="form-group">
+                  <label for="title">Video Title</label>
+                  <input
+                    type="text"
+                    name='title'
+                    placeholder="Write your video title here..."
+                    id="title"
+                    class="form-control text-box"
+                  />
+                </div>
+              </div>
+              <div class="col-xxl-10 col-xl-9">
+                <div class="form-group mt-3">
+                  <label for="description">About</label>
+                  <textarea
+                    rows="5"
+                    id="description"
+                    name="description"
+                    class="form-control text-box"
+                    placeholder="Description"
+                  ></textarea>
+                </div>
+              </div>
+              <div class="col-xxl-2 col-xl-3">
+                <div class="form-group mt-3">
+                  <label for="label">Add Thumbnail</label>
+                  <br>
+                  <label for="thumbnail-input">
+                    <img class='thumbnail' id='thumbnail' src="{% static 'img/add_thumbnail-01.jpg' %}" alt="">
+                  </label>
+                  <input class='thumbnail-input' name='thumbnail' id="thumbnail-input" type="file" accept="image/*" onchange="loadthumbnail(event)"/>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="dropdown-container col-md-5">
+              <label for="dropdown-button">Folders</label>
+                <div class="dropdown-button noselect" id="dropdown-button">
+                  <div class="dropdown-label">Folders</div>
+                  <div class="dropdown-quantity">
+                    (<span class="quantity">Not selected</span>)
+                  </div>
+                  <i class="fa fa-folder-open"></i>
+                </div>
+                <div class="dropdown-list" style="display: none">
+                  <input
+                    type="search"
+                    placeholder="Search folders"
+                    class="dropdown-search form-control"
+                  />
+                  <ul class="list-group border-1" id="multiselect">
+                  {% for folder in folder %}
+                    <li>
+                      <div class="d-flex align-items-center">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="inlineCheckbox1"
+                          value="Hadith"
+                          name="folder"
+                        />
+                        <label class="form-check-label ms-1 pt-2" for="inlineCheckbox1"
+                          >{{folder.name}}</label
+                        >
+                      </div>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                  <div class="create-folder d-flex justify-content-center">
+                    <div class="btn btn-sm create-folder-btn" id="show" data-bs-toggle="modal" data-bs-target="#createfolder">+ Add Folder</div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-md-4">
+                <div class="form-group mt-3">
+                  <label for="e7">Tags</label>
+                  <div class="tag-container">
+                    <input id="tag" name='tag' class="tag-input" value='' />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group mt-3">
+                  <div class="d-flex flex-column">
+                    <label for="">Visibility</label>
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                      <input type="radio" class="btn-check" name="visibility" id="btnradio1" autocomplete="off" checked value="public">
+                      <label class="btn btn-outline-success" for="btnradio1">Public</label>
+
+                      <input type="radio" class="btn-check" name="visibility" id="btnradio2" autocomplete="off" value="private">
+                      <label class="btn btn-outline-primary" for="btnradio2">Private</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="osahan-area text-center my-5">
+            <button type="button" id='modalbtn' class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#videoupload">Upload</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="videoupload" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirm video</h5>
+      </div>
+      <div class="modal-body d-flex flex-column align-items-center">
+         <img class='thumbnail1' id='thumbnail1' src="{% static 'img/add_thumbnail-01.jpg' %}" alt="">
+         <div class='mt-3'>
+          <p id='title1'></p>
+         </div>
+      </div>
+      <p class='d-flex flex-fill justify-content-center' id="progress_text"></p>
+      <div class="progress mx-5 mt-0 mb-3">
+        <div id="progress_bar" class="progress-bar progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">0%</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Upload</button>
+      </div>
+      {% if done %}
+        <p>Successfull</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+</form>
+
+  <div
+    class="modal fade"
+    id="createfolder"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="border-0 mt-4 pb-0">
+          <h5 class="text-center">Create Folder</h5>
+        </div>
+        <form method="post" enctype="multipart/form-data" onsubmit="onFolderFormSubmit(event)">
+          <div class="modal-body">
+            <div class="d-flex flex-column">
+              <label for="folder" class="form-label">Folder name</label>
+              <input
+                name="folder_name"
+                type="text"
+                class="form-control"
+                id="folder_name"
+                placeholder="Folder name"
+              />
+              <div class="mb-3">
+                <label for="formFile" class="form-label mt-2">Thumbnail</label>
+                <input
+                  class="form-control"
+                  placeholder="choose thumbnail"
+                  type="file"
+                  id="folderthumbnail"
+                  name="folderthumbnail"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer border-0 mt-0 pt-0">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">Create</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+</body>
+{% endblock %} {% block extra_script %}
+<script src="{% static 'js/tail.select-full.js' %}"></script>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+
+
+<!--<script>
+  tail.select("#select1", {
+    search: true,
+    deselect: true,
+    searchMinLength: 0,
+    animate: true,
+    placeholder: "Select your folder.."
+  });
+  tail.select("#select2", {
+    animate: true,
+  });
+  tail.select("#select3", {
+    search: true,
+    deselect: true,
+    searchMinLength: 0,
+    animate: true,
+    placeholder: "Select your folder.."
+  });
+</script>-->
+
+<script>
+{% for channel in channel %}
+getfolder();
+function getfolder() {
+  $(function(){
+      $.ajax({
+        type:'GET',
+        url: "/channel/{{channel.channel_name}}/{{channel.id}}/createfolder",
+        success: function(response){
+          $("#multiselect").empty();
+          for (var key in response.folder ){
+            var temp = '<li><div class="d-flex align-items-center"><input class="form-check-input" type="checkbox" id="'+response.folder[key].id+'" value="'+response.folder[key].id+'" name="folder"/><label class="form-check-label ms-1 pt-2" for="'+response.folder[key].id+'">'+response.folder[key].name+'</label></div></li>';
+            $("#multiselect").append(temp);
+          }
+        },
+      });
+  });
+}
+{% endfor %}
+</script>
+
+
+<!-- script for tag -->
+<script>
+  const tagContainer = document.querySelector(".tag-container");
+  const input = document.querySelector(".tag-container input");
+
+  let tags = [];
+
+  function createTag(label) {
+    const div = document.createElement("div");
+    div.setAttribute("class", "tag");
+    const span = document.createElement("span");
+    span.innerHTML = label;
+    const closeIcon = document.createElement("i");
+    closeIcon.innerHTML = "X";
+    closeIcon.setAttribute("class", "material-icons");
+    closeIcon.setAttribute("data-item", label);
+    div.appendChild(span);
+    div.appendChild(closeIcon);
+    return div;
+  }
+
+  function clearTags() {
+    document.querySelectorAll(".tag").forEach((tag) => {
+      tag.parentElement.removeChild(tag);
+    });
+  }
+
+  function addTags() {
+    clearTags();
+    tags
+      .slice()
+      .reverse()
+      .forEach((tag) => {
+        tagContainer.prepend(createTag(tag));
+      });
+  }
+
+  input.addEventListener("keyup", (e) => {
+    if (e.keyCode == 32 || e.keyCode == 188) {
+      e.target.value.split(",").forEach((tag) => {
+        tags.push(tag);
+      });
+
+      addTags();
+      input.value = "";
+    }
+  });
+  document.addEventListener("click", (e) => {
+    console.log(e.target.tagName);
+    if (e.target.tagName === "I") {
+      const tagLabel = e.target.getAttribute("data-item");
+      const index = tags.indexOf(tagLabel);
+      tags = [...tags.slice(0, index), ...tags.slice(index + 1)];
+      addTags();
+    }
+  });
+
+  input.focus();
+</script>
+
+
+
+<script>
+  function onVideoFormSubmit(event){
+    event.preventDefault();
+
+    var folder = new Array();
+    $("input[name='folder']:checked").each(function () {
+      folder.push($(this).val());
+    });
+
+    var visibility = document.querySelector('input[name="visibility"]:checked').value;
+    alert(visibility);
+
+    var formData = new FormData();
+    formData.append("video", document.getElementById("file-input").files[0]);
+    formData.append("title", document.getElementById("title").value);
+    formData.append("description", document.getElementById("description").value);
+    formData.append("thumbnail", document.getElementById("thumbnail-input").files[0]);
+    formData.append("folder", folder);
+    formData.append("visibility", visibility);
+    formData.append("tag", tags);
+    
+    console.log(formData);
+
+    var xhr=new XMLHttpRequest();
+    {% for channel in channel %}
+    xhr.open("POST", "http://localhost:8000/channel/{{channel.channel_name}}/{{channel.id}}/upload-video-save", true);
+    {% endfor %}
+    xhr.upload.addEventListener("progress", function (ev) {
+      var percentage=(ev.loaded/ev.total*100|0);
+      document.getElementById("progress_bar").style["width"]=""+percentage+"%";
+      document.getElementById("progress_bar").innerHTML=""+percentage+"%";
+      document.getElementById("progress_text").innerHTML="Uploaded : "+parseInt(ev.loaded/1000000)+"/"+parseInt(ev.total/1000000)+"MB"+" ("+percentage+"%)";
+      console.log("Uploaded : "+ev.loaded);
+      console.log("Total : "+ev.total);
+      console.log(percentage);
+    });
+    xhr.send(formData);
+    xhr.addEventListener('load', (event) =>{
+      document.getElementById("progress_text").innerHTML="Upload successfull";
+      $('#videoupload').modal('hide');
+      new bootstrap.Toast(document.querySelector('#liveToast')).show();
+    });
+  }
+</script>
+
+
+
+<script>
+  function onFolderFormSubmit(event){
+    event.preventDefault();
+
+    var formData = new FormData();
+    formData.append("folder_name", document.getElementById("folder_name").value);
+    formData.append("folderthumbnail", document.getElementById("folderthumbnail").files[0]);
+    
+    console.log(formData);
+
+    var xhr=new XMLHttpRequest();
+    {% for channel in channel %}
+    xhr.open("POST", "http://localhost:8000/channel/{{channel.channel_name}}/{{channel.id}}/upload-video-save", true);
+    {% endfor %}
+    xhr.addEventListener('load', (event) =>{
+      $("#createfolder").modal("hide");
+      getfolder();
+    });
+    xhr.send(formData);
+  }
+</script>
+
+
+
+<script>
+  let btnget = document.querySelector("#modalbtn");
+
+  btnget.addEventListener('click', ()=>{
+    var title = document.getElementById("title").value;
+    var result = document.getElementById("title1");
+    result.innerText = title;
+  });
+</script>
+
+<!-- script for video file name -->
+<script>
+  document.getElementById("file-input").onchange=function(event){
+    let file=event.target.files[0];
+    let bloURL = URL.createObjectURL(file);
+    document.querySelector("video").src = bloURL;
+  }
+</script>
+
+<script>
+  $('#file-input').change(function(){
+    $('#file-name').text(this.files[0].name);
+  });
+</script>
+
+<script>
+        var loadthumbnail = function(event) {
+            var output = document.getElementById('thumbnail');
+            var output1 = document.getElementById('thumbnail1');
+            var toastimg = document.getElementById('toastimg');
+            output.src = URL.createObjectURL(event.target.files[0]);
+            output1.src = URL.createObjectURL(event.target.files[0]);
+            toastimg.src = URL.createObjectURL(event.target.files[0]);
+            output.onload = function() {
+            URL.revokeObjectURL(output.src) // free memory
+            }
+            output1.onload = function() {
+            URL.revokeObjectURL(output.src) // free memory
+            }
+            toastimg.onload = function() {
+            URL.revokeObjectURL(output.src) // free memory
+            }
+        };
+    </script>
+
+
+<!--Folder select-->
+
+<script>
+$(".dropdown-container")
+  .on("click", ".dropdown-button", function () {
+    $(this).siblings(".dropdown-list").toggle();
+  })
+  .on("input", ".dropdown-search", function () {
+    var target = $(this);
+    var dropdownList = target.closest(".dropdown-list");
+    var search = target.val().toLowerCase();
+
+    if (!search) {
+      dropdownList.find("li").show();
+      return false;
+    }
+
+    dropdownList.find("li").each(function () {
+      var text = $(this).text().toLowerCase();
+      var match = text.indexOf(search) > -1;
+      $(this).toggle(match);
+    });
+  })
+  .on("change", '[type="checkbox"]', function () {
+    var container = $(this).closest(".dropdown-container");
+    var numChecked = container.find('[type="checkbox"]:checked').length;
+    container.find(".quantity").text(numChecked || "Not selected");
+  });
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,41 @@
+.profile {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+}
+
+input {
+  display: none;
+}
+
+.label {
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  margin-left: 90px;
+  margin-top: -45px;
+  border-radius: 50%;
+}
+
+.emage:hover {
+  cursor: pointer;
+}
+
+.name {
+  width: 250px;
+  margin-top: -18px;
+}
+
+.progress {
+  height: 6px;
+}
+
+.progress-bar {
+  width: 20%;
+}
+
+.border {
+  height: 120px;
+}

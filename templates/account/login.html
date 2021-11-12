@@ -1,0 +1,199 @@
+{% load socialaccount %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'icon/font-awesome/css/font-awesome.min.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+    <title>Login</title>
+    <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}"/>
+    <style>
+
+      body {
+        height: 100vh;
+        background-color: rgba(82, 82, 82, 0.4);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .icons a {
+          width: 60px;
+          height: 60px;
+          background-image: url("{% static 'login_images/icons.jpg' %}");
+          background-repeat: no-repeat;
+          border-radius: 50%;
+          transition: 0.5s;
+        }
+
+      @media screen and (min-width: 992px) {
+        .container-main-row {
+          border-radius: 30px;
+          background-image: url("{% static 'login_images/banner.jpg' %}");
+          background-repeat: no-repeat;
+          width: auto;
+        }
+      }
+
+      @media screen and (max-width: 1399px) {
+        .container-main-row {
+          border-radius: 30px;
+          background-image: url("{% static 'login_images/banner.jpg' %}");
+          background-repeat: no-repeat;
+          background-position: -110px 0;
+          width: auto;
+        }
+      }
+
+      @media screen and (max-width: 1199px) {
+        .container-main-row {
+          border-radius: 30px;
+          background-image: url("{% static 'login_images/banner.jpg' %}");
+          background-repeat: no-repeat;
+          background-position: -180px 0;
+          width: auto;
+        }
+      }
+
+      @media screen and (max-width: 991px) {
+        .container-main-row {
+          border-radius: 30px;
+          background-image: url("{% static 'login_images/banner1.jpg' %}");
+          background-repeat: no-repeat;
+          background-position: 0 0px;
+        }
+      }
+
+      @media screen and (max-width: 767px) {
+        .container-main-row {
+          border-radius: 30px;
+          background-image: url("{% static 'login_images/banner1.jpg' %}");
+          background-repeat: no-repeat;
+          background-position: -30px -25px;
+        }
+      }
+
+      @media screen and (max-width: 575px) {
+        .container-main-row {
+          border-radius: 30px;
+          background-image: url("{% static 'login_images/banner1.jpg' %}");
+          background-repeat: no-repeat;
+          background-position: -30px -20px;
+        }
+      }
+    </style>
+    
+  </head>
+  <body>
+    <div class="container container-main p-5 m-auto">
+    {% if messages|length >= 1 %}
+      <div class="alert alert-danger alert-dismissible fade show mx-5" role="alert">
+        {% for message in messages %}
+        {{message}}
+        {% endfor %}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endif %}
+      <div class="row container-main-row mx-md-5">
+          <div id="anim" class="col-lg-6 anim p-4">
+        </div>
+        <div class="col-lg-6 login-form p-4">
+          <p class="text-center px-3 pt-3 pt-sm-0 h1">Dawah</p>
+          <p class="text-center pb-3">A shariah based halal tube</p>
+          <form method="post">
+          {% csrf_token %}
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon-1">
+              <i class="fa fa-phone"></i>
+            </span>
+            <input
+              type="number"
+              name='phone'
+              class="form-control email-box"
+              placeholder="Phone number"
+              aria-label="phone"
+              aria-describedby="basic-addon1"
+            />
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon-2">
+              <i class="fa fa-unlock-alt fa-lg"></i>
+            </span>
+            <input
+              name="password"
+              type="password"
+              id="password"
+              required="true"
+              class="form-control pass-box"
+              placeholder="Password"
+              aria-label="password"
+              aria-describedby="basic-addon2"
+            />
+            <span class="input-group-text bg-light" onclick="password_show_hide();">
+              <i class="fa fa-eye" id="show-eye"></i>
+              <i class="fa fa-eye-slash d-none" id="hide-eye"></i>
+            </span>
+          </div>
+          <div class="d-flex justify-content-between">
+            <div class="form-check">
+              <input
+                name = 'check-box'
+                class="form-check-input check"
+                type="checkbox"
+                id="flexCheckDefault"
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                Remember me
+              </label>
+            </div>
+            <a href="#">Forget Password?</a>
+          </div>
+          <button type="submit" class="btn mt-3 btn-sm w-100">
+            Login
+          </button>
+          </form>
+          <div class="d-flex justify-content-center mt-3">
+            <p class="text-start pe-2">Dont Have any Account?</p>
+            <a href="{% url 'signup' %}">Signup</a>
+          </div>
+          <div class="container-{breakpoint}">
+            <div class="row">
+              <div class="col-5">
+                <hr>
+              </div>
+              <div class="col-2">
+                <div class="d-flex flex-fill justify-content-center">
+                  <p class="text-center or">or</p>
+                </div>
+              </div>
+              <div class="col-5">
+                <hr>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex icons justify-content-around">
+            <a class="fb" href="{% provider_login_url "facebook" method="oauth2" %}"></a>
+            <a class="google" href="{% provider_login_url "google" method="oauth2" %}"></a>
+            <a class="in" href="{% provider_login_url "linkedin_oauth2" method="oauth2" %}"></a>
+            <a class="twitter" href="#"></a>
+          </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/lottie.js' %}"></script>
+    <script src="{% static 'js/login_script.js' %}"></script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+  </body>
+</html>

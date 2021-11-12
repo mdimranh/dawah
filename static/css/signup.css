@@ -1,0 +1,143 @@
+body {
+  height: 100vh;
+  background-color: rgba(82, 82, 82, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.container-main-row {
+  border-top: 8px solid rgba(26, 26, 140, 0.6);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.pass-box,
+.uname-box {
+  font-weight: 500;
+}
+
+.pass-box:focus,
+.uname-box:focus {
+  box-shadow: none;
+}
+
+.gender:focus,
+.birth-date:focus {
+  box-shadow: none;
+}
+
+.fa {
+  color: white;
+}
+
+.fa-eye,
+.fa-eye-slash {
+  color: rgb(60, 60, 60);
+  cursor: pointer;
+}
+
+.input-group-text {
+  background: rgba(14, 21, 67, 0.55);
+}
+
+.check:focus {
+  box-shadow: none;
+}
+
+a {
+  text-decoration: none;
+  color: rgba(26, 26, 140, 0.6);
+  font-weight: bold;
+}
+
+.btn:focus {
+  box-shadow: none;
+}
+
+.btn {
+  font-weight: bolder;
+  color: white;
+  height: 36px;
+  border: none;
+  background: rgba(14, 21, 67, 0.85);
+}
+
+.btn:hover {
+  background: rgba(30, 5, 99, 0.8);
+  color: white;
+}
+
+.h1 {
+  color: rgba(5, 17, 89, 0.85);
+  font-weight: bold;
+}
+
+@media screen and (min-width: 992px) {
+  .container-main-row {
+    border-radius: 30px;
+    background-image: url("images/banner.jpg");
+    background-repeat: no-repeat;
+    width: auto;
+  }
+}
+
+@media screen and (max-width: 1399px) {
+  .container-main-row {
+    border-radius: 30px;
+    background-image: url("images/banner.jpg");
+    background-repeat: no-repeat;
+    background-position: -110px 0;
+    width: auto;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .container-main-row {
+    border-radius: 30px;
+    background-image: url("images/banner.jpg");
+    background-repeat: no-repeat;
+    background-position: -180px 0;
+    width: auto;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .container-main-row {
+    border-radius: 30px;
+    background-image: url("images/banner2.jpg");
+    background-repeat: no-repeat;
+    background-position: 0 -100px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .container-main-row {
+    border-radius: 30px;
+    background-image: url("images/banner2.jpg");
+    background-repeat: no-repeat;
+    background-position: 0px -130px;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .container-main-row {
+    border-radius: 30px;
+    background-image: url("images/banner2.jpg");
+    background-repeat: no-repeat;
+    background-position: -30px -130px;
+  }
+}
+
+@media screen and (max-width: 545px) {
+  .container-main-row {
+    border-radius: 30px;
+    background-image: url("images/banner2.jpg");
+    background-repeat: no-repeat;
+    background-position: -30px -160px;
+  }
+}

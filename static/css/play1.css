@@ -1,0 +1,450 @@
+.navigation {
+  /*background-color: rgb(182, 224, 157);*/
+  background-image: url("../assets/img/bg.png");
+  width: 100%;
+}
+
+i {
+  color: rgb(0, 80, 0);
+}
+
+.search-btn i {
+  color: white;
+}
+
+/*----------- Top navbar -------------*/
+
+.profile {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  border: 1px solid rgb(0, 58, 29);
+  background: rgb(0, 61, 0);
+}
+
+.search-box {
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.5);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border: 1px solid rgb(0, 167, 0);
+  border-right: none;
+}
+
+.search-btn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border: 1px solid rgb(0, 97, 0);
+  background: rgb(0, 75, 0);
+  width: 50px;
+}
+
+.search-btn:hover {
+  background: rgb(0, 39, 0);
+}
+
+.search-btn:focus {
+  box-shadow: none;
+  background: rgb(0, 75, 0);
+}
+
+.search-box:focus {
+  box-shadow: none;
+  background: rgba(255, 255, 255, 0.5);
+  border-left: 1px solid rgb(0, 73, 0);
+  border-top: 1px solid rgb(0, 73, 0);
+  border-bottom: 1px solid rgb(0, 73, 0);
+}
+
+/*----------- Second navbar -------------*/
+
+.second-nav {
+  margin-top: 58px;
+  box-sizing: border-box;
+  box-shadow: 0px 2px 2px rgba(128, 128, 128, 0.16);
+  background: rgba(1, 75, 1, 0.137);
+}
+
+.primary-ul {
+  margin-bottom: 0.5px;
+}
+
+.primary-ul li:first-child {
+  margin-left: -26px;
+}
+
+.primary-ul li ul li:first-child {
+  margin-left: -20px;
+}
+
+.primary-ul li {
+  margin-top: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  list-style: none;
+  float: left;
+  position: relative;
+}
+
+.primary-ul li a {
+  padding-top: 2px;
+  padding-bottom: 6px;
+  text-decoration: none;
+  color: rgb(0, 100, 0);
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  transition: 0s;
+}
+
+.primary-ul li:hover i,
+.primary-ul li:hover a {
+  color: rgb(0, 46, 0);
+  cursor: pointer;
+}
+
+.primary-ul li:hover ul li a,
+.primary-ul li:hover ul li i {
+  color: rgb(85, 85, 85);
+}
+
+.primary-ul li ul {
+  position: absolute;
+  margin-top: 2px;
+  background: rgb(255, 255, 255);
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  padding-top: 7px;
+  padding-bottom: 3px;
+  margin-left: -11px;
+  box-shadow: 2px 2px 3px rgba(128, 128, 128, 0.253),
+    -2px 0px 3px rgba(128, 128, 128, 0.253);
+  height: 0;
+  visibility: hidden;
+}
+
+.primary-ul li .library {
+  position: absolute;
+  margin-top: 2px;
+  background: rgb(255, 255, 255);
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  padding-top: 7px;
+  padding-bottom: 3px;
+  margin-left: -11px;
+  box-shadow: 2px 2px 3px rgba(128, 128, 128, 0.253),
+    -2px 0px 3px rgba(128, 128, 128, 0.253);
+  height: 0;
+  width: 130px;
+  visibility: hidden;
+}
+
+.primary-ul li ul li {
+  float: none;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  margin-left: -20px;
+  height: 0;
+  width: 120px;
+}
+
+.primary-ul li:hover {
+  cursor: pointer;
+}
+
+.primary-ul li:hover ul {
+  height: 100px;
+  visibility: visible;
+  overflow: hidden;
+  transition: 0.5s;
+}
+
+.primary-ul li:hover ul li {
+  visibility: visible;
+  height: 25px;
+}
+
+.primary-ul li ul li:hover a,
+.primary-ul li ul li:hover i {
+  color: rgb(0, 146, 0);
+}
+
+.primary-ul li ul li:hover {
+  padding-left: 5px;
+  transition: ease-out 0.5s;
+}
+
+.primary-ul .following ul {
+  position: absolute;
+  margin-top: 2px;
+  background: rgb(255, 255, 255);
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  padding-top: 7px;
+  padding-bottom: 3px;
+  margin-left: -117px;
+  padding-left: 15px;
+  padding-right: 15px;
+  box-shadow: 2px 2px 3px rgba(128, 128, 128, 0.253),
+    -2px 0px 3px rgba(128, 128, 128, 0.253);
+  width: 480px;
+  height: 0px;
+}
+
+body::-webkit-scrollbar,
+.primary-ul .following:hover ul::-webkit-scrollbar,
+.primary-ul .live:hover ul::-webkit-scrollbar,
+.primary-ul .qa:hover ul::-webkit-scrollbar {
+  width: 6px;
+  margin-left: 5px;
+}
+
+body::-webkit-scrollbar-track,
+.primary-ul .following:hover ul::-webkit-scrollbar-track,
+.primary-ul .live:hover ul::-webkit-scrollbar-track,
+.primary-ul .qa:hover ul::-webkit-scrollbar-track {
+  background: rgba(128, 128, 128, 0.2);
+}
+
+body::-webkit-scrollbar-thumb,
+.primary-ul .following:hover ul::-webkit-scrollbar-thumb,
+.primary-ul .live:hover ul::-webkit-scrollbar-thumb,
+.primary-ul .qa:hover ul::-webkit-scrollbar-thumb {
+  background-color: rgba(128, 128, 128, 0.5);
+  border-radius: 20px;
+}
+
+.primary-ul .following:hover ul {
+  height: 200px;
+  overflow-y: auto;
+}
+
+.primary-ul .following ul a:hover div {
+  background: rgba(0, 158, 13, 0.1);
+  border-radius: 15px;
+}
+
+/*-------------profile offcanvas----------------------*/
+.offcanvas {
+  width: 200px;
+}
+
+.offcanvas-header {
+  width: 200px;
+}
+
+.offcanvas a {
+  text-decoration: none;
+  color: rgb(0, 34, 0);
+  font-weight: 500;
+}
+
+.offcanvas i {
+  text-decoration: none;
+  color: rgb(0, 34, 0);
+  font-weight: bold;
+}
+
+.offcanvas-body .items:hover {
+  background: rgba(1, 58, 1, 0.1);
+}
+
+.offcanvas-body::-webkit-scrollbar {
+  width: 8px;
+  margin-left: 5px;
+}
+
+.offcanvas-body ::-webkit-scrollbar-track {
+  background: rgba(128, 128, 128, 0.2);
+  border-left: 1px solid rgba(128, 128, 128, 0.301);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.offcanvas-body::-webkit-scrollbar-thumb {
+  background-color: rgba(128, 128, 128, 0.5);
+  border-radius: 20px;
+}
+
+/*----------------- main content -------------------*/
+
+.main-content {
+  margin-top: 90px;
+  padding-top: 20px;
+}
+
+body::-webkit-scrollbar {
+  width: 8px;
+  margin-left: 5px;
+}
+
+body::-webkit-scrollbar-track {
+  background: rgba(128, 128, 128, 0.2);
+  border-left: 1px solid rgba(128, 128, 128, 0.301);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: rgba(128, 128, 128, 0.5);
+  border-radius: 20px;
+}
+
+/*----------------- Fluid player design ---------------------*/
+
+@media screen and (max-width: 1200px) {
+  .pvideo {
+    margin-right: -11px;
+  }
+}
+
+.video {
+  max-height: 1080px;
+  max-width: 1920px;
+}
+
+.channel-logo {
+  width: 50px;
+  height: 50px;
+  border: 2px solid rgba(0, 58, 0, 0.616);
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.comment-label {
+  font-size: 18px;
+  font-family: sans-serif;
+}
+
+textarea {
+  resize: none;
+}
+
+.comment-box {
+  box-shadow: none;
+  border-top: none;
+  border-right: none;
+}
+
+.comment-box:focus {
+  box-shadow: none;
+  border-bottom: 1px solid #ced4da;
+}
+
+.send {
+  cursor: pointer;
+  border-bottom: 1px solid #ced4da;
+  padding-top: 9px;
+  padding-right: 15px;
+  padding-bottom: 9px;
+}
+
+.channel-info-section {
+  max-width: 1920px;
+}
+
+.related-video-thumbnail {
+  width: 175px;
+  height: 98px;
+}
+
+.related-video-title {
+  height: 40px;
+  line-height: 18px;
+  font-size: 17px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.related-video-channel {
+  color: gray;
+  font-weight: bold;
+}
+
+.video-like {
+  margin-bottom: -26px;
+}
+
+.progress {
+  border-radius: 0;
+  background: rgb(220, 220, 220);
+  height: 5px;
+  width: 114px;
+  margin-bottom: 10px;
+}
+
+.follow-btn {
+  background: rgb(0, 75, 0);
+  color: white;
+}
+
+.follow-btn:focus {
+  box-shadow: none;
+}
+
+.follow-btn:hover {
+  background: rgb(0, 56, 0);
+  color: white;
+}
+
+/*----------------Relate3d video button ---------------*/
+.related-video-btn {
+  margin-left: 5px;
+}
+
+.related-video-offcanvas {
+  width: 350px;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.related-video-offcanvas-header {
+  width: 350px;
+}
+
+.offcanvas-related-video-thumbnail {
+  width: 130px;
+  height: 75px;
+}
+
+.offcanvas-related-video-title {
+  height: 34px;
+  line-height: 18px;
+  font-size: 15px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.offcanvas-related-video-channel {
+  color: gray;
+  font-weight: bold;
+  font-size: 14px;
+  height: 20px;
+  line-height: 18px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.offcanvas-related-video-view {
+  font-size: 12px;
+}
+
+.offcanvas-search {
+  width: 100%;
+  height: 60px;
+}
+
+.offcanvas-header {
+  width: 100%;
+}
+
+.search-btn i {
+  color: white;
+}

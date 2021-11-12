@@ -1,0 +1,1095 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'icon/font-awesome/css/font-awesome.min.css' %}"
+      href="{% static 'icon/icofont/css/icofont.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'icon/icofont/css/icofont.css' %}" />
+    <link rel="stylesheet" href="{% static 'icon/material-design/css/material-design-iconic-font.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+    <link rel="stylesheet" href="{% static 'animations/ripple-effect.css' %}" />
+    <link rel="stylesheet" href="{% static 'tippyjs/dist/tippy.css' %}" />
+    <link rel="stylesheet" href="{% static 'tippyjs/animations/scale-extreme.css' %}" />
+
+    {% block extra_link %}{% endblock %}
+
+    {% block title %}
+      <title>Dawah</title>
+    {% endblock%}
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      href="{% static 'img/favicon.png' %}"
+    />
+    <style>
+    .main-content {
+      margin-top: 70px;
+      padding-top: 30px;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+      margin-left: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(128, 128, 128, 0.2);
+      border-left: 1px solid rgba(128, 128, 128, 0.301);
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: rgba(128, 128, 128, 0.5);
+      border-radius: 20px;
+    }
+
+      .navigation1 {
+        background-image: url("{% static 'img/bg.png' %}");
+        width: 100%;
+      }
+
+      .toggle:hover{
+        cursor: pointer;
+      }
+
+      .question-div{
+        width: 300px;
+      }
+
+      .notification-div{
+        margin: 0;
+        padding: 0;
+        width : 520px;
+        border: 1px solid rgba(0, 81, 12, 0.3);
+      }
+
+      .nav-link.active{
+        background: gray;
+      }
+
+      .notification-link{
+        color: black;
+      }
+
+      .notification-div .head{
+        width : 100%;
+        height: 42px;
+        color: white;
+        background: rgb(0, 73, 0);
+      }
+
+      .notification-body{
+        margin: 0;
+        padding: 0;
+        width : 100%;
+        height: 700px;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+
+      .notification-body::-webkit-scrollbar,
+      .like-notification-body::-webkit-scrollbar,
+      .comment-notification-body::-webkit-scrollbar{
+        width: 6px;
+        margin-left: 5px;
+      }
+
+      .notification-body::-webkit-scrollbar-track,
+      .like-notification-body::-webkit-scrollbar-track,
+      .comment-notification-body::-webkit-scrollbar-track{
+        background: rgba(128, 128, 128, 0.2);
+      }
+
+      .notification-body::-webkit-scrollbar-thumb,
+      .like-notification-body::-webkit-scrollbar-thumb,
+      .comment-notification-body::-webkit-scrollbar-thumb{
+        background-color: rgba(128, 128, 128, 0.5);
+        border-radius: 20px;
+      }
+
+      .notification:hover{
+        background: rgba(91, 91, 91, 0.2);
+        color: black;
+      }
+
+      .notification1:hover{
+        background: rgba(91, 91, 91, 0.2);
+        color: black;
+      }
+
+      .notification-image{
+        width: 150px;
+        height: 80px;
+      }
+
+      .notification-title{
+        width: 300px;
+        height: 40px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .notification-time{
+        height: 5px;
+      }
+
+      .notification-logo{
+        width: 45px;
+        height: 45px;
+        padding: 0;
+        margin: 0;
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: center;
+        background: rgb(0, 61, 0);
+        border: 1px solid rgb(0, 58, 29);
+      }
+
+      .notification-badge{
+        margin-right: -40px;
+        margin-left: 18px;
+        margin-bottom: 20px;
+        cursor: pointer;
+        padding: 2px;
+        min-width: 20px;
+      }
+
+      .no-btn{
+        border: none;
+        background: none;
+      }
+
+      .zmdi{
+        font-size: 23px;
+      }
+
+      .s-btn{
+        margin-left: -24px;
+      }
+      
+
+      .arrowtoast {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        box-shadow:  0 0 5px 5px rgba(31, 73, 125, 0.6);
+        background: white;
+        animation: pulse-animation 1.5s infinite;
+      }
+
+      @keyframes pulse-animation {
+        0% {
+          box-shadow: 0 0 0 0px rgba(31, 73, 125, 0.8);
+        }
+        100% {
+          box-shadow: 0 0 0 15px rgba(31, 73, 125, 0);
+        }
+      }
+
+
+.master{
+  color:black;
+  float:right;
+}
+
+@media (max-width:900px){
+  .master{
+    display:none
+  }
+}
+
+      .arrowtoast i {
+        color: #00510C;
+      }
+
+      .arrowtoast-body {
+        margin-top: -18px;
+        margin-left: -15px;
+      }
+
+      .arrowtoast:hover i {
+        color: #3F8241;
+        cursor: pointer;
+      }
+
+
+    </style>
+  </head>
+
+  <body>
+    <nav class="fixed-top d-flex flex-column navigation1">
+    <div class="progress" style="height: 2px; background: none;">
+      <div class="progress-bar" id="loading" role="progressbar" style="width: 0; height: 2px; background-color: #0B522A;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+      <div class="d-flex flex-row navigation">
+        <nav class="fixed-top">
+          <div class="container-fluid">
+            <div class="row p-2">
+              <div class="col-sm-4 col-4 d-flex align-items-center">
+              {% if sidebar %}
+                <i class="fa fa-navicon fa-lg me-3 toggle"></i>
+              {% endif %}
+                <a href="{% url 'home' %}"
+                  ><img class="logo" src="{% static 'img/logo1.png' %}" alt=""
+                /></a>
+              </div>
+              <div class="col-sm-4 col-4 d-flex align-items-center">
+                <input
+                  type="text"
+                  id="searchbox"
+                  name="searchValue"
+                  class="
+                    form-control
+                    search-box
+                    d-none d-sm-block
+                    form-control-sm
+                    placeholder_typing_animation
+                  "
+                  placeholder="Search here for video..."
+                />
+                <i class="fa fa-microphone" id="microphone" style="margin-left: -27px; margin-right: 10px; cursor: pointer;"></i>
+                <svg class="d-none pulse" id="pulse" style="margin-left: -27px; margin-right: 5px;" width="1.5rem" height="1.5rem" viewBox="0 0 100 100">
+                  <g stroke="green" stroke-width="15">
+                    <path d="M20,20 20,80">
+                      <animate attributeName="d" values="M20,40 20,60;M20,20 20,80;M20,40 20,60" dur="1s" repeatCount="indefinite" />
+                    </path>
+                    <path d="M50,10 50,90">
+                      <animate attributeName="d" values="M50,10 50,90;M50,40 50,60;M50,10 50,90" dur="1s" repeatCount="indefinite" />
+                    </path>
+                    <path d="M80,20 80,80">
+                      <animate attributeName="d" values="M80,40 80,60;M80,20 80,80;M80,40 80,60" dur="1s" repeatCount="indefinite" />
+                    </path>
+                  </g>
+                </svg>
+                <button
+                  id="search-btn"
+                  class="btn btn-secondary search-btn d-none d-sm-block btn-sm"
+                  onClick="onSearch();"
+                  ><i class="fa fa-search"></i
+                ></button>
+              </div>
+              <div
+                class="
+                  col-sm-4 col-4
+                  d-flex
+                  align-items-center
+                  flex-row-reverse
+                "
+              >
+                {% if user.is_authenticated %}
+                {% for logo in logo %}
+                <img
+                  class="profile ms-2"
+                  id="profile"
+                  src="{{logo.image}}"
+                  role="button"
+                  data-bs-toggle="offcanvas"
+                  href="#offcanvasExample"
+                  aria-controls="offcanvasWithBackdrop"
+                />
+                {% endfor %}
+                {% else %}
+                <img
+                  class="profile"
+                  src="{% static 'img/default.jpg' %}"
+                  role="button"
+                  data-bs-toggle="offcanvas"
+                  href="#offcanvasExample"
+                  aria-controls="offcanvasWithBackdrop"
+                />
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <i
+                    class="fa m-2 fa-bell fa-lg"
+                    type="button"
+                    id="notification_btn"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  ></i>
+                  </button>
+                  {% if no_video1 %}
+                  <span class="badge rounded-pill bg-danger notification-badge text-center" id="badge">{{no_video}}</span>
+                  {% else %}
+                  <span class="badge rounded-pill bg-danger notification-badge text-center" id="badge"></span>
+                  {% endif %}
+                  <div class="dropdown-menu notification-div mt-3 overflow-hidden" aria-labelledby="notification_btn">
+                    <div class="d-flex justify-content-between head align-items-center">
+                      <div class='h5 ps-3 mt-1'>Notifications</div>
+                      <i class="fa fa-cogs me-3" style="color:white;"></i>
+                    </div>
+                    <ul class="nav nav-tabs mt-2" id="myTab" role="tablist">
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link h6 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#video-notification" type="button" role="tab" aria-controls="home" aria-selected="true"><i class="fa fa-play-circle me-1"></i>Video
+                          <span class="translate-middle badge rounded-circle bg-danger m-0 p-1" id="video_badge" style="width:18px; height:18px; visibility:hidden;">9+</span>
+                        </button>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link h6" id="contact-tab" data-bs-toggle="tab" data-bs-target="#comment-notification" type="button" role="tab" aria-controls="contact" aria-selected="false"><i class="fa fa-comment me-1"></i>Comment
+                          <span class="translate-middle badge rounded-circle bg-danger m-0 p-1" id="comment_badge" style="width:18px; height:18px; visibility:hidden;">9+</span>
+                        </button>
+                      </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade notification-body" id="comment-notification" role="tabpanel">
+                      <div class='d-flex flex-column-reverse me-3 w-100' id="n-show1">
+                      {% for video in n_video %}
+                        <div class="d-flex flex-fill pt-2 shadow-sm notification">
+                          <img class='notification-image ps-2' src="{{comment.video.thumbnail}}" alt="">
+                          <div class="d-flex flex-column pe-2">
+                            <p class='ps-2 py-0 m-0 notification-title h6'>{{comment.username}} commented:</p>
+                            <p class='ps-2 py-0 m-0 notification-title h6'>{{comment.text}}</p>
+                            <div>
+                              <p class="motification-time text-muted py-0 ps-2">{{comment.datetime|timesince}} ago</p>
+                            </div>
+                          </div>
+                          <img class='notification-logo p-0 m-0' src="{{comment.profile.logo}}" alt="">
+                        </div>
+                        {% endfor %}
+                      </div>
+                    </div>
+                    <div class="notification-body tab-pane fade show active" id="video-notification" role="tabpanel">
+                      <div class='d-flex flex-column-reverse me-3 w-100' id="n-show">
+                      {% for video in like_video %}
+                        <div class="d-flex flex-fill pt-2 shadow-sm notification">
+                          <img class='notification-image ps-2' src="{{video.video.thumbnail}}" alt="">
+                          <div class="d-flex flex-column pe-2">
+                            <p class='ps-2 py-0 m-0 notification-title h6'>{{video.video.title}}</p>
+                            <div>
+                              <p class="ps-2 pb-0 m-0 pt-1 h6 text-muted">{{video.video.channel.channel_name}}</p>
+                              <p class="motification-time text-muted py-0 ps-2">{{video.video.date|timesince}} ago</p>
+                            </div>
+                          </div>
+                          <img class='notification-logo p-0 m-0' src="{{video.video.channel.logo}}" alt="">
+                        </div>
+                        {% endfor %}
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+                  {% if channel %}
+                    <i
+                      class="fa m-2 fa-comments fa-lg"
+                      type="button"
+                      id="qa_btn"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    ></i>
+                    <div class="dropdown-menu mt-3 question-div" aria-labelledby="qa_btn">
+                      <div class="d-flex flex-column">
+                        {% for channel in followlist %}
+                        <a href="">
+                          <div class="d-flex align-items-center px-2 py-1 notification">
+                            <img src="{{channel.logo}}" class="profile">
+                            <p class="m-0 p-0 h6 ms-2">{{channel.channel_name}}</p>
+                          </div>
+                        </a>
+                        {% endfor %}
+                      </div>
+                    </div>
+                    {% else %}
+                    <i 
+                      class="zmdi zmdi-pin-help m-2"
+                      type="button"
+                      id="question_btn"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    ></i>
+                    <ul class="dropdown-menu mt-3" aria-labelledby="question_btn">
+                      <li><a class="dropdown-item" href="#">First Question</a></li>
+                      <li><a class="dropdown-item" href="#">Another action</a></li>
+                      <li>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                      </li>
+                    </ul>
+                  {% endif %}
+                {% for channel in channel %} {% if channel.owner.id == user.id%}
+                <i
+                  class="fa mx-md-5 m-2 fa-video-camera fa-lg"
+                  type="button"
+                  id="camera_btn"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                ></i>
+                <ul class="dropdown-menu mt-3" aria-labelledby="camera_btn">
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="/channel/{{channel.channel_name}}/{{channel.id}}/upload-video"
+                    >
+                      <div class="d-flex flex-fill align-items-center">
+                        <i class="fa fa-upload" aria-hidden="true"></i>
+                        <p class="p-0 m-0 ps-2">Upload Video</p>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="/channel/{{channel.channel_name}}/{{channel.id}}/upload-video"
+                    >
+                      <div class="d-flex flex-fill align-items-center">
+                        <i class="fa fa-podcast" aria-hidden="true"></i>
+                        <p class="p-0 m-0 ps-2">Go Live</p>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="/channel/{{channel.channel_name}}/{{channel.id}}/upload-video"
+                    >
+                      <div class="d-flex flex-fill align-items-center">
+                        <i class="fa fa-comments" aria-hidden="true"></i>
+                        <p class="p-0 m-0 ps-2">Q/A</p>
+                      </div>
+                    </a>
+                  </li>
+                </ul>
+                {% endif %} {% endfor %} {% endif %}
+                <i
+                  class="
+                    fa
+                    pe-md-5
+                    px-2
+                    fa-search
+                    search-btn-small
+                    fa-lg
+                    d-sm-none d-block
+                  "
+                  type="button"
+                  id="search_btn"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                ></i>
+                <div
+                  class="dropdown-menu mt-3 w-100 container-fluid"
+                  aria-labelledby="search_btn"
+                >
+                <div class="row ms-3">
+                <div class="col-10">
+                  <input
+                    type="text"
+                    class="form-control search-box form-control-sm placeholder_typing_animation"
+                    placeholder="Search here for video..."
+                  />
+                  </div>
+                  <div class="col-2">
+                  <a
+                    name=""
+                    id=""
+                    class="btn btn-secondary search-btn s-btn btn-sm"
+                    href="#"
+                    role="button"
+                    ><i class="fa fa-search"></i
+                  ></a>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        <div class="d-flex flex-fill justify-content-center second-nav">
+          <ul class="primary-ul">
+            {% if user.is_authenticated %}
+            <li class="following">
+              <i class="fa fa-star"></i>
+              <a href="#">Following</a>
+              <ul>
+                  <div class="row">
+                  {% for channel in followlist %}
+                    <div class="col-6">
+                      <a class="pt-1 pb-1" href="/channel/{{channel.namews}}_{{channel.id}}">
+                        <div class="d-flex flex-fill mt-1">
+                          <img
+                            class="profile"
+                            src="{{channel.logo}}"
+                            alt=""
+                          />
+                          <p class="m-1 ps-1 text-truncate">
+                            {{channel.channel_name}}
+                          </p>
+                        </div>
+                      </a>
+                    </div>
+                    {%empty%}
+                    <div class="d-flex flex-column align-items-center">
+                      <i class="icofont icofont-emo-crying crying"></i>
+                      <p class="h5">you don't follow anyone.</p>
+                    </div>
+                    {% endfor %}
+                  </div>
+              </ul>
+            </li>
+            <li class="live">
+              <i class="fa fa-podcast" aria-hidden="true"></i>
+              <a href="#">Live</a>
+              <ul class="overflow-auto">
+                <li>
+                  <i class="icofont icofont-ui-rotation"></i>
+                  <a href="#">All</a>
+                </li>
+                <li>
+                  <i class="icofont icofont-ui-clock"></i>
+                  <a href="#">Todays</a>
+                </li>
+                <li>
+                  <i class="icofont icofont-ui-calendar"></i>
+                  <a href="#">This Week</a>
+                </li>
+                <li>
+                  <i class="icofont icofont-spreadsheet"></i>
+                  <a href="#">This Month</a>
+                </li>
+                <li>
+                  <i class="icofont icofont-tasks-alt"></i>
+                  <a href="#">This Years</a>
+                </li>
+              </ul>
+            </li>
+            <li class="qa">
+              <i class="icofont icofont-ui-chat"></i>
+              <a href="#">Q/A</a>
+              <ul class="overflow-auto">
+                <li>
+                  <i class="icofont icofont-ui-rotation"></i>
+                  <a href="#">All</a>
+                </li>
+                <li>
+                  <i class="icofont icofont-ui-clock"></i>
+                  <a href="#">Todays</a>
+                </li>
+                <li>
+                  <i class="icofont icofont-ui-calendar"></i>
+                  <a href="#">This Week</a>
+                </li>
+                <li>
+                  <i class="icofont icofont-spreadsheet"></i>
+                  <a href="#">This Month</a>
+                </li>
+                <li>
+                  <i class="icofont icofont-tasks-alt"></i>
+                  <a href="#">This Years</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <i class="fa fa-folder-open" aria-hidden="true"></i>
+              <a href="#">Library</a>
+              <ul class="library">
+                <li>
+                  <i class="fa fa-history" aria-hidden="true"></i>
+                  <a href="#">History</a>
+                </li>
+                <li>
+                  <i class="fa fa-thumbs-up"></i>
+                  <a href="#">Like</a>
+                </li>
+                <li>
+                  <i class="fa fa-comments"></i>
+                  <a href="#">Comment</a>
+                </li>
+              </ul>
+            </li>
+            {% else %}
+            <li>
+              <i class="fa fa-home" aria-hidden="true"></i>
+              <a href="#">Home</a>
+            </li>
+            <li class="live">
+              <i class="fa fa-podcast" aria-hidden="true"></i>
+              <a href="#">Live</a>
+              <ul class="overflow-auto">
+                <li>
+                  <i class="icofont icofont-ui-rotation"></i>
+                  <a href="#">All</a>
+                </li>
+                <li>
+                  <i class="icofont icofont-ui-clock"></i>
+                  <a href="#">Todays</a>
+                </li>
+                <li>
+                  <i class="icofont icofont-ui-calendar"></i>
+                  <a href="#">This Week</a>
+                </li>
+                <li>
+                  <i class="icofont icofont-spreadsheet"></i>
+                  <a href="#">This Month</a>
+                </li>
+                <li>
+                  <i class="icofont icofont-tasks-alt"></i>
+                  <a href="#">This Years</a>
+                </li>
+              </ul>
+            </li>
+            <li class="qa">
+              <i class="icofont icofont-ui-chat"></i>
+              <a href="#">Q/A</a>
+              <ul class="overflow-auto">
+                <li>
+                  <i class="icofont icofont-ui-rotation"></i>
+                  <a href="#">All</a>
+                </li>
+                <li>
+                  <i class="icofont icofont-ui-clock"></i>
+                  <a href="#">Todays</a>
+                </li>
+                <li>
+                  <i class="icofont icofont-ui-calendar"></i>
+                  <a href="#">This Week</a>
+                </li>
+                <li>
+                  <i class="icofont icofont-spreadsheet"></i>
+                  <a href="#">This Month</a>
+                </li>
+                <li>
+                  <i class="icofont icofont-tasks-alt"></i>
+                  <a href="#">This Years</a>
+                </li>
+              </ul>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div
+      class="offcanvas offcanvas-end"
+      tabindex="-1"
+      id="offcanvasExample"
+      aria-labelledby="offcanvasExampleLabel"
+    >
+      <div class="offcanvas-header">
+        <div class="d-flex flex-column align-items-start">
+        {% if user.is_authenticated %}
+          {% for logo in logo %}
+          <img class="profile" src="{{logo.image}}" alt="" />
+          {% endfor %}
+          <a href="{% url 'profile' %}"
+            >{{user.first_name}} {{user.last_name}}</a
+          >
+          {% else %}
+          <img class="profile" src="{% static 'img/default.jpg' %}" alt="" />
+          {% endif %}
+        </div>
+        <i
+          class="fa fa-angle-double-right mt-1 fa-lg close-btn"
+          type="button"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></i>
+      </div>
+      <div class="offcanvas-body">
+        <div class="d-flex flex-column">
+          {% if user.is_authenticated %} {% for channel in channel %}
+          <div class="d-flex items align-items-center py-1 mt-5">
+            <i class="fa fa-tv px-2" aria-hidden="true"></i>
+            <a href="#">My Channel</a>
+          </div>
+          <div class="d-flex items align-items-center py-1">
+            <i class="fa fa-dashboard px-2"></i>
+            <a href="/{{channel.namews}}_{{channel.id2}}/dashboard">Dashboard</a>
+          </div>
+          {% endfor %}
+          <div class="d-flex items align-items-center py-1">
+            <i class="fa fa-edit px-2"></i>
+            <a href="#">Edit Profile</a>
+          </div>
+          <hr class="my-2 ms-1 me-4" />
+          {% if channel %}{% else %}
+          <div class="d-flex items align-items-center">
+            <a href="#">
+              <i class="fa fa-laptop px-2"></i>
+              <a class="w-100 h-100 py-1" href="{% url 'create_channel' %}"
+                >Create a channel</a
+              >
+            </a>
+          </div>
+          <hr class="my-2 ms-1 me-4" />
+          {% endif %}
+          <div class="d-flex items align-items-center py-1">
+            <i class="fa fa-cogs px-2" aria-hidden="true"></i>
+            <a href="#">Settings</a>
+          </div>
+          <div class="d-flex items align-items-center py-1">
+            <i class="fa fa-commenting px-2"></i>
+            <a href="#">Contact Us</a>
+          </div>
+          <hr class="my-2 ms-1 me-4" />
+          <div class="d-flex items align-items-center py-1">
+            <i class="fa fa-power-off px-2" aria-hidden="true"></i>
+            <a href="{% url 'logout' %}">Logout</a>
+          </div>
+          {% else %}
+          <div class="d-flex items align-items-center">
+            <a href="{% url 'login' %}">
+              <i class="fa fa-sign-in px-2"></i>
+              <a class="w-100 h-100 py-1" href="{% url 'login' %}">Login</a>
+            </a>
+          </div>
+          <div class="d-flex items align-items-center">
+            <a href="{% url 'signup' %}">
+              <i class="fa fa-shield px-2"></i>
+              <a class="w-100 h-100 py-1" href="{% url 'signup' %}"
+                >Registration</a
+              >
+            </a>
+          </div>
+          <hr class="my-2 ms-1 me-4" />
+          <div class="d-flex items align-items-center py-1">
+            <i class="fa fa-cogs px-2" aria-hidden="true"></i>
+            <a href="#">Feedback</a>
+          </div>
+          <div class="d-flex items align-items-center py-1">
+            <i class="fa fa-commenting px-2"></i>
+            <a href="#">Contact Us</a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+
+<!-- Video upload successfull toast -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+  <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+    <div class="toast-header">
+      <a href="">
+        <img src="..." id="toastimg" class="rounded toastimg me-2" alt="...">
+      </a>
+      <div class="d-flex flex-fill justify-content-between">
+        <a href="">
+          <div class="d-flex flex-column">
+            <strong class="me-auto h6">Upload Successfull</strong>
+            <small>11 mins ago</small>
+          </div>
+        </a>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="voiceModal" tabindex="-1" aria-labelledby="voiceModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="d-flex flex-fill justify-content-end">
+        <button type="button" class="btn-close m-2" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body d-flex flex-column align-items-center">
+        <p class="h4 m-2">Listening...</p>
+         <div class="m-5" style="height: 76px; width: 76px; border-radius: 50%; background: red;">
+            <i class="zmdi zmdi-mic text-center" style="color: white; position: relative; top: 28px; left: 32px;"></i>
+         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="position-fixed bottom-0 start-0 p-3 tst" style="z-index: 11">
+  <div id="arrowtoast" class="toast hide arrowtoast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+    <div class="toast-body arrowtoast-body">
+      <i class="fa fa-chevron-circle-up fa-4x"></i>
+    </div>
+  </div>
+</div>
+
+    {% block body %} {% endblock %}
+
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'animations/ripple-effect.min.js' %}"></script>
+
+
+<script>
+	function startSearch() {
+  let microphone = document.getElementById("microphone");
+  let pulse = document.getElementById("pulse");
+  let listening = false;
+  var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+
+  // if there's speech recognition, show the microphone
+  if (SpeechRecognition) {
+    setTimeout(function () {
+      microphone.classList.remove("d-none");
+    }, 1000);
+  }
+
+  // listen to speech
+  microphone.addEventListener("click", function () {
+    if (!listening) {
+      const recognition = new SpeechRecognition();
+
+      recognition.onstart = function () {
+        pulse.classList.remove("d-none");
+        microphone.classList.add("d-none");
+        listening = true;
+      };
+
+      recognition.onspeechend = function () {
+        recognition.stop();
+        microphone.classList.remove("d-none");
+        pulse.classList.add("d-none");
+        listening = false;
+      };
+
+      recognition.onerror = function () {
+        microphone.classList.remove("d-none");
+        pulse.classList.add("d-none");
+        listening = false;
+      };
+
+      recognition.onresult = function (event) {
+        const transcript = event.results[0][0].transcript;
+        const confidence = event.results[0][0].confidence;
+        document.getElementById("searchbox").value = transcript;
+        microphone.classList.remove("d-none");
+        pulse.classList.add("d-none");
+      };
+
+      recognition.start();
+    }
+  });
+}
+
+startSearch();
+
+//function microphone() {
+//  let microphone = document.getElementById("microphone");
+//  let pulse = document.getElementById("pulse");
+//  microphone.classList.add("d-none");
+//  pulse.classList.remove("d-none");
+//}
+
+</script>
+
+
+<script>
+  $('button').rippleEffect();
+</script>
+
+<script>
+  $(window).scroll(function() {
+  var scroll = $(this).scrollTop();
+  if (scroll > 200) {
+    new bootstrap.Toast(document.querySelector('#arrowtoast')).show();
+  }
+  else {
+    new bootstrap.Toast(document.querySelector('#arrowtoast')).hide();
+  }
+});
+
+document.getElementById("arrowtoast").onclick = function(){
+  window.scrollTo(0, 0);
+};
+
+</script>
+
+
+    <script>
+      $(document).ready(function () {
+        setInterval(function () {
+          let intViewportHeight = window.innerHeight;
+          if (intViewportHeight < 806){
+            document.getElementById("video-notification").style["height"] = (intViewportHeight-135).toString()+"px";
+            document.getElementById("like-notification").style["height"] = (intViewportHeight-135).toString()+"px";
+            document.getElementById("comment-notification").style["height"] = (intViewportHeight-135).toString()+"px";
+          }
+          else if (intViewportHeight > 806){
+            document.getElementById("video-notification").style["height"] = "700px";
+            document.getElementById("like-notification").style["height"] = "700px";
+            document.getElementById("comment-notification").style["height"] = "700px";
+          }
+        });
+      });
+    </script>
+
+    <script>
+      $(document).ready(function(){
+        setInterval(function(){
+          $.ajax({
+            type: "GET",
+            url: "/getnotifications",
+            success: function(response){
+              if (response.no_notification == 0){
+                document.getElementById("badge").style["visibility"]= 'hidden';
+              }
+              else if (response.no_notification > 9){
+                document.getElementById("badge").style["visibility"]= 'visible';
+                document.getElementById("badge").innerHTML = '9+';
+              }
+              else{
+                document.getElementById("badge").style["visibility"]= 'visible';
+                document.getElementById("badge").innerHTML = response.no_notification;
+              }
+              if ($(".fa-bell").is(".show")){
+                document.getElementById("badge").style["visibility"]= 'hidden';
+              }
+              else{
+              if (response.no_video == 0){
+                document.getElementById("video_badge").style["visibility"]= 'hidden';
+              }
+              else if (response.no_notification > 9){
+                document.getElementById("video_badge").style["visibility"]= 'visible';
+                document.getElementById("video_badge").innerHTML = '9+';
+              }
+              else{
+                document.getElementById("video_badge").style["visibility"]= 'visible';
+                document.getElementById("video_badge").innerHTML = response.no_video;
+              }
+              if (response.no_notification == 0){
+                document.getElementById("comment_badge").style["visibility"]= 'hidden';
+              }
+              else if (response.no_notification > 9){
+                document.getElementById("comment_badge").style["visibility"]= 'visible';
+                document.getElementById("comment_badge").innerHTML = '9+';
+              }
+              else{
+                document.getElementById("comment_badge").style["visibility"]= 'visible';
+                document.getElementById("comment_badge").innerHTML = response.no_comment;
+              }
+              }
+              $("#n-show").empty();
+              for (var key in response.n_video){
+                var temp1 = '<div> <p class="ps-2 pb-0 m-0 pt-1 h6 text-muted">'+response.channellist[key]+'</p> <p class="motification-time text-muted py-0 ps-2">'+response.n_video_timelist[key]+'</p> </div>';
+                var temp2 = '<div><p class="ps-2 py-0 m-0 notification-title h6">'+response.n_video[key].title+'</p>'+temp1+'</div>';
+                var temp3 = '<img class="notification-image ps-2" src="'+response.n_video[key].thumbnail+'" alt="">';
+                var temp4 = '<img class="notification-logo p-0 m-0" src="'+response.logolist[key]+'" alt="">';
+                var temp5 = '<div class="d-flex flex-fill pt-2 shadow-sm notification">'+temp3+temp2+temp4+'</div>';
+                var temp6 = '<a class="notification-link" href="play_C='+response.namewslist[key]+'_V='+response.n_video[key].id2+'">'+temp5+'</a>';
+                $("#n-show").append(temp6);
+              }
+              $("#n-show1").empty();
+              for (var key in response.comment){
+                var temp1 = '<img class="notification-image ps-2" src="'+response.cv_thumbnail[key]+'">';
+                var temp2 = '<p class="ps-2 px-0 py-0 m-0 h6">'+response.userlist[key]+' commented:</p>';
+                var temp3 = '<p class="ps-2 py-0 m-0 notification-title text-muted h6">'+response.comment[key].text+'</p>';
+                var temp4 = '<div><p class="motification-time text-muted py-0 ps-2">'+response.comment_timelist[key]+'</p></div>';
+                var temp5 = '<div class="d-flex flex-column pe-2">'+temp2+temp3+temp4+'</div>';
+                var temp6 = '<img class="notification-logo p-0 m-0" src="'+response.profilelist[key]+'">';
+                var temp7 = '<div class="d-flex flex-fill pt-2 shadow-sm notification">'+temp1+temp5+temp6+'</div>';
+                $("#n-show1").append(temp7);
+              }
+            }
+          });
+        }, 1500);
+      });
+    </script>
+
+
+    <script>
+      document.getElementById('notification_btn').addEventListener('click', function (event) {
+        event.preventDefault();
+        var formData = new FormData();
+        formData.append("notification", "notification");
+        var xhr=new XMLHttpRequest();
+        {% for channel in channel %}
+        xhr.open("POST", "http://localhost:8000/channel/{{channel.channel_name}}/{{channel.id}}/upload-video-save", true);
+        {% endfor %}
+        xhr.send(formData);
+      });
+    </script>
+
+
+
+    <script>
+      let typing_animation_contents = document.querySelectorAll(
+        ".placeholder_typing_animation"
+      );
+      if (typing_animation_contents) {
+        typing_animation_contents.forEach((typing_animation_content) => {
+          let placeholder_text =
+              typing_animation_content.getAttribute("placeholder"),
+            Length = placeholder_text.length,
+            i = 0,
+            speed = 150,
+            delay = 2000,
+            needDelay = false;
+
+          typing_animation_content.setAttribute("placeholder", "");
+
+          setInterval(() => {
+            if (needDelay == false) {
+              i++;
+
+              if (i == Length) {
+                needDelay = true;
+
+                setTimeout(() => {
+                  needDelay = false;
+                }, delay);
+
+                typing_animation_content.setAttribute(
+                  "placeholder",
+                  placeholder_text.substring(0, i)
+                );
+              } else {
+                typing_animation_content.setAttribute(
+                  "placeholder",
+                  placeholder_text.substring(0, i) + "|"
+                );
+
+                if (i > Length) {
+                  i = 0;
+                }
+              }
+            }
+          }, speed);
+        });
+      }
+    </script>
+
+
+    <script>
+      $('.dropdown-menu .nav-tabs .nav-link').on("click.bs.dropdown", function(e){
+        $(this).tab('show');
+        e.stopPropagation();
+      });
+    </script>
+
+
+
+  <script src="{% static 'tippyjs/dist/popper.min.js' %}"></script>
+  <script src="{% static 'tippyjs/dist/tippy-bundle.umd.min.js' %}"></script>
+    <script>
+    const allbtn = ["#search-btn", "#notification_btn", "#qa_btn", "#camera_btn", "#profile", ".fa-microphone"];
+    const contnt = ["Search", "Notification", "Add Question", "Create", "Profile", "Search with your voice"];
+    for (key in allbtn) {
+      tippy(allbtn[key], {
+        content: contnt[key],
+        arrow: false,
+        animation: 'scale-extreme',
+        offset: [0, 20],
+      });
+    }
+    </script>
+
+
+<script>
+  function onSearch(event){
+    document.getElementById("loading").style["width"] = "85%";
+    let val = document.getElementById("searchbox").value;
+    value = val.split(' ').join('+');
+    location.href = "/search/"+value;
+  }
+</script>
+
+
+    {% block extra_script %}{% endblock %}
+  </body>
+</html>

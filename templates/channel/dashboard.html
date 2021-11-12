@@ -1,0 +1,1068 @@
+{% extends 'base.html' %} {% load humanize %} {% load static %} {% block extra_link %}
+<link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.min.css' %}" />
+<style>
+  .sidenav {
+    position: fixed;
+    margin-top: -22px;
+    padding-top: 10px;
+    width: 170px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-shadow: 2px 0px 8px rgba(179, 179, 179, 0.8);
+    transition: 0.3s;
+  }
+
+  .sidenav::-webkit-scrollbar {
+    width: 4px;
+    margin-left: 5px;
+  }
+
+  .sidenav::-webkit-scrollbar-track {
+    background: rgba(128, 128, 128, 0.2);
+    border-left: 1px solid rgba(128, 128, 128, 0.301);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+
+  .sidenav::-webkit-scrollbar-thumb {
+    background-color: rgba(128, 128, 128, 0.5);
+    border-radius: 20px;
+  }
+
+  .sidenav div {
+    padding-left: 12px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-left: 5px solid rgba(0, 0, 0, 0);
+  }
+  .sidenav div i {
+    color: gray;
+    font-size: 20px;
+  }
+  .sidenav div:hover {
+    background: rgba(0, 81, 12, 0.3);
+    border-left: 5px solid rgba(0, 81, 12, 0.4);
+  }
+  body {
+    overflow: hidden;
+  }
+
+  .sidenav div.active {
+    border-left: 5px solid rgb(0, 81, 12);
+    background: rgba(0, 81, 12, 0.2);
+  }
+
+  .sidenav div.active i,
+  .sidenav div.active p {
+    color: rgb(0, 81, 12);
+  }
+
+  .main-content.active .sidenav {
+    width: 52px;
+    transition: 0.3s;
+  }
+
+  .main-content.active .tab-content {
+    margin-left: 60px;
+    transition: 0.3s;
+  }
+
+  .main-content.active .sidenav div p {
+    padding-left: 10px;
+    transition: 0.3s;
+  }
+
+  .tab-content {
+    margin-left: 180px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: 0.3s;
+  }
+
+  .thumbnail {
+    width: 90px;
+    height: 55px;
+  }
+
+  .title {
+    width: 400px;
+  }
+
+  .fa-trash {
+    color: red;
+  }
+
+  @media screen and (max-width: 700px) {
+    .sidenav {
+      width: 52px;
+      transition: 0.3s;
+    }
+
+    .sidenav div p {
+      padding-left: 10px;
+      transition: 0.3s;
+    }
+
+    .tab-content {
+      margin-left: 60px;
+      transition: 0.3s;
+    }
+
+    .toggle {
+      display: none;
+    }
+  }
+
+  .number {
+    border-radius: 6px;
+    padding: 10px;
+    color: white;
+    height: 100px;
+  }
+
+  .video {
+    background: #198754;
+  }
+
+  .follower {
+    background: #0d6efd;
+  }
+
+  .questionanswer {
+    background: #6f42c1;
+  }
+
+  .folder {
+    background: #20c997;
+  }
+
+  .fa-icon {
+    margin-top: 0;
+    margin-left: -20px;
+    color: rgba(250, 250, 250, 0.3);
+    font-size: 130px;
+  }
+
+  .zmdi {
+    font-weight: 900;
+  }
+
+  .analyze-select {
+    width: 150px;
+    border-top-right-radius: 15px;
+    border: none;
+    font-weight: bold;
+    color: rgb(148, 161, 186);
+    background: rgba(179, 187, 204, 0.25);
+  }
+
+  .analyze-select:hover {
+    cursor: pointer;
+  }
+
+  .analyze-select:focus {
+    box-shadow: none;
+  }
+
+  .chart {
+    max-height: 300px;
+  }
+
+  .analysis-title {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    color: white;
+    background: rgb(67, 82, 112);
+  }
+
+  .chart-div {
+    box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.15),
+      -5px 0px 10px 1px rgba(0, 0, 0, 0.15);
+  }
+
+  .totalview {
+    color: blue;
+  }
+
+  .totallike {
+    color: green;
+  }
+
+  .folder-thumbnail {
+    object-fit: cover;
+    width: 100%;
+    max-height: 170px;
+    height: auto;
+  }
+
+  .folder-time {
+    position: relative;
+    color: white;
+    font-size: 30px;
+    top: -160px;
+    justify-content: center;
+    height: 45px;
+    background: rgba(0, 16, 56, 0.8);
+    margin-bottom: -50px;
+  }
+
+  .card .dropdown:hover .folder-info-btn {
+    visibility: visible;
+  }
+
+  .folder-info-btn {
+    color: white;
+    visibility: hidden;
+    position: absolute;
+    top: 65px;
+    left: 146px;
+    opacity: 1;
+    cursor: pointer;
+    transition-delay: 0.2s;
+  }
+
+  .card .dropdown:hover .folder-edit-btn {
+    visibility: visible;
+  }
+
+  .folder-edit-btn {
+    color: white;
+    visibility: hidden;
+    position: absolute;
+    top: 82px;
+    left: 160px;
+    opacity: 1;
+    cursor: pointer;
+    transition-delay: 0.2s;
+    color: green;
+  }
+
+  .crying {
+    font-size: 50px;
+    color: gray;
+    margin-bottom: 10px;
+  }
+
+  .table-div{
+    overflow-x: auto;
+  }
+
+</style>
+{% endblock %} {% block body %}
+
+<div class="d-flex align-items-start main-content">
+  <div
+    class="nav sidenav flex-column me-3 pt-3 no-wrap"
+    style="flex-wrap: nowrap"
+    id="v-pills-tab"
+    role="tablist"
+    aria-orientation="vertical"
+  >
+    <div
+      class="p active m-0 py-2 d-flex align-items-center h5"
+      id="v-pills-dashboard-tab"
+      data-bs-toggle="pill"
+      data-bs-target="#v-pills-dashboard"
+      type="button"
+      role="tab"
+      aria-controls="v-pills-dashboard"
+      aria-selected="true"
+    >
+      <i class="fa fa-area-chart me-2"></i>
+      <p class="m-0">Dashboard</p>
+    </div>
+    <div
+      class="p m-0 py-2 d-flex align-items-center h5"
+      id="v-pills-videos-tab"
+      data-bs-toggle="pill"
+      data-bs-target="#v-pills-videos"
+      type="button"
+      role="tab"
+      aria-controls="v-pills-videos"
+      aria-selected="false"
+    >
+      <i class="fa fa-film me-2"></i>
+      <p class="m-0">Videos</p>
+    </div>
+    <div
+      class="p m-0 py-2 d-flex align-items-center h5"
+      id="v-pills-folders-tab"
+      data-bs-toggle="pill"
+      data-bs-target="#v-pills-folders"
+      type="button"
+      role="tab"
+      aria-controls="v-pills-folders"
+      aria-selected="false"
+    >
+      <i class="fa fa-folder-open me-2"></i>
+      <p class="m-0">Folders</p>
+    </div>
+    <div
+      class="p m-0 py-2 d-flex align-items-center h5"
+      id="v-pills-qa-tab"
+      data-bs-toggle="pill"
+      data-bs-target="#v-pills-qa"
+      type="button"
+      role="tab"
+      aria-controls="v-pills-qa"
+      aria-selected="false"
+    >
+      <i class="fa fa-comments me-2"></i>
+      <p class="m-0">Q/A</p>
+    </div>
+    <div
+      class="p m-0 py-2 d-flex align-items-center h5"
+      id="v-pills-comments-tab"
+      data-bs-toggle="pill"
+      data-bs-target="#v-pills-comments"
+      type="button"
+      role="tab"
+      aria-controls="v-pills-comments"
+      aria-selected="false"
+    >
+      <i class="zmdi zmdi-comment-text-alt me-2 mt-1"></i>
+      <p class="m-0">Comments</p>
+    </div>
+  </div>
+  <div
+    class="tab-content flex-fill"
+    id="v-pills-tabContent"
+    style="margin-top: -11px; padding-top: 12px; margin-bottom: 10px"
+  >
+    <!-- .......... Dashboard section............... -->
+
+    <div
+      class="tab-pane mb-3 fade show active"
+      id="v-pills-dashboard"
+      role="tabpanel"
+      aria-labelledby="v-pills-videos-tab"
+    >
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-3 col-6 mb-3">
+            <div
+              class="
+                number
+                video
+                d-flex
+                align-items-center
+                justify-content-between
+              "
+            >
+              <div class="d-flex flex-column ps-2">
+                <p class="m-0 px-0 pt-1 pb-3 h4">videos</p>
+                <p class="m-0 p-0 h4">{{totalvideo}}</p>
+              </div>
+              <i class="fa-icon fa fa-film pe-2 ps-5"></i>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <div
+              class="
+                number
+                follower
+                d-flex
+                align-items-center
+                justify-content-between
+              "
+            >
+              <div class="d-flex flex-column ps-2">
+                <p class="m-0 px-0 pt-1 pb-3 h4">Followers</p>
+                <p class="m-0 p-0 h4">{{follower}}</p>
+              </div>
+              <i class="fa-icon fa fa-star pe-2 ps-5"></i>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <div
+              class="
+                number
+                folder
+                d-flex
+                align-items-center
+                justify-content-between
+              "
+            >
+              <div class="d-flex flex-column ps-2">
+                <p class="m-0 px-0 pt-1 pb-3 h4">Folders</p>
+                <p class="m-0 p-0 h4">{{folder}}</p>
+              </div>
+              <i class="fa-icon fa fa-folder-open pe-2 ps-5"></i>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <div
+              class="
+                number
+                questionanswer
+                d-flex
+                align-items-center
+                justify-content-between
+              "
+            >
+              <div class="d-flex flex-column ps-2">
+                <p class="m-0 px-0 pt-1 pb-3 h4">Q/A</p>
+                <p class="m-0 p-0 h5">15</p>
+              </div>
+              <i class="fa-icon fa fa-comments pe-2 ps-5"></i>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-lg-6 col">
+            <div class="d-flex flex-column">
+              <div class="analysis-title d-flex justify-content-between">
+                <p class="h5 py-2 m-0 px-3" id="duration">Last week</p>
+                <select
+                  class="form-select analyze-select form-select-sm m-2"
+                  aria-label=".form-select-sm example"
+                  id="select"
+                  onchange="changeDuration(event);"
+                >
+                  <option value="7" id="option" selected>Last week</option>
+                  <option value="30" id="option">Last month</option>
+                  <option value="365" id="option">Last year</option>
+                </select>
+              </div>
+              <div class="d-flex flex-column px-3 pt-2 pb-3 chart-div">
+                <div class="d-flex">
+                  <p
+                    class="h6 py-2 m-0 me-3 totalview"
+                    id="duration-total-view"
+                  >
+                    total views : {{totalview}}
+                  </p>
+                  <p class="h6 py-2 m-0 totallike" id="duration-total-like">
+                    total likes : {{totallike}}
+                  </p>
+                </div>
+                <div id="chart">
+                  <canvas class="chart" id="pie-chart1"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col mt-lg-0 mt-3">
+            <div class="d-flex flex-column">
+              <div class="analysis-title d-flex justify-content-between">
+                <p class="h5 py-2 m-0 px-3">Today</p>
+                <select
+                  class="form-select analyze-select form-select-sm m-2"
+                  aria-label=".form-select-sm example"
+                  id="select1"
+                  onchange="changeChart()"
+                >
+                  <option value="bar" id="option" selected>Bar Chart</option>
+                  <option value="line" id="option">Area Chart</option>
+                  <option value="pie" id="option">Pie Chart</option>
+                  <option value="polarArea" id="option">PolarArea Chart</option>
+                </select>
+              </div>
+              <div class="d-flex flex-column px-3 pt-2 pb-3 chart-div">
+                <div class="d-flex">
+                  <p class="h6 py-2 m-0 me-3 totalview" id="today-total-view">
+                    total views : {{totalview}}
+                  </p>
+                  <p class="h6 py-2 m-0 totallike" id="today-total-like">
+                    total likes : {{totallike}}
+                  </p>
+                </div>
+                <div id="chart">
+                  <canvas class="chart" id="pie-chart2"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="top-video mt-4">
+            <div class="analysis-title d-flex justify-content-between">
+                <p class="h5 py-2 m-0 px-3">Your top video</p>
+                <select
+                  class="form-select analyze-select form-select-sm m-2"
+                  aria-label=".form-select-sm example"
+                  id="select1"
+                >
+                  <option value="2" id="option" selected>Top 2</option>
+                  <option value="5" id="option">Top 5</option>
+                  <option value="10" id="option">Top 10</option>
+                </select>
+              </div>
+            <div class="table-div">
+            <table class="table table-hover table-secondary" style="border: 1px solid lightgray;">
+              <thead class="table-info sticky-top">
+                <th scope="col">Videos</th>
+                <th scope="col">Titles</th>
+                <th scope="col">Views</th>
+                <th scope="col">Likes</th>
+                <th scope="col">Unlikes</th>
+                <th scope="col">Comments</th>
+                <th scope="col">Actions</th>
+              </thead>
+              <tbody>
+                {% for video, a in topvideo %}
+                  <tr>
+                    <td><img class="thumbnail" src="{{video.thumbnail}}" /></td>
+                    <td><div class="title mt-3">{{video.title}}</div></td>
+                    <td><div class="mt-3">{{video.total_views}}</div></td>
+                    <td><div class="mt-3">{{video.total_likes}}</div></td>
+                    <td><div class="mt-3">{{video.total_unlikes}}</div></td>
+                    <td><div class="mt-3">{{comment}}</div></td>
+                    <td>
+                      <div class="d-flex mt-3">
+                        <i class="fa fa-play-circle fa-lg me-1"></i>
+                        <i class="fa fa-pencil-square fa-lg mx-1"></i>
+                        <i class="fa fa-share-square fa-lg mx-1"></i>
+                        <i class="fa fa-trash fa-lg mx-1"></i>
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+            </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- .......... All videos section............... -->
+
+    <div
+      class="tab-pane fade"
+      id="v-pills-videos"
+      role="tabpanel"
+      aria-labelledby="v-pills-videos-tab"
+    >
+      <div>
+        {% if video %}
+        <div class="d-flex justify-content-end me-2 mb-4 mt-2 sticky-top">
+          <i
+            class="fa fa-list-ul fa-lg ms-3"
+            id="videolist"
+            style="cursor: pointer"
+          ></i>
+          <i
+            class="fa fa-th fa-lg ms-3"
+            id="videogrid"
+            style="color: #a6a6a6; cursor: pointer"
+          ></i>
+        </div>
+        {% endif %}
+      </div>
+      <div>
+        <div class="container-fluid" id="video-grid-view" style="display: none">
+          <div class="row row-cols-auto justify-content-center">
+            {% for video in video %}
+            <div class="col pb-4">
+              <div class="card shadow-sm">
+                <li class="dropdown card-img">
+                  <img src="{{video.thumbnail}}" class="card-img-top" />
+                  <a href="/{{video.channel.channel_name}}/{{video.id}}">
+                    <img
+                      class="card-img-hover"
+                      src="{% static 'img/card-img-hover.jpg' %}"
+                    />
+                  </a>
+                  <i class="fa fa-exclamation-circle fa-lg video-info-btn"></i>
+                </li>
+                <div class="d-flex justify-content-between mx-2">
+                  <mark class="py-0 px-1 time">3:52</mark>
+                  <div class="d-flex time px-1">
+                    <p class="m-0">3 days ago</p>
+                    <p class="m-0 px-2">|</p>
+                    <p class="m-0">1M Views</p>
+                  </div>
+                </div>
+                <div class="card-body p-1">
+                  <p class="card-title px-2 m-0">{{video.title}}</p>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="table-div">
+        <table class="table table-light table-hover m-0" id="video-list-view">
+          <thead>
+            <thead class="table-dark sticky-top">
+              <th scope="col">Videos</th>
+              <th scope="col">Titles</th>
+              <th scope="col">Views</th>
+              <th scope="col">Likes</th>
+              <th scope="col">Unlikes</th>
+              <th scope="col">Comments</th>
+              <th scope="col">Actions</th>
+            </thead>
+          </thead>
+          <tbody>
+            {% for video in video %}
+            <tr>
+              <td><img class="thumbnail" src="{{video.thumbnail}}" /></td>
+              <td><div class="title mt-3">{{video.titles}}</div></td>
+              <td><div class="mt-3">{{video.total_views}}</div></td>
+              <td><div class="mt-3">{{video.total_likes}}</div></td>
+              <td><div class="mt-3">{{video.total_unlikes}}</div></td>
+              <td><div class="mt-3">{{comment}}</div></td>
+              <td>
+                <div class="d-flex mt-3">
+                  <i class="fa fa-play-circle fa-lg me-1"></i>
+                  <i class="fa fa-pencil-square fa-lg mx-1"></i>
+                  <i class="fa fa-share-square fa-lg mx-1"></i>
+                  <i class="fa fa-trash fa-lg mx-1"></i>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- .......... All Folder section............... -->
+
+    <div
+      class="tab-pane fade"
+      id="v-pills-folders"
+      role="tabpanel"
+      aria-labelledby="v-pills-folders-tab"
+    >
+      <div>
+        {% if folders %}
+        <div class="d-flex justify-content-end me-2 mb-4 mt-2">
+          <i
+            class="fa fa-list-ul fa-lg ms-3"
+            id="folderlist"
+            style="color: #a6a6a6; cursor: pointer"
+          ></i>
+          <i
+            class="fa fa-th fa-lg ms-3"
+            id="foldergrid"
+            style="cursor: pointer"
+          ></i>
+        </div>
+        {% endif %}
+      </div>
+      <div class="container-fluid" id="folder-grid-view">
+        <div class="row row-cols-auto justify-content-center">
+          {% for folder in folders %}
+          <div class="col pb-4">
+            <div class="card shadow-sm">
+              <li class="dropdown card-img">
+                <img src="{{folder.thumbnail}}" class="card-img-top" />
+                <img
+                  class="card-img-hover"
+                  src="{% static 'img/card-img-hover.jpg' %}"
+                />
+                <i class="fa fa-folder fa-3x folder-info-btn"></i>
+                <i class="fa fa-pencil fa-lg folder-edit-btn"></i>
+              </li>
+              <div class="d-flex justify-content-between mx-2">
+                <div class="d-flex folder-time px-1">
+                  <p class="m-0">{{folder.no_video}}</p>
+                </div>
+              </div>
+              <div class="card-body p-1">
+                <h5
+                  class="
+                    card-title
+                    text-center
+                    m-0
+                    d-flex
+                    flex-column
+                    justify-content-center
+                  "
+                >
+                  {{folder.name}}
+                </h5>
+              </div>
+            </div>
+          </div>
+          {% endfor %} {% for folder in folders %} {%empty%}
+          <div class="d-flex flex-column align-items-center mt-5">
+            <i class="icofont icofont-emo-crying crying"></i>
+            <p class="h5">Dont have any folder.</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="table-div">
+      <table
+        class="table table-light table-hover"
+        id="folder-list-view"
+        style="display: none"
+      >
+        <thead>
+          <tr>
+            <th scope="col">Thumbnail</th>
+            <th scope="col">Name</th>
+            <th scope="col">Videos</th>
+            <th scope="col">Visbility</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for folder in folders %}
+          <tr>
+            <td><img class="thumbnail" src="{{folder.thumbnail}}" alt="" /></td>
+            <td>{{folder.name}}</td>
+            <td>{{folder.no_video}}</td>
+            <td>Public</td>
+            <td>
+              <div class="d-flex">
+                <i class="fa fa-pencil-square fa-lg mx-1"></i>
+                <i class="fa fa-trash fa-lg mx-1"></i>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <!-- .......... All Comments section............... -->
+
+    <div
+      class="tab-pane fade"
+      id="v-pills-comments"
+      role="tabpanel"
+      aria-labelledby="v-pills-comments-tab"
+    >
+    {% for number in number %}
+      <p>{{number|intcomma}}</p>
+    {% endfor %}
+    </div>
+
+    <!-- .......... All Question/Answer section............... -->
+
+    <div
+      class="tab-pane fade"
+      id="v-pills-qa"
+      role="tabpanel"
+      aria-labelledby="v-pills-qa-tab"
+    >
+      Q/A
+    </div>
+  </div>
+</div>
+
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/bootstrap-datepicker.min.js' %}"></script>
+<script src="{% static 'js/chart/chart.min.js' %}"></script>
+<script src="{% static 'js/chart/core.js' %}"></script>
+<script src="{% static 'js/chart/charts.js' %}"></script>
+<script src="{% static 'js/chart/animated.js' %}"></script>
+
+<script>
+  $(document).ready(function () {
+    setInterval(function () {
+      let intViewportHeight = window.innerHeight - 89;
+      let intViewportHeight1 = window.innerHeight - 80;
+      document.getElementById("v-pills-tab").style["height"] =
+        "" + intViewportHeight1 + "px";
+      document.getElementById("v-pills-tabContent").style["height"] =
+        "" + intViewportHeight + "px";
+    });
+  });
+</script>
+
+<script>
+  const navigate = document.querySelector(".main-content");
+  document.querySelector(".toggle").onclick = function () {
+    this.classList.toggle("active");
+    navigate.classList.toggle("active");
+  };
+</script>
+
+<script>
+  var ctx = document.getElementById("pie-chart1").getContext("2d");
+  var myChart1 = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: {{day_name|safe}},
+      datasets: [
+        {
+          fill: {
+            target: 'origin',
+            above: 'rgba(255, 0, 0, 0.2)',
+            below: 'rgba(0, 0, 255, 0.2)'
+          },
+          label: "view",
+          data: {{no_view|safe}},
+          backgroundColor: [
+            "rgba(255, 99, 132, 0.5)",
+            "rgba(54, 162, 235, 0.5)",
+            "rgba(255, 206, 86, 0.8)",
+            "rgba(75, 192, 192, 0.5)",
+            "rgba(153, 102, 255, 0.5)",
+            "rgba(255, 159, 64, 0.5)",
+            "rgba(190, 214, 98, 0.5)",
+          ],
+          borderColor: [
+            "rgba(255, 99, 132, 1)",
+            "rgba(54, 162, 235, 1)",
+            "rgba(255, 206, 86, 1)",
+            "rgba(75, 192, 192, 1)",
+            "rgba(153, 102, 255, 1)",
+            "rgba(255, 159, 64, 1)",
+            "rgba(190, 214, 98, 1)",
+          ],
+          borderWidth: 2,
+        },
+        {
+          fill: {
+            target: 'origin',
+            above: 'rgba(145, 201, 253, 0.5)',
+            below: 'rgba(145, 201, 253, 0.5)'
+          },
+          label: "like",
+          data: {{no_like|safe}},
+          backgroundColor: [
+            "rgba(255, 99, 132, 0.5)",
+            "rgba(54, 162, 235, 0.5)",
+            "rgba(255, 206, 86, 0.8)",
+            "rgba(75, 192, 192, 0.5)",
+            "rgba(153, 102, 255, 0.5)",
+            "rgba(255, 159, 64, 0.5)",
+            "rgba(190, 214, 98, 0.5)",
+          ],
+          borderColor: [
+            "rgba(255, 99, 132, 1)",
+            "rgba(54, 162, 235, 1)",
+            "rgba(255, 206, 86, 1)",
+            "rgba(75, 192, 192, 1)",
+            "rgba(153, 102, 255, 1)",
+            "rgba(255, 159, 64, 1)",
+            "rgba(190, 214, 98, 1)",
+          ],
+          borderWidth: 2,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+  function dataupdate(no_view, no_like, labels){
+    myChart1.data.labels = labels;
+    myChart1.data.datasets[0].data = no_view;
+    myChart1.data.datasets[1].data = no_like;
+    myChart1.update();
+  }
+</script>
+
+<script>
+  myData= {
+      labels: ["views", "likes", "comments", "follows"],
+      datasets: [
+        {
+          fill: {
+            target: 'origin',
+            above: 'rgba(0, 81, 12, 0.2)',
+            below: 'rgba(0, 81, 12, 0.2)'
+          },
+          label: "In todays",
+          data: {{todaydata|safe}},
+          backgroundColor: [
+            "rgba(54, 162, 235, 0.5)",
+            "rgba(255, 99, 132, 0.5)",
+            "rgba(67, 82, 112, 0.8)",
+            "rgba(85, 126, 122, 0.8)"
+          ],
+          borderColor: [
+            "rgba(54, 162, 235, 1)",
+            "rgba(255, 99, 132, 1)",
+            "rgba(67, 82, 112, 1)",
+            "rgba(85, 126, 122, 1)"
+          ],
+          borderWidth: 2,
+        },
+      ],
+      
+    };
+
+    var ctx = document.getElementById("pie-chart2").getContext("2d");
+    var myChart2 = new Chart(ctx, {
+      type: 'bar',
+      data: myData,
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      }
+    });
+
+    function changeChart(){
+      var selectBox = document.getElementById("select1");
+      var tp = selectBox.options[selectBox.selectedIndex].value;
+      myChart2.destroy();
+      myChart2 = new Chart(ctx, {
+        type: tp,
+        data: myData,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      }
+      });
+    };
+</script>
+
+<script>
+  {% for channel in channel %}
+  function getdata() {
+    $(function(){
+        $.ajax({
+          type:'GET',
+          url: "/{{channel.namews}}_{{channel.id2}}/getdata",
+          success: function(response){
+            no_view = response.no_view;
+            no_like = response.no_like;
+            labels = response.day_name;
+            dataupdate(no_view, no_like, labels);
+            if (response.duration === "7"){
+              document.getElementById("duration").innerHTML = "Last week";
+            }
+            else if (response.duration === "30"){
+              document.getElementById("duration").innerHTML = "Last month";
+            }
+            else {
+              document.getElementById("duration").innerHTML = "Last year";
+            }
+            document.getElementById("duration-total-view").innerHTML = "total views : "+response.totalview;
+            document.getElementById("duration-total-like").innerHTML = "total likes : "+response.totallike;
+          },
+        });
+    });
+  }
+  {% endfor %}
+</script>
+
+<script>
+  function changeDuration(event){
+    event.preventDefault();
+
+    var selectBox = document.getElementById("select");
+    var selectValue = selectBox.options[selectBox.selectedIndex].value;
+    var formData = new FormData();
+    formData.append("duration", selectValue);
+
+    var xhr=new XMLHttpRequest();
+    {% for channel in channel %}
+    xhr.open("POST", "http://localhost:8000/{{channel.namews}}_{{channel.id2}}/dashboard", true);
+    {% endfor %}
+    xhr.send(formData);
+    xhr.addEventListener('load', (event) =>{
+      getdata();
+    });
+  }
+</script>
+
+<script>
+  document.getElementById("videogrid").onclick = function () {
+    document.getElementById("video-list-view").style["display"] = "none";
+    document.getElementById("video-grid-view").style["display"] = "block";
+    document.getElementById("videolist").style["color"] = "#A6A6A6";
+    document.getElementById("videogrid").style["color"] = "#00510C";
+  };
+  document.getElementById("videolist").onclick = function () {
+    document.getElementById("video-list-view").style["display"] = "";
+    document.getElementById("video-grid-view").style["display"] = "none";
+    document.getElementById("videolist").style["color"] = "#00510C";
+    document.getElementById("videogrid").style["color"] = "#A6A6A6";
+  };
+
+  document.getElementById("foldergrid").onclick = function () {
+    document.getElementById("folder-list-view").style["display"] = "none";
+    document.getElementById("folder-grid-view").style["display"] = "block";
+    document.getElementById("folderlist").style["color"] = "#A6A6A6";
+    document.getElementById("foldergrid").style["color"] = "#00510C";
+  };
+  document.getElementById("folderlist").onclick = function () {
+    document.getElementById("folder-list-view").style["display"] = "";
+    document.getElementById("folder-grid-view").style["display"] = "none";
+    document.getElementById("folderlist").style["color"] = "#00510C";
+    document.getElementById("foldergrid").style["color"] = "#A6A6A6";
+  };
+</script>
+
+
+<script>
+$(function($){
+    var fixedBarTemplate = '<div class="fixed-scrollbar"><div></div></div>';
+    var fixedBarCSS = { display: 'none', overflowX: 'scroll', position: 'fixed',  width: '100%', bottom: 0 };
+
+    $('.fixed-scrollbar-container').each(function() {
+        var $container = $(this);
+        var $bar = $(fixedBarTemplate).appendTo($container).css(fixedBarCSS);
+
+        $bar.scroll(function() {
+            $container.scrollLeft($bar.scrollLeft());
+        });
+
+        $bar.data("status", "off");
+    });
+
+    var fixSize = function() {
+        $('.fixed-scrollbar').each(function() {
+            var $bar = $(this);
+            var $container = $bar.parent();
+
+            $bar.children('div').height(1).width($container[0].scrollWidth);
+            $bar.width($container.width()).scrollLeft($container.scrollLeft());
+        });
+
+        $(window).trigger("scroll.fixedbar");
+    };
+
+    $(window).on("load.fixedbar resize.fixedbar", function() {
+        fixSize();
+    });
+
+    var scrollTimeout = null;
+
+    $(window).on("scroll.fixedbar", function() { 
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(function() {
+            $('.fixed-scrollbar-container').each(function() {
+                var $container = $(this);
+                var $bar = $container.children('.fixed-scrollbar');
+
+                if($bar.length && ($container[0].scrollWidth > $container.width())) {
+                    var containerOffset = {top: $container.offset().top, bottom: $container.offset().top + $container.height() };
+                    var windowOffset = {top: $(window).scrollTop(), bottom: $(window).scrollTop() + $(window).height() };
+
+                    if((containerOffset.top > windowOffset.bottom) || (windowOffset.bottom > containerOffset.bottom)) {
+                        if($bar.data("status") == "on") {
+                            $bar.hide().data("status", "off");
+                        }
+                    } else {
+                        if($bar.data("status") == "off") {
+                            $bar.show().data("status", "on");
+                            $bar.scrollLeft($container.scrollLeft());
+                        }
+                    }
+                } else {
+                    if($bar.data("status") == "on") {
+                        $bar.hide().data("status", "off");
+                    }
+                }
+            });
+        }, 50);
+    });
+
+    $(window).trigger("scroll.fixedbar");
+});
+
+
+</script>
+
+{% endblock %}

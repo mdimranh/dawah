@@ -1,0 +1,273 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_link %}
+
+<style>
+
+.profile {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  border: 1px solid black;
+}
+
+.channel-cover {
+  object-fit: cover;
+  width: 100%;
+  max-height: 320px;
+  height: auto;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.channel-logo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+}
+
+.subscribe-btn-channel {
+  color: black;
+  font-weight: bold;
+  background: rgba(0, 15, 153, 0.254);
+}
+
+.subscribe-btn-channel:hover {
+  background: rgba(0, 15, 153, 0.35);
+}
+
+.user-nav .active {
+  background: rgba(0, 110, 255, 0.2);
+  border-bottom: 5px solid rgba(0, 50, 250, 0.4);
+}
+
+.user-nav .active:hover {
+  background: rgba(0, 110, 255, 0.2);
+  border-bottom: 5px solid rgba(0, 50, 250, 0.4);
+}
+
+.user-nav {
+  background: rgb(255, 255, 255);
+  position: sticky;
+  top: 89px;
+}
+
+.user-nav div {
+  border-bottom: 5px solid rgba(0, 13, 87, 0);
+}
+.user-nav div:hover {
+  background: rgba(0, 110, 255, 0.1);
+  border-bottom: 5px solid rgba(0, 13, 87, 0.255);
+}
+
+.video-list{
+  background: rgb(255, 255, 255);
+}
+
+.card {
+  width: 322px;
+}
+
+.card-img {
+  list-style: none;
+  position: relative;
+}
+
+.card-img-top {
+  height: 170px;
+  width: 320px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.card .dropdown:hover .video-info-btn {
+  visibility: visible;
+}
+
+.card .dropdown:hover .card-img-hover {
+  opacity: 0.3;
+}
+
+.video-info-btn {
+  color: rgb(0, 11, 75);
+  visibility: hidden;
+  position: absolute;
+  top: 10px;
+  left: 294px;
+  opacity: 1;
+  cursor: pointer;
+}
+
+.card-img-hover {
+  visibility: visible;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  opacity: 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.time {
+  position: relative;
+  color: white;
+  font-size: 11px;
+  top: -22px;
+  height: 18px;
+  background: rgba(0, 16, 56, 0.8);
+  margin-bottom: -30px;
+}
+
+.folder-time{
+  position: relative;
+  color: white;
+  font-size: 30px;
+  top: -160px;
+  justify-content: center;
+  height: 45px;
+  background: rgba(0, 16, 56, 0.8);
+  margin-bottom: -50px;
+}
+
+.card-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 46px;
+  line-height: 20px;
+}
+
+.text-muted {
+  font-size: 13px;
+}
+
+.channel-name {
+  line-height: 17px;
+  font-size: 15px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-weight: bold;
+}
+
+.subscriber {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.subscribe-btn {
+  width: 70px;
+  padding: 0;
+}
+
+.subscribe-btn:hover {
+  background: rgba(15, 40, 104, 0.8);
+}
+
+.subscribe-btn:focus {
+  box-shadow: none;
+}
+
+.main-cntnt{
+  margin-top: 89px;
+}
+
+.channel-info{
+  background: rgba(0, 0, 0, 0.03);
+}
+
+
+</style>
+{% endblock  %}
+{% block body %}
+  <body>
+    <div class="d-flex flex-column">
+        <div class="flex-fill main-cntnt">
+          <div class="d-flex flex-column channel-info">
+            <img
+              class="w-100 channel-cover"
+              src="{% static 'img/channel-cover-02.jpg' %}"
+              alt=""
+            />
+            <div class="d-flex m-3 align-items-center justify-content-around">
+              <div class="d-flex">
+                <img
+                  class="channel-logo"
+                  {% for folder in folder %}src='{{folder.channel.logo}}'
+                  alt="profile"
+                  role="button"
+                />
+                <div class="ps-3 d-flex flex-column">
+                  <h4 class="p-0 m-0 text-break">{{folder.channel.channel_name}}</h4>
+                  <p class="p-0 m-0 text-muted">2M Subscribes</p>
+                </div>
+              </div>
+              {% endfor %}
+              <button type="button" class="btn subscribe-btn-channel">
+                Follow
+              </button>
+            </div>
+          </div>
+
+          <div class="nav user-nav d-flex flex-fill justify-content-center shadow-sm" >
+          {% for folder in folder %}
+          <h3 class="text-center">{{folder.name}}</h3>
+          {% endfor %}
+          </div>
+              <div class="flex-fill video-list pt-4 bg-white">
+                <div class="container-fluid">
+                  <div class="row row-cols-auto justify-content-center">
+                  {% for video in video %}
+                    <div class="col pb-4">
+                      <div class="card shadow-sm">
+                        <li class="dropdown card-img">
+                          <img
+                            src="{{video.thumbnail}}"
+                            class="card-img-top"
+                          />
+                          <a href="/{{video.channel.channel_name}}/{{video.id}}">
+                          <img
+                            class="card-img-hover"
+                            src="{% static 'img/card-img-hover.jpg' %}"
+                          />
+                          </a>
+                          <i
+                            class="fa fa-exclamation-circle fa-lg video-info-btn"
+                          ></i>
+                        </li>
+                        <div class="d-flex justify-content-between mx-2">
+                          <mark class="py-0 px-1 time">3:52</mark>
+                          <div class="d-flex time px-1">
+                            <p class="m-0">{{video.datetime|timesince}}</p>
+                            <p class="m-0 px-2">|</p>
+                            <p class="m-0">1M Views</p>
+                          </div>
+                        </div>
+                        <div class="card-body p-1">
+                        <p class="card-title px-2 m-0">
+                            {{video.title}}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</html>
+{% endblock  %}

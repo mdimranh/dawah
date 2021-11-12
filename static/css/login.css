@@ -1,0 +1,202 @@
+body {
+  height: 100vh;
+  background-color: rgba(82, 82, 82, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.container-main-row {
+  border-top: 8px solid rgba(26, 26, 140, 0.6);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.pass-box,
+.email-box {
+  font-weight: 500;
+}
+
+.pass-box:focus,
+.email-box:focus {
+  box-shadow: none;
+}
+
+.fa {
+  color: white;
+}
+
+.fa-eye,
+.fa-eye-slash {
+  color: rgb(60, 60, 60);
+  cursor: pointer;
+}
+
+.input-group-text {
+  background: rgba(14, 21, 67, 0.55);
+}
+
+.check:focus {
+  box-shadow: none;
+}
+
+a {
+  text-decoration: none;
+  color: rgba(26, 26, 140, 0.6);
+  font-weight: bold;
+}
+
+.btn:focus {
+  box-shadow: none;
+}
+
+.btn {
+  font-weight: bolder;
+  color: white;
+  height: 36px;
+  border: none;
+  background: rgba(14, 21, 67, 0.85);
+}
+
+.btn:hover {
+  background: rgba(30, 5, 99, 0.8);
+  color: white;
+}
+
+.h1 {
+  color: rgba(5, 17, 89, 0.85);
+  font-weight: bold;
+}
+
+.or {
+  border: 1px solid gray;
+  padding-bottom: 3px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.icons a {
+  width: 60px;
+  height: 60px;
+  background-image: url("images/icons.jpg");
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  transition: 0.5s;
+}
+
+.icons .fb {
+  border: 1px solid rgb(61, 79, 174);
+  background-position: -13px -13px;
+}
+
+.icons .fb:hover {
+  background-position: -13px -96px;
+}
+
+.icons .google {
+  border: 1px solid rgb(220, 77, 54);
+  background-position: -263px -13px;
+}
+
+.icons .google:hover {
+  background-position: -263px -96px;
+}
+
+.icons .in {
+  border: 1px solid rgb(0, 162, 181);
+  background-position: -348px -14px;
+}
+
+.icons .in:hover {
+  background-position: -348px -98px;
+}
+
+.icons .twitter {
+  border: 1px solid rgb(0, 213, 211);
+  background-position: -684px -12px;
+}
+.icons .twitter:hover {
+  background-position: -684px -96px;
+}
+
+@media screen and (max-width: 991px) {
+  .anim {
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+  }
+  .login-form {
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .anim {
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+  }
+  .login-form {
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .container-main-row {
+    border-radius: 30px;
+    background-image: url("images/banner.jpg");
+    width: auto;
+  }
+}
+
+@media screen and (max-width: 1399px) {
+  .container-main-row {
+    border-radius: 30px;
+    background-image: url("images/banner.jpg");
+    background-repeat: no-repeat;
+    background-position: -110px 0;
+    width: auto;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .container-main-row {
+    border-radius: 30px;
+    background-image: url("images/banner.jpg");
+    background-repeat: no-repeat;
+    background-position: -180px 0;
+    width: auto;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .container-main-row {
+    border-radius: 30px;
+    background-image: url("images/banner1.jpg");
+    background-repeat: no-repeat;
+    background-position: 0 0px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .container-main-row {
+    border-radius: 30px;
+    background-image: url("images/banner1.jpg");
+    background-repeat: no-repeat;
+    background-position: -30px -25px;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .container-main-row {
+    border-radius: 30px;
+    background-image: url("images/banner1.jpg");
+    background-repeat: no-repeat;
+    background-position: -30px -20px;
+  }
+}

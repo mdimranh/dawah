@@ -1,0 +1,659 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tz %}
+{% block extra_link %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}" />
+<style>
+.card-title{
+  min-height: 40px;
+  line-height: 22px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-img-hover:hover{
+  cursor: pointer;
+}
+
+.follow-btn {
+  width: 65px;
+  padding: 0;
+}
+
+.video-info{
+  color: black;
+  visibility: hidden;
+  position: absolute;
+  top: 16px;
+  left: -40px;
+  opacity: 1;
+  transition-delay: 0.3s;
+  list-style: None;
+  border-radius: 5px;
+}
+
+.video-info-btn:hover .video-info{
+  visibility: visible;
+}
+
+.video-info p{
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-weight: 500;
+}
+
+.video-info div{
+  padding-top: 2px;
+  padding-bottom: 2px;
+  font-size: 14px;
+}
+
+.video-info div:hover{
+  background: rgba(0, 81, 12, 0.3);
+}
+
+.time {
+  position: relative;
+  color: white;
+  font-size: 11px;
+  top: -22px;
+  height: 18px;
+  background: rgba(0, 16, 56, 0.8);
+  margin-bottom: -30px;
+}
+
+.seen{
+  height: 18px;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgb(112, 68, 255);
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+</style>
+{% endblock  %}
+{% block body %}
+<body>
+    <div class="flex-fill main-content">
+      <div>
+      {% if today %}
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-5 pb-3 ps-4">
+              <hr>
+            </div>
+            <div class="col-2 pb-3 text-center">
+              Todays
+            </div>
+            <div class="col-5 pb-3 pe-4">
+              <hr>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="container-fluid">
+          <div class="row row-cols-auto justify-content-center">
+          {% for video in today %}
+          <div class="col pb-4">
+              <div class="card shadow-sm">
+                <a class="title" href="play_C={{video.channel.namews}}_V={{video.id2}}">
+                  <li class="dropdown card-img">
+                  <img src="{{ video.thumbnail }}" class="card-img-top">
+                  <img class="card-img-hover" src="{% static 'img/card-img-hover.jpg' %}">
+                  <i
+                  class="fa fa fa-th video-info-btn dropdown-toggle"
+                  id="info_btn"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  <div class="pt-1 pb-1 bg-white video-info d-flex flex-column" aria-labelledby="info_btn">
+                    <div class="d-flex px-1">
+                      <i class="fa fa-heart fa-sm"></i>
+                      <p class="p m-0 py-0 ps-1">Love</p>
+                    </div>
+                    <div class="d-flex px-1">
+                      <i class="fa fa-heart fa-sm"></i>
+                      <p class="p m-0 py-0 ps-1">Love</p>
+                    </div>
+                    <div class="d-flex px-1">
+                      <i class="fa fa-heart fa-sm"></i>
+                      <p class="p m-0 py-0 ps-1">Love</p>
+                    </div>
+                  </div>
+                  </i>
+                  {% for person in video.views.all %}
+                    {% if user == person %}
+                    <div class="seen d-flex flex-column justify-content-center"><p class="m-0 pb-1 px-1">seen</p></div>
+                    {% endif %}
+                  {% endfor %}
+                </li>
+                <div class="d-flex justify-content-between mx-2">
+                  <mark class="py-0 px-1 time">{{video.duration}}</mark>
+                  <div class="d-flex time px-1">
+                    <p class=" m-0">{{video.datetime|timesince}} ago</p>
+                    <p class=" m-0 px-2">|</p>
+                    <p class=" m-0">{{video.total_views}} views</p>
+                  </div>
+                </div>
+                </a>
+              <div class="card-body p-1">
+                <a class="title" href="play_C={{video.channel.namews}}_V={{video.id2}}">
+                  <p class="card-title px-2 m-0">{{video.title}}</p>
+                </a>
+                </div>
+                  <div class="card-footer px-2 py-1">
+                    <div class="d-flex justify-content-start align-items-center">
+                      <a href="channel/{{video.channel.namews}}_{{video.channel.id}}"><img class="profile" src="{{ video.channel.logo }}" alt=""></a>
+                      <div class="d-flex flex-fill flex-row justify-content-between align-items-center mx-2">
+                      <a class:'channel-name' href="/channel/{{video.channel.namews}}_{{video.channel.id}}"><p class="m-0 channel-name">{{video.channel.channel_name}}</p></a>
+                        <div class="ps-1 d-flex flex-column">
+                        <form method='post'>
+                        {% csrf_token %}
+                        <input style='display:none;' type="text" value='{{video.channel.id}}' name='follow'>
+                        {% if user in video.channel.follower.all %}
+                          <button
+                            name=""
+                            class="btn mt-1 btn-secondary btn-sm follow-btn"
+                            type='submit'
+                            role="button"
+                            >Unfollow</i
+                          ></button>
+                          {% else %}
+                          <button
+                            name=""
+                            class="btn mt-1 btn-success btn-sm follow-btn"
+                            type='submit'
+                            role="button"
+                            >Follow</i
+                          ></button>
+                          {% endif %}
+                          </form>
+                          <p class="m-0 p-0 follower text-center">{{video.channel.total_follower}} Follower</p>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- This div for yesterdays video -->
+
+      <div>
+      {% if yesterday %}
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-5 pb-3 ps-4">
+              <hr>
+            </div>
+            <div class="col-2 pb-3 text-center">
+              Yesterday
+            </div>
+            <div class="col-5 pb-3 pe-4">
+              <hr>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="container-fluid">
+          <div class="row row-cols-auto justify-content-center">
+          {% for video in yesterday %}
+          <div class="col pb-4">
+              <div class="card shadow-sm">
+                <a class="title" href="play_C={{video.channel.namews}}_V={{video.id2}}">
+                  <li class="dropdown card-img">
+                  <img src="{{ video.thumbnail }}" class="card-img-top">
+                  <img class="card-img-hover" src="{% static 'img/card-img-hover.jpg' %}">
+                  <i
+                  class="fa fa fa-th video-info-btn dropdown-toggle"
+                  id="info_btn"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  <div class="pt-1 pb-1 bg-white video-info d-flex flex-column" aria-labelledby="info_btn">
+                    <div class="d-flex px-1">
+                      <i class="fa fa-heart fa-sm"></i>
+                      <p class="p m-0 py-0 ps-1">Love</p>
+                    </div>
+                    <div class="d-flex px-1">
+                      <i class="fa fa-heart fa-sm"></i>
+                      <p class="p m-0 py-0 ps-1">Love</p>
+                    </div>
+                    <div class="d-flex px-1">
+                      <i class="fa fa-heart fa-sm"></i>
+                      <p class="p m-0 py-0 ps-1">Love</p>
+                    </div>
+                  </div>
+                  </i>
+                  {% for person in video.views.all %}
+                    {% if user == person %}
+                    <div class="seen d-flex flex-column justify-content-center"><p class="m-0 pb-1 px-1">seen</p></div>
+                    {% endif %}
+                  {% endfor %}
+                </li>
+                <div class="d-flex justify-content-between mx-2">
+                  <mark class="py-0 px-1 time">{{video.duration}}</mark>
+                  <div class="d-flex time px-1">
+                    <p class=" m-0">{{video.datetime|timesince}} ago</p>
+                    <p class=" m-0 px-2">|</p>
+                    <p class=" m-0">{{video.total_views}} views</p>
+                  </div>
+                </div>
+                </a>
+              <div class="card-body p-1">
+                <a class="title" href="play_C={{video.channel.namews}}_V={{video.id2}}">
+                  <p class="card-title px-2 m-0">{{video.title}}</p>
+                </a>
+                </div>
+                  <div class="card-footer px-2 py-1">
+                    <div class="d-flex justify-content-start align-items-center">
+                      <a href="channel/{{video.channel.namews}}_{{video.channel.id}}"><img class="profile" src="{{ video.channel.logo }}" alt=""></a>
+                      <div class="d-flex flex-fill flex-row justify-content-between align-items-center mx-2">
+                      <a class:'channel-name' href="/channel/{{video.channel.namews}}_{{video.channel.id}}"><p class="m-0 channel-name">{{video.channel.channel_name}}</p></a>
+                        <div class="ps-1 d-flex flex-column">
+                        <form method='post'>
+                        {% csrf_token %}
+                        <input style='display:none;' type="text" value='{{video.channel.id}}' name='follow'>
+                        {% if user in video.channel.follower.all %}
+                          <button
+                            name=""
+                            class="btn mt-1 btn-secondary btn-sm follow-btn"
+                            type='submit'
+                            role="button"
+                            >Unfollow</i
+                          ></button>
+                          {% else %}
+                          <button
+                            name=""
+                            class="btn mt-1 btn-success btn-sm follow-btn"
+                            type='submit'
+                            role="button"
+                            >Follow</i
+                          ></button>
+                          {% endif %}
+                          </form>
+                          <p class="m-0 p-0 follower text-center">{{video.channel.total_follower}} Follower</p>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+    <!-- This div for this weeks video -->
+
+      <div>
+      {% if week %}
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-5 pb-3 ps-4">
+              <hr>
+            </div>
+            <div class="col-2 pb-3 text-center">
+              This Week
+            </div>
+            <div class="col-5 pb-3 pe-4">
+              <hr>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="container-fluid">
+          <div class="row row-cols-auto justify-content-center">
+          {% for video in week %}
+          <div class="col pb-4">
+              <div class="card shadow-sm">
+                <a class="title" href="play_C={{video.channel.namews}}_V={{video.id2}}">
+                  <li class="dropdown card-img">
+                  <img src="{{ video.thumbnail }}" class="card-img-top">
+                  <img class="card-img-hover" src="{% static 'img/card-img-hover.jpg' %}">
+                  <i
+                  class="fa fa fa-th video-info-btn dropdown-toggle"
+                  id="info_btn"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  <div class="pt-1 pb-1 bg-white video-info d-flex flex-column" aria-labelledby="info_btn">
+                    <div class="d-flex px-1">
+                      <i class="fa fa-heart fa-sm"></i>
+                      <p class="p m-0 py-0 ps-1">Love</p>
+                    </div>
+                    <div class="d-flex px-1">
+                      <i class="fa fa-heart fa-sm"></i>
+                      <p class="p m-0 py-0 ps-1">Love</p>
+                    </div>
+                    <div class="d-flex px-1">
+                      <i class="fa fa-heart fa-sm"></i>
+                      <p class="p m-0 py-0 ps-1">Love</p>
+                    </div>
+                  </div>
+                  </i>
+                  {% for person in video.views.all %}
+                    {% if user == person %}
+                    <div class="seen d-flex flex-column justify-content-center"><p class="m-0 pb-1 px-1">seen</p></div>
+                    {% endif %}
+                  {% endfor %}
+                </li>
+                <div class="d-flex justify-content-between mx-2">
+                  <mark class="py-0 px-1 time">{{video.duration}}</mark>
+                  <div class="d-flex time px-1">
+                    <p class=" m-0">{{video.datetime|timesince}} ago</p>
+                    <p class=" m-0 px-2">|</p>
+                    <p class=" m-0">{{video.total_views}} views</p>
+                  </div>
+                </div>
+                </a>
+              <div class="card-body d-flex flex-row align-items-center h-100 p-1">
+                <a class="title" href="play_C={{video.channel.namews}}_V={{video.id2}}">
+                  <p class="card-title px-2 m-0">{{video.title}}</p>
+                </a>
+                </div>
+                  <div class="card-footer px-2 py-1">
+                    <div class="d-flex justify-content-start align-items-center">
+                      <a href="channel/{{video.channel.namews}}_{{video.channel.id}}"><img class="profile" src="{{ video.channel.logo }}" alt=""></a>
+                      <div class="d-flex flex-fill flex-row justify-content-between align-items-center mx-2">
+                      <a class:'channel-name' href="/channel/{{video.channel.namews}}_{{video.channel.id}}"><p class="m-0 channel-name">{{video.channel.channel_name}}</p></a>
+                        <div class="ps-1 d-flex flex-column">
+                        <form method='post'>
+                        {% csrf_token %}
+                        <input style='display:none;' type="text" value='{{video.channel.id}}' name='follow'>
+                        {% if user in video.channel.follower.all %}
+                          <button
+                            name=""
+                            class="btn mt-1 btn-secondary btn-sm follow-btn"
+                            type='submit'
+                            role="button"
+                            >Unfollow</i
+                          ></button>
+                          {% else %}
+                          <button
+                            name=""
+                            class="btn mt-1 btn-success btn-sm follow-btn"
+                            type='submit'
+                            role="button"
+                            >Follow</i
+                          ></button>
+                          {% endif %}
+                          </form>
+                          <p class="m-0 p-0 follower text-center">{{video.channel.total_follower}} Follower</p>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+    <!-- This div for this Months video -->
+
+      <div>
+      {% if month %}
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-5 pb-3 ps-4">
+              <hr>
+            </div>
+            <div class="col-2 pb-3 text-center">
+              This Month
+            </div>
+            <div class="col-5 pb-3 pe-4">
+              <hr>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="container-fluid">
+          <div class="row row-cols-auto justify-content-center">
+          {% for video in month %}
+          <div class="col pb-4">
+              <div class="card shadow-sm">
+                <a class="title" href="play_C={{video.channel.namews}}_V={{video.id2}}">
+                  <li class="dropdown card-img">
+                  <img src="{{ video.thumbnail }}" class="card-img-top">
+                  <img class="card-img-hover" src="{% static 'img/card-img-hover.jpg' %}">
+                  <i
+                  class="fa fa fa-th video-info-btn dropdown-toggle"
+                  id="info_btn"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  <div class="pt-1 pb-1 bg-white video-info d-flex flex-column" aria-labelledby="info_btn">
+                    <div class="d-flex px-1">
+                      <i class="fa fa-heart fa-sm"></i>
+                      <p class="p m-0 py-0 ps-1">Love</p>
+                    </div>
+                    <div class="d-flex px-1">
+                      <i class="fa fa-heart fa-sm"></i>
+                      <p class="p m-0 py-0 ps-1">Love</p>
+                    </div>
+                    <div class="d-flex px-1">
+                      <i class="fa fa-heart fa-sm"></i>
+                      <p class="p m-0 py-0 ps-1">Love</p>
+                    </div>
+                  </div>
+                  </i>
+                  {% for person in video.views.all %}
+                    {% if user == person %}
+                    <div class="seen d-flex flex-column justify-content-center"><p class="m-0 pb-1 px-1">seen</p></div>
+                    {% endif %}
+                  {% endfor %}
+                </li>
+                <div class="d-flex justify-content-between mx-2">
+                  <mark class="py-0 px-1 time">{{video.duration}}</mark>
+                  <div class="d-flex time px-1">
+                    <p class=" m-0">{{video.datetime|timesince}} ago</p>
+                    <p class=" m-0 px-2">|</p>
+                    <p class=" m-0">{{video.total_views}} views</p>
+                  </div>
+                </div>
+                </a>
+              <div class="card-body p-1">
+                <a class="title" href="play_C={{video.channel.namews}}_V={{video.id2}}">
+                  <p class="card-title px-2 m-0">{{video.title}}</p>
+                </a>
+                </div>
+                  <div class="card-footer px-2 py-1">
+                    <div class="d-flex justify-content-start align-items-center">
+                      <a href="channel/{{video.channel.namews}}_{{video.channel.id}}"><img class="profile" src="{{ video.channel.logo }}" alt=""></a>
+                      <div class="d-flex flex-fill flex-row justify-content-between align-items-center mx-2">
+                      <a class:'channel-name' href="/channel/{{video.channel.namews}}_{{video.channel.id}}"><p class="m-0 channel-name">{{video.channel.channel_name}}</p></a>
+                        <div class="ps-1 d-flex flex-column">
+                        <form method='post'>
+                        {% csrf_token %}
+                        <input style='display:none;' type="text" value='{{video.channel.id}}' name='follow'>
+                        {% if user in video.channel.follower.all %}
+                          <button
+                            name=""
+                            class="btn mt-1 btn-secondary btn-sm follow-btn"
+                            type='submit'
+                            role="button"
+                            >Unfollow</i
+                          ></button>
+                          {% else %}
+                          <button
+                            name=""
+                            class="btn mt-1 btn-success btn-sm follow-btn"
+                            type='submit'
+                            role="button"
+                            >Follow</i
+                          ></button>
+                          {% endif %}
+                          </form>
+                          <p class="m-0 p-0 follower text-center">{{video.channel.total_follower}} Follower</p>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+    <!-- This div for this Year video -->
+
+      <div>
+      {% if year %}
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-5 pb-3 ps-4">
+              <hr>
+            </div>
+            <div class="col-2 pb-3 text-center">
+              This Year
+            </div>
+            <div class="col-5 pb-3 pe-4">
+              <hr>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="container-fluid">
+          <div class="row row-cols-auto justify-content-center">
+          {% for video in year %}
+          <div class="col pb-4">
+              <div class="card shadow-sm">
+                <a class="title" href="play_C={{video.channel.namews}}_V={{video.id2}}">
+                  <li class="dropdown card-img">
+                  <img src="{{ video.thumbnail }}" class="card-img-top">
+                  <img class="card-img-hover" src="{% static 'img/card-img-hover.jpg' %}">
+                  <i
+                  class="fa fa fa-th video-info-btn dropdown-toggle"
+                  id="info_btn"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  <div class="pt-1 pb-1 bg-white video-info d-flex flex-column" aria-labelledby="info_btn">
+                    <div class="d-flex px-1">
+                      <i class="fa fa-heart fa-sm"></i>
+                      <p class="p m-0 py-0 ps-1">Love</p>
+                    </div>
+                    <div class="d-flex px-1">
+                      <i class="fa fa-heart fa-sm"></i>
+                      <p class="p m-0 py-0 ps-1">Love</p>
+                    </div>
+                    <div class="d-flex px-1">
+                      <i class="fa fa-heart fa-sm"></i>
+                      <p class="p m-0 py-0 ps-1">Love</p>
+                    </div>
+                  </div>
+                  </i>
+                  {% for person in video.views.all %}
+                    {% if user == person %}
+                    <div class="seen d-flex flex-column justify-content-center"><p class="m-0 pb-1 px-1">seen</p></div>
+                    {% endif %}
+                  {% endfor %}
+                </li>
+                <div class="d-flex justify-content-between mx-2">
+                  <mark class="py-0 px-1 time">{{video.duration}}</mark>
+                  <div class="d-flex time px-1">
+                    <p class=" m-0">{{video.datetime|timesince}} ago</p>
+                    <p class=" m-0 px-2">|</p>
+                    <p class=" m-0">{{video.total_views}} views</p>
+                  </div>
+                </div>
+                </a>
+              <div class="card-body p-1">
+                <a class="title" href="play_C={{video.channel.namews}}_V={{video.id2}}">
+                  <p class="card-title px-2 m-0">{{video.title}}</p>
+                </a>
+                </div>
+                  <div class="card-footer px-2 py-1">
+                    <div class="d-flex justify-content-start align-items-center">
+                      <a href="channel/{{video.channel.namews}}_{{video.channel.id}}"><img class="profile" src="{{ video.channel.logo }}" alt=""></a>
+                      <div class="d-flex flex-fill flex-row justify-content-between align-items-center mx-2">
+                      <a class:'channel-name' href="/channel/{{video.channel.namews}}_{{video.channel.id}}"><p class="m-0 channel-name">{{video.channel.channel_name}}</p></a>
+                        <div class="ps-1 d-flex flex-column">
+                        <form method='post'>
+                        {% csrf_token %}
+                        <input style='display:none;' type="text" value='{{video.channel.id}}' name='follow'>
+                        {% if user in video.channel.follower.all %}
+                          <button
+                            name=""
+                            class="btn mt-1 btn-secondary btn-sm follow-btn"
+                            type='submit'
+                            role="button"
+                            >Unfollow</i
+                          ></button>
+                          {% else %}
+                          <button
+                            name=""
+                            class="btn mt-1 btn-success btn-sm follow-btn"
+                            type='submit'
+                            role="button"
+                            >Follow</i
+                          ></button>
+                          {% endif %}
+                          </form>
+                          <p class="m-0 p-0 follower text-center">{{video.channel.total_follower}} Follower</p>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.0/js.cookie.js"></script>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">আজকের হাদিস</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <p class="text-break">
+      ১। হুমায়দী (রহঃ) ... আলকামা ইবনু ওয়াক্কাস আল-লায়সী (রহঃ) থেকে বর্ণিত, আমি উমর ইবনুল খাত্তাব (রাঃ)-কে মিম্বরের ওপর দাঁড়িয়ে বলতে শুনেছিঃ আমি রাসুলুল্লাহ সাল্লাল্লাহু আলাইহি ওয়াসাল্লাম-কে বলতে শুনেছিঃ প্রত্যেক কাজ নিয়তের সাথে সম্পর্কিত। আর মানুষ তার নিয়ত অনুযায়ী ফল পাবে। তাই যার হিজরত হবে দুনিয়া লাভের অথবা নারীকে বিয়ে করার উদ্দেশ্যে- সেই উদ্দেশ্যেই হবে তার হিজরতের প্রাপ্য।
+      </p>
+      </div>
+      <div class="modal-footer">
+        বুখারীঃ তাওহীদ.পাবলিকেশান্স ১, ৫৪, ২৫২৯, ৩৮৯৮, ৫০৭০, ৬৬৮৯, ৬৯৫৩;
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+$(document).ready(function(){
+  setTimeout(function(){
+    if(!Cookies.get('modalShown')) {
+    	$("#exampleModal").modal('show');
+      Cookies.set('modalShown', { expires: 1});
+    } 			
+  },1);
+ });
+</script>
+
+
+<script>
+window.addEventListener("scroll", (event) => {
+    let scroll = this.scrollY;
+    console.log(scroll);
+});
+</script>
+
+  </body>
+{% endblock %}

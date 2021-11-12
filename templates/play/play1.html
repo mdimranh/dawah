@@ -1,0 +1,473 @@
+{% extends 'base.html' %} {% load static %} {% block extra_link %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+<link
+  rel="stylesheet"
+  href="{% static 'icon/font-awesome/css/font-awesome.min.css' %}"
+/>
+<link rel="stylesheet" href="{% static 'icon/icofont/css/icofont.css' %}" />
+<link rel="stylesheet" href="{% static 'css/play1.css' %}" />
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/style.js' %}"></script>
+{% for video in video %}
+<title>{{video.title}}</title>
+{% endfor %} {% endblock%} {% block body %}
+<div class="flex-fill main-content ms-2">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-8 col-12">
+        <div class="d-flex flex-column">
+          <div
+            class="d-flex flex-row-reverse align-items-center pvideo bg-light"
+          >
+            <i
+              class="fa fa-angle-double-left fa-lg d-block d-xl-none px-1"
+              role="button"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#related-video-list"
+              aria-controls="related-video-list"
+            ></i>
+            {% for video in video %}
+            <video id="video-id">
+              <source
+                src="{{MEDIA_URL}}{{video.video}}"
+                title="720p"
+                type="video"
+              />
+              {% endfor %} {% for video in video %}
+              <source
+                src="{{MEDIA_URL}}{{video.video}}"
+                title="480p"
+                type="video"
+              />
+              {% endfor %}
+            </video>
+          </div>
+          <div
+            class="
+              offcanvas
+              related-video-offcanvas
+              offcanvas-end
+              d-block d-xl-none
+            "
+            data-bs-scroll="false"
+            data-bs-backdrop="false"
+            tabindex="-1"
+            id="related-video-list"
+            aria-labelledby="related-video-list"
+          >
+            <div class="offcanvas-header related-video-offcanvas-header">
+              <h5 class="offcanvas-title" id="related-video-list">
+                Related Video
+              </h5>
+              <i
+                class="fa fa-angle-double-right text-reset fa-lg mt-2"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"
+                role="button"
+              ></i>
+            </div>
+
+            <div class="offcanvas-body">
+              <div class="d-flex flex-column mb-3">
+                <div class="d-flex">
+                  <img
+                    class="offcanvas-related-video-thumbnail"
+                    src="../assets/img/profile.jpg"
+                    alt=""
+                  />
+                  <div class="d-flex flex-column">
+                    <p class="offcanvas-related-video-title ps-3 p-0 m-0 h6">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Tenetur, rem.
+                    </p>
+                    <p
+                      class="offcanvas-related-video-channel m-0 p-0 pt-1 ps-3"
+                    >
+                      Dr. Abu Bakar Muhammad zakaria
+                    </p>
+                    <p
+                      class="
+                        text-muted
+                        offcanvas-related-video-view
+                        m-0
+                        p-0
+                        ps-3
+                      "
+                    >
+                      3k Views . 1Month ago
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex flex-column mb-3">
+                <div class="d-flex">
+                  <img
+                    class="offcanvas-related-video-thumbnail"
+                    src="../assets/img/profile.jpg"
+                    alt=""
+                  />
+                  <div class="d-flex flex-column">
+                    <p class="offcanvas-related-video-title ps-3 p-0 m-0 h6">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Tenetur, rem.
+                    </p>
+                    <p
+                      class="offcanvas-related-video-channel m-0 p-0 pt-1 ps-3"
+                    >
+                      Dr. Abu Bakar Muhammad zakaria
+                    </p>
+                    <p
+                      class="
+                        text-muted
+                        offcanvas-related-video-view
+                        m-0
+                        p-0
+                        ps-3
+                      "
+                    >
+                      3k Views . 1Month ago
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {% for video in video %}
+          <p class="text-truncate pt-2 m-0">{{video.title}}</p>
+          {% endfor %}
+
+          <div class="d-flex flex-fill justify-content-between video-like mt-3">
+            <p class="p-0 m-0 mt-1 text-muted">1K views . 10 Hours ago</p>
+            <div class="d-flex">
+              <div class="me-4">
+                <div class="d-flex flex-row-reverse pe-2">
+                  <p class="ps-1 p-0 m-0">100</p>
+                  <i class="fa fa-thumbs-down pt-1 ps-3" aria-hidden="true"></i>
+                  <p class="ps-1 p-0 m-0">1K</p>
+                  <i class="fa fa-thumbs-up pt-1" aria-hidden="true"></i>
+                </div>
+                <div class="progress">
+                  <div
+                    class="progress-bar bg-secondary"
+                    role="progressbar"
+                    style="width: 85%"
+                    aria-valuenow="100"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
+              </div>
+              <div class="d-flex flex-row-reverse pe-2">
+                <p class="ps-1 p-0 m-0">100</p>
+                <i class="fa fa-bookmark pt-1 ps-3" aria-hidden="true"></i>
+                <p class="ps-1 p-0 m-0">1K</p>
+                <i class="fa fa-share-alt pt-1" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+          <hr class="channel-info-section" />
+          <div
+            class="
+              d-flex
+              justify-content-between
+              align-items-center
+              px-2
+              channel-info-section
+            "
+          >
+            <div class="d-flex">
+              <img
+                class="channel-logo"
+                src="{% static 'img/profilee.jpg' %}"
+                alt=""
+              />
+              <div class="d-flex flex-column">
+                <p class="m-0 ps-2 h5">
+                  {% for video in video %} {{video.channel.channel_name}}
+                  {%endfor%}
+                </p>
+                <p class="text-muted ps-2">1.5K Suibscriber</p>
+              </div>
+            </div>
+            <div class="d-flex align-items-center">
+              <button type="button" class="btn follow-btn btn-sm">
+                Follow
+              </button>
+              <i
+                class="fa fa-heart ms-3 fa-lg"
+                aria-hidden="true"
+                role="button"
+              ></i>
+            </div>
+          </div>
+          <hr class="pt-0 mt-0" />
+          <div class="d-flex ps-4 pb-2 pe-2">
+            <img class="profile" src="{% static 'img/profilee.jpg' %}" alt="" />
+            <div class="container-fluid m-0 p-0">
+              <div
+                class="input-group input-group-sm align-items-center ms-2 mb-3"
+              >
+                <textarea
+                  class="form-control overflow-hidden comment-box"
+                  placeholder="Write your comment here..."
+                  aria-expanded="0"
+                  rows="1"
+                ></textarea>
+                <i class="send fa fa-send"></i>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex flex-fill ps-4 pb-2">
+            <img class="profile" src="{% static 'img/profilee.jpg' %}" alt="" />
+            <div class="d-flex flex-column">
+              <p class="ps-2 h6 m-0 p-0">Md Imran Hossain</p>
+              <p class="text-muted m-0 p-0 ps-2">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Nesciunt adipisci consequatur quaerat nemo saepe necessitatibus,
+                nisi suscipit pariatur ipsa, doloribus ad inventore repellat
+                numquam aliquam amet facilis ducimus illum ipsam?
+              </p>
+              <div class="d-flex justify-content-end pt-1">
+                <div class="d-flex align-items-centerm">
+                  <i class="fa fa-heart pt-1" aria-hidden="true"></i>
+                  <p class="h6 ps-2">Love</p>
+                </div>
+                <div class="d-flex align-items-centerm ps-4">
+                  <i class="fa fa-reply-all pt-1" aria-hidden="true"></i>
+                  <p class="h6 ps-2">Replay</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex ps-4 pb-2">
+            <img class="profile" src="{% static 'img/profilee.jpg' %}" alt="" />
+            <div class="d-flex flex-column">
+              <p class="ps-2 h6 m-0 p-0">Md Imran Hossain</p>
+              <p class="text-muted m-0 p-0 ps-2">
+                This is first comment of this video and this is only for
+                checking that how it works. And finally we cna see that its work
+                properly.
+              </p>
+              <div class="d-flex justify-content-end pt-1">
+                <div class="d-flex align-items-centerm">
+                  <i class="fa fa-heart pt-1" aria-hidden="true"></i>
+                  <p class="h6 ps-2">Love</p>
+                </div>
+                <div class="d-flex align-items-centerm ps-4">
+                  <i class="fa fa-reply-all pt-1" aria-hidden="true"></i>
+                  <p class="h6 ps-2">Replay</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex ps-4 pb-2">
+            <img class="profile" src="{% static 'img/profilee.jpg' %}" alt="" />
+            <div class="d-flex flex-column">
+              <p class="ps-2 h6 m-0 p-0">Md Imran Hossain</p>
+              <p class="text-muted m-0 p-0 ps-2">
+                This is first comment of this video and this is only for
+                checking that how it works. And finally we cna see that its work
+                properly.
+              </p>
+              <div class="d-flex justify-content-end pt-1">
+                <div class="d-flex align-items-centerm">
+                  <i class="fa fa-heart pt-1" aria-hidden="true"></i>
+                  <p class="h6 ps-2">Love</p>
+                </div>
+                <div class="d-flex align-items-centerm ps-4">
+                  <i class="fa fa-reply-all pt-1" aria-hidden="true"></i>
+                  <p class="h6 ps-2">Replay</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex ps-4 pb-2">
+            <img class="profile" src="{% static 'img/profilee.jpg' %}" alt="" />
+            <div class="d-flex flex-column">
+              <p class="ps-2 h6 m-0 p-0">Md Imran Hossain</p>
+              <p class="text-muted m-0 p-0 ps-2">
+                This is first comment of this video and this is only for
+                checking that how it works. And finally we cna see that its work
+                properly.
+              </p>
+              <div class="d-flex justify-content-end pt-1">
+                <div class="d-flex align-items-centerm">
+                  <i class="fa fa-heart pt-1" aria-hidden="true"></i>
+                  <p class="h6 ps-2">Love</p>
+                </div>
+                <div class="d-flex align-items-centerm ps-4">
+                  <i class="fa fa-reply-all pt-1" aria-hidden="true"></i>
+                  <p class="h6 ps-2">Replay</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-4 col-0 d-none d-xl-block">
+        <div class="container-fluid m-0 p-0">
+          <div class="row justify-content-center">
+            <div class="col-4">
+              <hr />
+            </div>
+            <div class="col-4 p-0 text-center comment-label">Related Video</div>
+            <div class="col-4">
+              <hr />
+            </div>
+          </div>
+        </div>
+        <div class="d-flex flex-column">
+          <div class="d-flex">
+            <img
+              class="related-video-thumbnail"
+              src="{% static 'img/thumbnail.png' %}"
+              alt=""
+            />
+            <div class="d-flex flex-column mb-4">
+              <p class="related-video-title ps-3 p-0 m-0 h6">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Tenetur, rem.
+              </p>
+              <p class="related-video-channel m-0 p-0 pt-1 ps-3">
+                Baseera Media
+              </p>
+              <p class="text-muted m-0 p-0 ps-3">3k Views . 1Month ago</p>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex flex-column mb-4">
+          <div class="d-flex">
+            <img
+              class="related-video-thumbnail"
+              src="{% static 'img/thumbnail.png' %}"
+              alt=""
+            />
+            <div class="d-flex flex-column">
+              <p class="related-video-title ps-3 p-0 m-0 h6">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Tenetur, rem.
+              </p>
+              <p class="related-video-channel m-0 p-0 pt-1 ps-3">
+                Baseera Media
+              </p>
+              <p class="text-muted m-0 p-0 ps-3">3k Views . 1Month ago</p>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex flex-column mb-4">
+          <div class="d-flex">
+            <img
+              class="related-video-thumbnail"
+              src="{% static 'img/thumbnail.png' %}"
+              alt=""
+            />
+            <div class="d-flex flex-column">
+              <p class="related-video-title ps-3 p-0 m-0 h6">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Tenetur, rem.
+              </p>
+              <p class="related-video-channel m-0 p-0 pt-1 ps-3">
+                Baseera Media
+              </p>
+              <p class="text-muted m-0 p-0 ps-3">3k Views . 1Month ago</p>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex flex-column mb-4">
+          <div class="d-flex">
+            <img
+              class="related-video-thumbnail"
+              src="{% static 'img/thumbnail.png' %}"
+              alt=""
+            />
+            <div class="d-flex flex-column">
+              <p class="related-video-title ps-3 p-0 m-0 h6">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Tenetur, rem.
+              </p>
+              <p class="related-video-channel m-0 p-0 pt-1 ps-3">
+                Baseera Media
+              </p>
+              <p class="text-muted m-0 p-0 ps-3">3k Views . 1Month ago</p>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex flex-column mb-4">
+          <div class="d-flex">
+            <img
+              class="related-video-thumbnail"
+              src="{% static 'img/thumbnail.png' %}"
+              alt=""
+            />
+            <div class="d-flex flex-column">
+              <p class="related-video-title ps-3 p-0 m-0 h6">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Tenetur, rem.
+              </p>
+              <p class="related-video-channel m-0 p-0 pt-1 ps-3">
+                Baseera Media
+              </p>
+              <p class="text-muted m-0 p-0 ps-3">3k Views . 1Month ago</p>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex flex-column mb-4">
+          <div class="d-flex">
+            <img
+              class="related-video-thumbnail"
+              src="{% static 'img/thumbnail.png' %}"
+              alt=""
+            />
+            <div class="d-flex flex-column">
+              <p class="related-video-title ps-3 p-0 m-0 h6">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Tenetur, rem.
+              </p>
+              <p class="related-video-channel m-0 p-0 pt-1 ps-3">
+                Baseera Media
+              </p>
+              <p class="text-muted m-0 p-0 ps-3">3k Views . 1Month ago</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-12 text-center well">
+      <button
+        id="subscribe"
+        type="button"
+        class="btn btn-sm btn-default"
+        data-bs-toggle="popover"
+      >
+        Subscribe
+      </button>
+      <div id="popover-form" class="hide">
+        <form id="myform" class="form-inline" role="hide">
+          <div class="form-group">
+            <input
+              type="email"
+              name=""
+              id="email"
+              placeholder="Enter email"
+              class="form-control"
+            />
+          </div>
+          <button type="submit" class="btn btn-warning">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block extra_script %}
+
+<script src="{% static 'js/popover.min.js' %}"></script>
+<script src="{% static 'js/fluidplayer.min.js' %}"></script>
+<script src="{% static 'js/fluidplayer.js' %}"></script>
+{% endblock%}

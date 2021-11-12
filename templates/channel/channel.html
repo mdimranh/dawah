@@ -1,0 +1,579 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_link %}
+
+<style>
+
+.profile {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  border: 1px solid black;
+}
+
+.channel-cover {
+  object-fit: cover;
+  width: 100%;
+  max-height: 320px;
+  height: auto;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.channel-logo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+}
+
+.subscribe-btn-channel {
+  font-weight: bold;
+  width: 96px;
+}
+
+.subscribe-btn-channel:focus {
+  box-shadow: none;
+}
+
+.user-nav .active {
+  background: rgba(0, 110, 255, 0.2);
+  border-bottom: 5px solid rgba(0, 50, 250, 0.4);
+}
+
+.user-nav .active:hover {
+  background: rgba(0, 110, 255, 0.2);
+  border-bottom: 5px solid rgba(0, 50, 250, 0.4);
+}
+
+.user-nav {
+  background: rgb(255, 255, 255);
+  position: sticky;
+  top: 89px;
+}
+
+.user-nav div {
+  border-bottom: 5px solid rgba(0, 13, 87, 0);
+}
+.user-nav div:hover {
+  background: rgba(0, 110, 255, 0.1);
+  border-bottom: 5px solid rgba(0, 13, 87, 0.255);
+}
+
+.video-list{
+  background: rgb(255, 255, 255);
+}
+
+.card {
+  width: 322px;
+}
+
+.card-img {
+  list-style: none;
+  position: relative;
+}
+
+.card-img-top {
+  height: 170px;
+  width: 320px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.card .dropdown:hover .video-info-btn {
+  visibility: visible;
+}
+
+.card .dropdown:hover .card-img-hover {
+  opacity: 0.3;
+}
+
+.video-info-btn {
+  color: rgb(0, 11, 75);
+  visibility: hidden;
+  position: absolute;
+  top: 10px;
+  left: 294px;
+  opacity: 1;
+  cursor: pointer;
+}
+
+.card-img-hover {
+  visibility: visible;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  opacity: 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.time {
+  position: relative;
+  color: white;
+  font-size: 11px;
+  top: -22px;
+  height: 18px;
+  background: rgba(0, 16, 56, 0.8);
+  margin-bottom: -30px;
+}
+
+.folder-time{
+  position: relative;
+  color: white;
+  font-size: 30px;
+  top: -160px;
+  justify-content: center;
+  height: 45px;
+  background: rgba(0, 16, 56, 0.8);
+  margin-bottom: -50px;
+}
+
+.card-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 46px;
+  line-height: 20px;
+}
+
+.text-muted {
+  font-size: 13px;
+}
+
+.channel-name {
+  line-height: 17px;
+  font-size: 15px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-weight: bold;
+}
+
+.subscriber {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.subscribe-btn {
+  width: 70px;
+  padding: 0;
+}
+
+.subscribe-btn:hover {
+  background: rgba(15, 40, 104, 0.8);
+}
+
+.subscribe-btn:focus {
+  box-shadow: none;
+}
+
+.main-cntnt{
+  margin-top: 89px;
+}
+
+.channel-info{
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.link{
+  margin-top: -60px;
+  padding-bottom: 15px;
+}
+
+.linklist{
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+}
+
+.btn:focus{
+  box-shadow: none;
+}
+
+
+</style>
+{% endblock  %}
+{% block title %}
+{% for channel in channel %}
+  <title>{{channel.channel_name}}</title>
+{% endfor %}
+{% endblock%}
+{% block body %}
+  <body>
+    <div class="d-flex flex-column">
+        <div class="flex-fill main-cntnt">
+          <div class="d-flex flex-column channel-info">
+            <img
+              class="w-100 channel-cover"
+              src="{% static 'img/channel-cover-02.jpg' %}"
+              alt=""
+            />
+            <div class="d-flex flex-row-reverse mx-3 link">
+              <div class="linklist">
+              {% for channel in channel %}
+                <a class="btn" href="{{channel.fb_link}}" target="_blink">
+                  <i class="fa fa-facebook-square fa-2x"></i>
+                </a>
+                <a class="btn" href="{{channel.twitter_link}}" target="_blink">
+                  <i class="fa fa-twitter-square fa-2x"></i>
+                </a>
+                <a class="btn" href="{{channel.web_link}}" target="_blink">
+                  <i class="fa fa-globe fa-2x"></i>
+                </a>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="d-flex m-3 align-items-center justify-content-around">
+              <div class="d-flex">
+                <img
+                  class="channel-logo"
+                  {% for channel in channel %}src='{{channel.logo}}'{% endfor %}
+                  alt="profile"
+                  role="button"
+                />
+                <div class="ps-3 d-flex flex-column">
+                {% for channel in channel %}
+                  <h4 class="p-0 m-0 text-break">{{channel.channel_name}}</h4>
+                  <p class="p-0 m-0 text-muted">{{channel.total_follower}} Followers</p>
+                {% endfor %}
+                </div>
+              </div>
+              {% for channel in channel %}
+              <form method='post'>
+                {% csrf_token %}
+                <input style='display:none;' type="text" value='{{channel.id}}' name='follow'>
+                {% if channel in followlist %}
+                  <button
+                    name=""
+                    class="btn btn-secondary subscribe-btn-channel"
+                    type='submit'
+                    role="button"
+                    >Unfollow</i
+                  ></button>
+                  {% else %}
+                  <button
+                    name=""
+                    class="btn btn-success subscribe-btn-channel"
+                    type='submit'
+                    role="button"
+                    >Follow</i
+                  ></button>
+                  {% endif %}
+                  </form>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div
+            class="nav user-nav d-flex justify-content-center sticky-top shadow-sm"
+            id="nav-tab"
+            role="tablist"
+          >
+            <div
+              class="py-2 px-3 bd-highlight text-center nav-link active"
+              id="nav-allvideo-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#nav-allvideo"
+              type="button"
+              role="tab"
+              aria-controls="nav-allvideo"
+              aria-selected="true"
+            >
+              Home
+            </div>
+            <div
+              class="py-2 px-3 bd-highlight text-center nav-link"
+              id="nav-folder-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#nav-folder"
+              type="button"
+              role="tab"
+              aria-controls="nav-folder"
+              aria-selected="true"
+            >
+              Folder
+            </div>
+            <div
+              class="py-2 px-3 bd-highlight text-center nav-link"
+              id="nav-uvideo-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#nav-uvideo"
+              type="button"
+              role="tab"
+              aria-controls="nav-uvideo"
+              aria-selected="false"
+            >
+              Uploaded
+            </div>
+            <div
+              class="py-2 px-3 bd-highlight text-center nav-link"
+              id="nav-lvideo-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#nav-lvideo"
+              type="button"
+              role="tab"
+              aria-controls="nav-lvideo"
+              aria-selected="false"
+            >
+              Live
+            </div>
+            <div
+              class="py-2 px-3 bd-highlight text-center nav-link"
+              id="nav-message-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#nav-message"
+              type="button"
+              role="tab"
+              aria-controls="nav-message"
+              aria-selected="false"
+            >
+              Q/A
+            </div>
+          </div>
+          <div class="tab-content" id="nav-tabContent">
+            <div
+              class="tab-pane fade show active"
+              id="nav-allvideo"
+              role="tabpanel"
+              aria-labelledby="nav-allvideo-tab"
+            >
+              <div class="flex-fill video-list pt-4 bg-white">
+                <div class="container-fluid">
+                  <div class="row row-cols-auto justify-content-center">
+                  {% for video in video %}
+                    <div class="col pb-4">
+                      <div class="card shadow-sm">
+                        <li class="dropdown card-img">
+                          <img
+                            src="{{video.thumbnail}}"
+                            class="card-img-top"
+                          />
+                          <a href="/{{video.channel.channel_name}}/{{video.id}}">
+                          <img
+                            class="card-img-hover"
+                            src="{% static 'img/card-img-hover.jpg' %}"
+                          />
+                          </a>
+                          <i
+                            class="fa fa-exclamation-circle fa-lg video-info-btn"
+                          ></i>
+                        </li>
+                        <div class="d-flex justify-content-between mx-2">
+                          <mark class="py-0 px-1 time">3:52</mark>
+                          <div class="d-flex time px-1">
+                            <p class="m-0">{{video.datetime|timesince}} ago</p>
+                            <p class="m-0 px-2">|</p>
+                            <p class="m-0">1M Views</p>
+                          </div>
+                        </div>
+                        <div class="card-body p-1">
+                        <p class="card-title d-flex align-items-center px-2 m-0">
+                            {{video.title}}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="tab-pane fade"
+              id="nav-folder"
+              role="tabpanel"
+              aria-labelledby="nav-folder-tab"
+            >
+            <div class="flex-fill video-list pt-4 bg-white">
+                <div class="container-fluid">
+                  <div class="row row-cols-auto justify-content-center">
+                  {% for folder in folder %}
+                    <div class="col pb-4">
+                      <div class="card shadow-sm">
+                        <li class="dropdown card-img">
+                          <img
+                            src="{{folder.thumbnail}}"
+                            class="card-img-top"
+                          />
+                          {% for video in video %}
+                          <a href="/channel/{{video.channel.namews}}/{{folder.name}}_{{folder.id}}">
+                          {% endfor %}
+                          <img
+                            class="card-img-hover"
+                            src="{% static 'img/card-img-hover.jpg' %}"
+                          />
+                          </a>
+                          <i
+                            class="fa fa-folder fa-lg video-info-btn"
+                          ></i>
+                        </li>
+                        <div class="d-flex justify-content-between mx-2">
+                          <div class="d-flex folder-time px-1">
+                            <p class="m-0">{{folder.no_video}}</p>
+                          </div>
+                        </div>
+                        <div class="card-body p-1">
+                        <h5 class="card-title text-center m-0 d-flex flex-column justify-content-center">
+                            {{folder.name}}
+                          </h5>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="tab-pane fade"
+              id="nav-uvideo"
+              role="tabpanel"
+              aria-labelledby="nav-uvideo-tab"
+            >
+            <div class="flex-fill video-list pt-4 bg-white">
+                <div class="container-fluid">
+                  <div class="row row-cols-auto justify-content-center">
+                  {% for video in video %}
+                    <div class="col pb-4">
+                      <div class="card shadow-sm">
+                        <li class="dropdown card-img">
+                          <img
+                            src="{{MEDIA_URL}}{{video.thumbnail}}"
+                            class="card-img-top"
+                          />
+                          <a href="/{{video.channel.channel_name}}/{{video.id}}">
+                          <img
+                            class="card-img-hover"
+                            src="{% static 'img/card-img-hover.jpg' %}"
+                          />
+                          </a>
+                          <i
+                            class="fa fa-exclamation-circle fa-lg video-info-btn"
+                          ></i>
+                        </li>
+                        <div class="d-flex justify-content-between mx-2">
+                          <mark class="py-0 px-1 time">3:52</mark>
+                          <div class="d-flex time px-1">
+                            <p class="m-0">3 days ago</p>
+                            <p class="m-0 px-2">|</p>
+                            <p class="m-0">1M Views</p>
+                          </div>
+                        </div>
+                        <div class="card-body p-1">
+                        <p class="card-title px-2 m-0">
+                            {{video.title}}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="tab-pane fade"
+              id="nav-lvideo"
+              role="tabpanel"
+              aria-labelledby="nav-lvideo-tab"
+            >
+              <div class="flex-fill video-list pt-4 bg-white">
+                <div class="container-fluid">
+                  <div class="row row-cols-auto justify-content-center">
+                  {% for video in video %}
+                    <div class="col pb-4">
+                      <div class="card shadow-sm">
+                        <li class="dropdown card-img">
+                          <img
+                            src="{{MEDIA_URL}}{{video.thumbnail}}"
+                            class="card-img-top"
+                          />
+                          <a href="/{{video.channel.channel_name}}/{{video.id}}">
+                          <img
+                            class="card-img-hover"
+                            src="{% static 'img/card-img-hover.jpg' %}"
+                          />
+                          </a>
+                          <i
+                            class="fa fa-exclamation-circle fa-lg video-info-btn"
+                          ></i>
+                        </li>
+                        <div class="d-flex justify-content-between mx-2">
+                          <mark class="py-0 px-1 time">3:52</mark>
+                          <div class="d-flex time px-1">
+                            <p class="m-0">3 days ago</p>
+                            <p class="m-0 px-2">|</p>
+                            <p class="m-0">1M Views</p>
+                          </div>
+                        </div>
+                        <div class="card-body p-1">
+                        <p class="card-title px-2 m-0">
+                            {{video.title}}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="tab-pane fade"
+              id="nav-message"
+              role="tabpanel"
+              aria-labelledby="nav-message-tab"
+            >
+              <div class="flex-fill video-list pt-4 bg-white">
+                <div class="container-fluid">
+                  <div class="row row-cols-auto justify-content-center">
+                  {% for video in video %}
+                    <div class="col pb-4">
+                      <div class="card shadow-sm">
+                        <li class="dropdown card-img">
+                          <img
+                            src="{{MEDIA_URL}}{{video.thumbnail}}"
+                            class="card-img-top"
+                          />
+                          <a href="/{{video.channel.channel_name}}/{{video.id}}">
+                          <img
+                            class="card-img-hover"
+                            src="{% static 'img/card-img-hover.jpg' %}"
+                          />
+                          </a>
+                          <i
+                            class="fa fa-exclamation-circle fa-lg video-info-btn"
+                          ></i>
+                        </li>
+                        <div class="d-flex justify-content-between mx-2">
+                          <mark class="py-0 px-1 time">3:52</mark>
+                          <div class="d-flex time px-1">
+                            <p class="m-0">3 days ago</p>
+                            <p class="m-0 px-2">|</p>
+                            <p class="m-0">1M Views</p>
+                          </div>
+                        </div>
+                        <div class="card-body p-1">
+                        <p class="card-title px-2 m-0">
+                            {{video.title}}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock  %}

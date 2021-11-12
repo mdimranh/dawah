@@ -1,0 +1,1632 @@
+{% extends 'base.html' %} {% load static %} {% block extra_link %}
+<link
+  rel="stylesheet"
+  href="{% static 'icon/font-awesome/css/font-awesome.min.css' %}"
+/>
+<link rel="stylesheet" href="{% static 'icon/icofont/css/icofont.css' %}" />
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+<link rel="stylesheet" href="{% static 'css/play.css' %}" />
+<link href="{% static 'videojs/video-js.min.css' %}" rel="stylesheet" />
+<link rel="stylesheet" href="{% static 'videojs/videojs-vjsdownload.css' %}" />
+<link rel="stylesheet" href="{% static 'videojs/videojs-next-button.css' %}" />
+<link rel="stylesheet" href="{% static 'videojs/videojs-share.css' %}" />
+<link rel="stylesheet" href="{% static 'videojs/videojs-overlay-hyperlink.css' %}" />
+<link rel="stylesheet" href="{% static 'videojs/videojs-next-button.css' %}" />
+<link rel="stylesheet" href="{% static 'tippyjs/dist/tippy.css' %}" />
+<link rel="stylesheet" href="{% static 'tippyjs/animations/scale.css' %}" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/videojs-upnext@2.2.1/dist/videojs-upnext.css" />
+<script src="{% static 'js/jquery.min.js' %}"></script>
+{% for video in video %}
+<title>{{video.title}}</title>
+<style>
+
+
+
+
+.cbx {
+  margin: auto;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+.cbx span {
+  display: inline-block;
+  vertical-align: middle;
+  transform: translate3d(0, 0, 0);
+}
+.cbx span:first-child {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  transform: scale(1);
+  vertical-align: middle;
+  border: 1px solid #9098A9;
+  transition: all 0.2s ease;
+}
+.cbx span:first-child svg {
+  position: absolute;
+  top: 3px;
+  left: 2px;
+  fill: none;
+  stroke: #FFFFFF;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 16px;
+  stroke-dashoffset: 16px;
+  transition: all 0.3s ease;
+  transition-delay: 0.1s;
+  transform: translate3d(0, 0, 0);
+}
+.cbx span:first-child:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: #506EEC;
+  display: block;
+  transform: scale(0);
+  opacity: 1;
+  border-radius: 50%;
+}
+.cbx span:last-child {
+  padding-left: 8px;
+}
+.cbx:hover span:first-child {
+  border-color: #506EEC;
+}
+
+.inp-cbx:checked + .cbx span:first-child {
+  background: #506EEC;
+  border-color: #506EEC;
+  animation: wave 0.4s ease;
+}
+
+.inp-cbx:checked + .cbx span:nth-child(2) {
+  color: #506EEC;
+  animation: wave 0.4s ease;
+}
+
+.inp-cbx:checked + .cbx span:first-child svg {
+  stroke-dashoffset: 0;
+}
+.inp-cbx:checked + .cbx span:first-child:before {
+  transform: scale(3.5);
+  opacity: 0;
+  transition: all 0.6s ease;
+}
+
+@keyframes wave {
+  50% {
+    transform: scale(0.9);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+.vjs-picture-in-picture{
+  bottom: 0;
+  right: 0;
+}
+
+.logoinvideo:hover{
+  cursor: pointer;
+}
+
+
+.video-js .vjs-overlay {
+  color: rgba(255, 2558, 255, 0.7);
+  position: absolute;
+  text-align: center;
+}
+
+.video-js .vjs-overlay a{
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 350px;
+  width: auto;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  line-height: 20px;
+  overflow: hidden;
+}
+
+.video-js .vjs-overlay a:hover{
+  color: rgba(255, 255, 255, 1);
+}
+
+.video-js .vjs-overlay-no-background {
+  max-width: 33%;
+}
+.video-js .vjs-overlay-background {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+  padding: 8px;
+  width: auto;
+}
+
+.video-js .vjs-overlay-top-left {
+  top: 5px;
+  left: 5px;
+}
+.video-js .vjs-overlay-top {
+  left: 50%;
+  margin-left: -16.5%;
+  top: 5px;
+}
+.video-js .vjs-overlay-top-right {
+  right: 5px;
+  top: 5px;
+}
+.video-js .vjs-overlay-right {
+  margin-top: -15px;
+  right: 5px;
+  top: 50%;
+}
+.video-js .vjs-overlay-bottom-right {
+  bottom: 3.5em;
+  right: 5px;
+}
+.video-js .vjs-overlay-bottom {
+  bottom: 3.5em;
+  left: 50%;
+  margin-left: -16.5%;
+}
+.video-js .vjs-overlay-bottom-left {
+  bottom: 3.5em;
+  left: 5px;
+}
+.video-js .vjs-overlay-left {
+  left: 5px;
+  margin-top: -15px;
+  top: 50%;
+}
+
+
+
+
+
+
+
+
+.related-video:hover{
+  box-shadow: 1px 1px 4px 2px rgba(0, 0, 0, 0.15);
+}
+
+.related-video-thumbnail img {
+  width: 175px;
+  height: 98px;
+}
+
+  .related-video-channel{
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .channel-name {
+    padding-top: 10px;
+    color: black;
+  }
+
+  pre {
+    font-size: 15px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+    font-family: Sans-serif;
+  }
+
+  .follow-btn{
+    width: 75px;
+  }
+
+  .progress {
+  border-radius: 0;
+  background: rgb(220, 220, 220);
+  height: 5px;
+  width: 114px;
+  margin-bottom: 10px;
+}
+
+
+.btn:focus {
+  box-shadow: none;
+}
+
+  .cancel-btn {
+    border-bottom: 1px solid #ced4da;
+    padding-right: 10px;
+    padding-bottom: 4px;
+  }
+
+  button {
+    border: none;
+    background: none;
+    padding-bottom: 0px;
+    margin-left: 0px;
+  }
+
+  .send {
+    cursor: pointer;
+    border-bottom: 1px solid #ced4da;
+    padding-top: 9px;
+    padding-bottom: 9px;
+    padding-right: 10px;
+    margin-left: -10px;
+    padding-left: 10px;
+  }
+
+  .replay-profile{
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    border: 1px solid rgb(0, 58, 29);
+    background: rgb(0, 61, 0);
+  }
+
+  .replay {
+    cursor: pointer;
+  }
+
+  .replay-arrow {
+    font-size: 26px;
+  }
+
+  .replay-section {
+    margin-left: 60px;
+    margin-top: -15px;
+  }
+
+  a{
+    text-decoration:none;
+    color:black;
+  }
+
+  .replay-btn{
+    font-size: 14px;
+  }
+
+  .video{
+    width: 100%;
+    max-height: 748px;
+  }
+
+  .video-js .vjs-menu-button-inline.vjs-slider-active,.video-js .vjs-menu-button-inline:focus,.video-js .vjs-menu-button-inline:hover,.video-js.vjs-no-flex .vjs-menu-button-inline {
+    width: 10em
+}
+
+.video-js .vjs-controls-disabled .vjs-big-play-button {
+    display: none!important
+}
+
+.video-js .vjs-control {
+    width: 3em
+}
+
+.video-js .vjs-menu-button-inline:before {
+    width: 1.5em
+}
+
+.vjs-menu-button-inline .vjs-menu {
+    left: 3em
+}
+
+.vjs-paused.vjs-has-started.video-js .vjs-big-play-button,.video-js.vjs-ended .vjs-big-play-button,.video-js.vjs-paused .vjs-big-play-button {
+    display: block
+}
+
+.video-js .vjs-load-progress div,.vjs-seeking .vjs-big-play-button,.vjs-waiting .vjs-big-play-button {
+    display: none!important
+}
+
+.video-js .vjs-mouse-display:after,.video-js .vjs-play-progress:after {
+    padding: 0 .4em .3em !important
+}
+
+.video-js.vjs-ended .vjs-loading-spinner {
+    display: none;
+}
+
+.video-js.vjs-ended .vjs-big-play-button {
+    display: block !important;
+}
+
+.video-js *,.video-js:after,.video-js:before {
+    box-sizing: inherit;
+    font-size: inherit;
+    color: inherit;
+    line-height: inherit
+}
+
+.video-js.vjs-fullscreen,.video-js.vjs-fullscreen .vjs-tech {
+    width: 100%!important;
+    height: 100%!important
+}
+
+.video-js {
+    font-size: 14px;
+    overflow: hidden
+}
+
+.video-js .vjs-control {
+    color: inherit
+}
+
+.video-js .vjs-menu-button-inline:hover,.video-js.vjs-no-flex .vjs-menu-button-inline {
+    width: 8.35em
+}
+
+.video-js .vjs-volume-menu-button.vjs-volume-menu-button-horizontal:hover .vjs-menu .vjs-menu-content {
+    height: 3em;
+    width: 6.35em
+}
+
+.video-js .vjs-control:focus:before,.video-js .vjs-control:hover:before {
+    text-shadow: 0 0 1em #fff,0 0 1em #fff,0 0 1em #fff
+}
+
+.video-js .vjs-spacer,.video-js .vjs-time-control {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-flex: 1 1 auto;
+    -moz-box-flex: 1 1 auto;
+    -webkit-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto
+}
+
+.video-js .vjs-time-control {
+    -webkit-box-flex: 0 1 auto;
+    -moz-box-flex: 0 1 auto;
+    -webkit-flex: 0 1 auto;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    width: auto
+}
+
+.video-js .vjs-time-control.vjs-time-divider {
+    width: 14px
+}
+
+.video-js .vjs-time-control.vjs-time-divider div {
+    width: 100%;
+    text-align: center
+}
+
+.video-js .vjs-time-control.vjs-current-time {
+    margin-left: 1em
+}
+
+.video-js .vjs-time-control .vjs-current-time-display,.video-js .vjs-time-control .vjs-duration-display {
+    width: 100%
+}
+
+.video-js .vjs-time-control .vjs-current-time-display {
+    text-align: right
+}
+
+.video-js .vjs-time-control .vjs-duration-display {
+    text-align: left
+}
+
+.video-js .vjs-play-progress:before,.video-js .vjs-progress-control .vjs-play-progress:before,.video-js .vjs-remaining-time,.video-js .vjs-volume-level:after,.video-js .vjs-volume-level:before,.video-js.vjs-live .vjs-time-control.vjs-current-time,.video-js.vjs-live .vjs-time-control.vjs-duration,.video-js.vjs-live .vjs-time-control.vjs-time-divider,.video-js.vjs-no-flex .vjs-time-control.vjs-remaining-time {
+    display: none
+}
+
+.video-js.vjs-no-flex .vjs-time-control {
+    display: table-cell;
+    width: 4em
+}
+
+.video-js .vjs-progress-control {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: .5em;
+    top: -.5em
+}
+
+.video-js .vjs-progress-control .vjs-load-progress,.video-js .vjs-progress-control .vjs-play-progress,.video-js .vjs-progress-control .vjs-progress-holder {
+    height: 100%
+}
+
+.video-js .vjs-progress-control .vjs-progress-holder {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.video-js .vjs-control-bar {
+    -webkit-transition: -webkit-transform .1s ease 0s;
+    -moz-transition: -moz-transform .1s ease 0s;
+    -ms-transition: -ms-transform .1s ease 0s;
+    -o-transition: -o-transform .1s ease 0s;
+    transition: transform .1s ease 0s
+}
+
+.video-js.not-hover.vjs-has-started.vjs-paused.vjs-user-active .vjs-control-bar,.video-js.not-hover.vjs-has-started.vjs-paused.vjs-user-inactive .vjs-control-bar,.video-js.not-hover.vjs-has-started.vjs-playing.vjs-user-active .vjs-control-bar,.video-js.not-hover.vjs-has-started.vjs-playing.vjs-user-inactive .vjs-control-bar,.video-js.vjs-has-started.vjs-playing.vjs-user-inactive .vjs-control-bar {
+    visibility: visible;
+    opacity: 1;
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: translateY(3em);
+    -moz-transform: translateY(3em);
+    -ms-transform: translateY(3em);
+    -o-transform: translateY(3em);
+    transform: translateY(3em);
+    -webkit-transition: -webkit-transform 1s ease 0s;
+    -moz-transition: -moz-transform 1s ease 0s;
+    -ms-transition: -ms-transform 1s ease 0s;
+    -o-transition: -o-transform 1s ease 0s;
+    transition: transform 1s ease 0s
+}
+
+.video-js.not-hover.vjs-has-started.vjs-paused.vjs-user-active .vjs-progress-control,.video-js.not-hover.vjs-has-started.vjs-paused.vjs-user-inactive .vjs-progress-control,.video-js.not-hover.vjs-has-started.vjs-playing.vjs-user-active .vjs-progress-control,.video-js.not-hover.vjs-has-started.vjs-playing.vjs-user-inactive .vjs-progress-control,.video-js.vjs-has-started.vjs-playing.vjs-user-inactive .vjs-progress-control {
+    height: .25em;
+    top: -.25em;
+    pointer-events: none;
+    -webkit-transition: height 1s,top 1s;
+    -moz-transition: height 1s,top 1s;
+    -ms-transition: height 1s,top 1s;
+    -o-transition: height 1s,top 1s;
+    transition: height 1s,top 1s
+}
+
+.video-js.not-hover.vjs-has-started.vjs-paused.vjs-user-active.vjs-fullscreen .vjs-progress-control,.video-js.not-hover.vjs-has-started.vjs-paused.vjs-user-inactive.vjs-fullscreen .vjs-progress-control,.video-js.not-hover.vjs-has-started.vjs-playing.vjs-user-active.vjs-fullscreen .vjs-progress-control,.video-js.not-hover.vjs-has-started.vjs-playing.vjs-user-inactive.vjs-fullscreen .vjs-progress-control,.video-js.vjs-has-started.vjs-playing.vjs-user-inactive.vjs-fullscreen .vjs-progress-control {
+    opacity: 0;
+    -webkit-transition: opacity 1s ease 1s;
+    -moz-transition: opacity 1s ease 1s;
+    -ms-transition: opacity 1s ease 1s;
+    -o-transition: opacity 1s ease 1s;
+    transition: opacity 1s ease 1s
+}
+
+.video-js.vjs-live .vjs-live-control {
+    margin-left: 1em
+}
+
+.video-js .vjs-big-play-button {
+    top: 50%;
+    left: 50%;
+    margin-left: -1em;
+    margin-top: -1em;
+    width: 2em;
+    height: 2em;
+    line-height: 2em;
+    border: none;
+    border-radius: 50%;
+    font-size: 3.5em;
+    background-color: rgba(0,0,0,.45);
+    color: rgb(211,211,211);
+    -webkit-transition: border-color .4s,outline .4s,background-color .4s;
+    -moz-transition: border-color .4s,outline .4s,background-color .4s;
+    -ms-transition: border-color .4s,outline .4s,background-color .4s;
+    -o-transition: border-color .4s,outline .4s,background-color .4s;
+    transition: border-color .4s,outline .4s,background-color .4s
+}
+
+.video-js .vjs-menu-button-popup .vjs-menu .vjs-menu-content {
+    width: 5em;
+    left:-12px;
+    padding-bottom: 10px;
+}
+
+.video-js .vjs-big-play-button {
+    background-color: rgba(0,0,0,0);
+    font-size: 7.5em;
+    border-radius: 0%;
+    height: 1.3em !important;
+    line-height: 1.3em !important;
+    margin-top: -0.65em !important
+}
+
+.video-js:hover .vjs-big-play-button,.video-js .vjs-big-play-button:focus,.video-js .vjs-big-play-button:active {
+    background-color: rgba(0,0,0,0)
+}
+
+.video-js .vjs-loading-spinner {
+    border-color: #00264a
+}
+
+.video-js .vjs-control-bar2 {
+    background-color: #000000
+}
+
+.video-js .vjs-control-bar {
+    background-color: rgba(0,0,0,0.4) !important;
+    color: #ffffff;
+    font-size: 12px
+}
+
+.video-js .vjs-play-progress,.video-js  .vjs-volume-level {
+    background-color: rgb(255, 131, 46);
+}
+
+.video-js .vjs-load-progress {
+    background: rgba(255,255,255,0.8);
+}
+
+.video-js .vjs-big-play-button:hover {
+    color: white;
+}
+
+.video-js .vjs-control:focus:before, .video-js .vjs-control:hover:before {
+    text-shadow: none
+}
+
+
+
+
+.video-js.vjs-vjsdownload .vjs-button.vjs-vjsdownload {
+  cursor: pointer;
+  display: block;
+  font-family: VideoJs;
+}
+.video-js.vjs-vjsdownload .vjs-button.vjs-vjsdownload:before {
+  display: block;
+  position: relative;
+  top: 4px;
+  content: "\f101";
+  transform: rotate(90deg);
+  font-size: 1.5em;
+}
+.video-js.vjs-vjsdownload .vjs-button.vjs-vjsdownload:after {
+  display: block;
+  content: " ";
+  width: 4px;
+  height: 5px;
+  background-color: white;
+  position: relative;
+  top: -13px;
+  left: calc(50% - 2px);
+}
+
+
+/*  Question section */
+
+.question-section{
+  height: 700px;
+  padding-right: 22px;
+  padding-left: 0;
+  border: 1px solid #adb5bd;
+}
+
+.hr{
+  margin-right: -22px;
+}
+
+.question-body{
+  height: 580px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-top: 10px;
+  margin-left: 11px;
+  border-bottom: 1px solid #adb5bd;
+}
+
+.question-body ul{
+  list-style: none;
+}
+
+.comment-box{
+  line-height: 1.75;
+}
+
+</style>
+{% endfor %} {% endblock %} {% block body %}
+<div class="flex-fill main-content ms-2">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-8 col-12">
+        <div class="d-flex flex-column">
+          <div
+            class="d-flex flex-row-reverse align-items-center pvideo bg-light"
+          >
+            <i
+              class="fa fa-angle-double-left fa-lg d-block d-xl-none px-1"
+              role="button"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#related-video-list"
+              aria-controls="related-video-list"
+            ></i>
+            <!--<div id="video">Loading the player...</div>
+            <script src="https://assets.nlm.nih.gov/jwplayer/8/jwplayer.js"></script>
+            <script>
+              {% for video in video %}
+              jwplayer.key = "eNFaXCjyURVoCCGiHp7HTQ3hDhE/AfL0g8VE1fRbL84=";
+                var playerInstance = jwplayer("video").setup({
+                  sources: [{
+                      file: "{{video.video}}",
+                      label: "360p SD"
+                    },{
+                      file: "{{video.video}}",
+                      label: "720p HD",
+                      "default": "true"
+                    },{
+                      file: "{{video.video}}",
+                      label: "1280p HD"
+                    }],
+                  playbackRateControls: [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2],
+                  width: "100%",
+                  aspectratio: "16:9",
+                  preload: "auto",
+                });
+                playerInstance.addButton(
+                  'http://demo.tutorialspots.com/jwplayer/icon-download.png',
+                  'Download video',
+                  'download'
+                );
+
+              {% endfor %}
+            </script>-->
+            {% for video in video %}
+            <div id="video" class="video w-100">
+              <video
+                id="my-video"
+                class="video-js vjs-big-play-centered vjs-show-big-play-button-on-pause"
+                autoplay
+                controls
+                preload="auto"
+              >
+                <source src="{{video.video}}" type="video/mp4" label="720P" selected="true">
+                <source src="{{video.video}}" type="video/mp4" label="480P">
+              </video>
+            </div>
+            {% endfor %}
+          </div>
+          <div
+            class="
+              offcanvas
+              related-video-offcanvas
+              offcanvas-end
+              d-block d-xl-none
+            "
+            data-bs-scroll="false"
+            data-bs-backdrop="false"
+            tabindex="-1"
+            id="related-video-list"
+            aria-labelledby="related-video-list"
+          >
+            <div class="offcanvas-header related-video-offcanvas-header">
+              <h5 class="offcanvas-title" id="related-video-list">
+                Related Video
+              </h5>
+              <i
+                class="fa fa-angle-double-right text-reset fa-lg mt-2"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"
+                role="button"
+              ></i>
+            </div>
+
+            <div class="offcanvas-body">
+              {% for video in related_video %}
+                <a href="/play_C={{video.channel.namews}}_V={{video.id2}}">
+                <div class="d-flex related-video mb-2">
+                    <img
+                      class="related-video-thumbnail"
+                      src="{{video.thumbnail}}"
+                    />
+                    <div class="d-flex flex-column">
+                      <p class="related-video-title ps-3 p-0 m-0 h6">
+                        {{video.title}}
+                      </p>
+                      <p class="related-video-channel m-0 p-0 pt-1 ps-3">
+                        {{video.channel.channel_name}}
+                      </p>
+                      <p class="text-muted m-0 p-0 ps-3">{{video.total_views}} Views . {{video.datetime|timesince}} ago</p>
+                    </div>
+                  </div>
+                </a>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="d-flex">
+            {% for video in video %}
+              {% for tag in video.tags %}
+              {% if tag %}
+              <a class="tag me-2" href="#"
+                ><p class="m-0 p-0"><em>#{{tag}} </em></p></a
+              >
+              {% endif %}
+              {% endfor %}
+            {% endfor %}
+          </div>
+
+          <p class="text-truncate pt-2 m-0">
+            {% for video in video %}{{video.title}}{% endfor %}
+          </p>
+
+          <div class="d-flex flex-fill justify-content-between video-like mt-3">
+            <p class="p-0 m-0 mt-1 text-muted h6">{% for video in video %}{{video.total_views}} views . {{video.datetime|timesince}} ago{% endfor %}</p>
+            <div class="d-flex">
+              <div class="me-4">
+                <div class="d-flex flex-row-reverse justify-content-between pe-2">
+                {% for video in video %}
+                  <form method='POST' onsubmit="onUnlike(event)">
+                  <div class='d-flex'>
+                  {% if user in video.unlikes.all %}
+                  <input style='display:none;' type="text" name='unlike' id="unlike" value='unlike'>
+                  {% else %}
+                  <input style='display:none;' type="text" name='unlike' id="unlike" value='notunlike'>
+                  {% endif %}
+                  <input style='display:none;' type="text" id='totalunlikeget' value='{{video.total_unlikes}}'>
+                    <p class="ps-1 pt-1 p-0 m-0" id="totalunlikeset">{{video.total_unlikes}}</p>
+                    <button type='submit'>
+                      {% if user in video.unlikes.all %}
+                        <i class="fa fa-thumbs-down fa-lg ps-1" id='unlikebtn' aria-hidden="true"></i>
+                      {% else %}
+                        <i class="fa fa-thumbs-down fa-lg ps-1" style="color:#919191;" id='unlikebtn' aria-hidden="true"></i>
+                      {% endif %}
+                    </button>
+                    </div>
+                  </form>
+                  <form method='post' onsubmit="onLike(event)">
+                  <div class='d-flex'>
+                    {% if user in video.likes.all %}
+                    <input style='display:none;' type="text" name='like' id='like' value='like'>
+                    {% else %}
+                    <input style='display:none;' type="text" name='like' id='like' value='notlike'>
+                    {% endif %}
+                    <input style='display:none;' type="text" id='totallikeget' value='{{total_like}}'>
+                    <p class="ps-1 pt-1 p-0 m-0" id="totallikeset">{{total_like}}</p>
+                    <button type='submit'>
+                      {% if user in video.likes.all %}
+                        <i class="fa fa-thumbs-up fa-lg ps-1" id='likebtn' aria-hidden="true"></i>
+                      {% else %}
+                        <i class="fa fa-thumbs-up fa-lg ps-1" style="color:#919191;" id='likebtn' aria-hidden="true"></i>
+                      {% endif %}
+                    </button>
+                    </div>
+                    </form>
+                  {% endfor %}
+                </div>
+                <div class="progress">
+                  {% for pr in percentage %}
+                    <div
+                      class="progress-bar bg-success" 
+                      role="progressbar"
+                      id="progress"
+                      style="width: {{pr}}%"
+                      aria-valuenow="1000"
+                      aria-valuemin="0"
+                      aria-valuemax="1000"
+                    ></div>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="d-flex flex-row-reverse pe-2">
+              {% for video in video %}
+                <p class="ps-1 p-0 m-0">{{video.total_bookmarks}}</p>
+                <i class="fa fa-bookmark pt-1 ps-3" aria-hidden="true"></i>
+                <p class="ps-1 p-0 m-0">{{video.total_shares}}</p>
+                <i class="fa fa-share-alt pt-1" aria-hidden="true"></i>
+              {% endfor %}
+              </div>
+            </div>
+          </div>
+          <hr class="channel-info-section" />
+          <div
+            class="
+              d-flex
+              justify-content-between
+              align-items-center
+              px-2
+              channel-info-section
+            "
+          >
+            <div class="d-flex">
+              {%for video in video %}
+            <a href="/channel/{{video.channel.namews}}_{{video.channel.id}}">
+              <img
+                class="channel-logo"
+                src="{{video.channel.logo}}"
+                alt=""
+              />
+              </a>
+              {%endfor%}
+              <div class="d-flex flex-column">
+                {% for video in video %}
+                <a
+                  href="/channel/{{video.channel.namews}}_{{video.channel.id}}"
+                >
+                  <p class="channel-name m-0 ps-2 h5">
+                    {{video.channel.owner}} {%endfor%}
+                  </p>
+                </a>
+                {% for video in video %}
+                <p class="text-muted ps-2" id="totalfollowset">{{video.channel.total_follower}} followers</p>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="d-flex align-items-center">
+            {% for video in video %}
+              <form method='post' onsubmit="onFollow(event)">
+              <input style='display:none;' type="text" value='{{video.channel.id}}' name='follow' id="follow">
+              <input style='display:none;' type="text" value='{{video.channel.total_follower}}' id="totalfollowget">
+              <div id="follow1">
+              {% if user in video.channel.follower.all %}
+              <input style='display:none;' type="text" value='follow' id="follower">
+              <div id="followbtn">
+                <button
+                  class="btn mt-1 btn-secondary btn-sm follow-btn"
+                  type='submit'
+                  role="button"
+                  >Unfollow</i
+                ></button>
+                </div>
+                {% else %}
+                <input style='display:none;' type="text" value='unfollow' id="follower">
+                <div id="followbtn">
+                <button
+                  class="btn mt-1 btn-success btn-sm follow-btn"
+                  type='submit'
+                  role="button"
+                  >follow</i
+                ></button>
+                </div>
+                {% endif %}
+                </div>
+                </form>
+                {% endfor %}
+              <i
+                class="fa fa-heart ms-3 fa-lg"
+                aria-hidden="true"
+                role="button"
+              ></i>
+            </div>
+          </div>
+          <div class="container-fluid">
+            {% for video in video %}
+            <pre class="ps-4">{{video.description|urlize}}</pre>
+            {% endfor %}
+          </div>
+
+          <!-- Write Comment section -->
+
+          <hr class="pt-0 mt-0" />
+          <div class="d-flex ps-4 pb-2 pe-2">
+            {% for logo in logo %}
+              <img class="profile" src="{{logo.image}}" alt="" />
+            {% endfor %}
+            <div class="container-fluid m-0 p-0">
+            <form method='post' onsubmit="onComment(event)">
+              <div class="input-group input-group-sm align-items-end ms-2 mb-3">
+              <input type="hidden" name='parentid' id='parentid' value=''>
+                <textarea
+                  class="form-control overflow-hidden comment-box"
+                  placeholder="Write your comment here..."
+                  id="txtarea"
+                  name = 'comment'
+                  aria-expanded="0"
+                  rows="1"
+                ></textarea>
+                <div id="cancel-btn" class="cancel-btn">
+                  <button type='button' value="Clear" onclick="javascript:eraseText();">
+                    Cancel
+                  </button>
+                </div>
+                <button type='submit'>
+                <i class="send fa fa-send"></i>
+                </button>
+              </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- All Comment section -->
+
+          <div id="showallcomment">
+            <div class="d-flex flex-fill ps-4 pb-2" id='commentsection'>
+              <div id='logo'>
+              </div>
+              <div class="d-flex flex-column" id='showcomment'>
+                <p class="ps-2 h6 m-0 p-0" id='commentuser'></p>
+                <p class="text-muted m-0 p-0 ps-2" id='commenttext'>
+                  
+                </p>
+                <div class="d-flex justify-content-start pt-1 ps-2">
+                  <div class="d-flex align-items-centerm" role="button">
+                    <p class="small ps-2"></p>
+                  </div>
+                  <div class="d-flex align-items-centerm ms-4" role="button">
+                    <p class="small ms-2"></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Replay section -->
+
+            <!--<div class="replay-section">
+              <div class="d-flex replay">
+                <p class="fst-normal mx-2">
+                  <a
+                    class="btn btn-primary btn-sm"
+                    data-bs-toggle="collapse"
+                    href="#collapseExample"
+                    role="button"
+                    aria-expanded="false"
+                    aria-controls="collapseExample"
+                  >
+                    Replay
+                  </a>
+                </p>
+              </div>
+              <div class="collapse" id="collapseExample">
+                <div class="d-flex flex-fill rply1 card ps-2 py-1 w-100">
+                  <img
+                    class="profile"
+                    src="{% static 'img/profilee.jpg' %}"
+                    alt=""
+                  />
+                  <div class="d-flex flex-column">
+                    <p class="ps-2 h6 m-0 p-0">Md Imran Hossain</p>
+                    <p class="text-muted m-0 p-0 ps-2">This is replay</p>
+                    <div class="d-flex justify-content-start pt-1 ps-2">
+                      <div class="d-flex align-items-centerm" role="button">
+                        <i class="fa fa-heart pt-1" aria-hidden="true"></i>
+                        <p class="small ps-2">Love</p>
+                      </div>
+                      <div
+                        class="d-flex align-items-centerm ms-4"
+                        role="button"
+                      >
+                        <i class="fa fa-reply-all mt-1" aria-hidden="true"></i>
+                        <p class="small ms-2">Replay</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>-->
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Question and Related video -->
+
+      <div class="col-xl-4 col-0 d-none d-xl-block">
+      <!-- question -->
+      <div id="question-section" class="container-fluid question-section">
+        <div class="row">
+          <div class="col-12 question-head">
+            <div class="d-flex justify-content-between">
+              <p class="py-2 m-0 ps-3 h5 text-center">Questions</p>
+              <div class="d-flex">
+                <p class="py-2 m-0 h5 text-center" style="color: green;">10</p>
+                <p class="py-2 m-0 h5 text-center px-2">/</p>
+                <p class="py-2 m-0 h5 text-center">20</p>
+              </div>
+            </div>
+            <hr class="hr my-0 p-0">
+          </div>
+          <div class="col-12 px-0 question-body">
+            <ul>
+            {% for video in related_video %}
+              <li class="pb-2">
+                <div>
+                  <input class="form-check-input inp-cbx" type="checkbox" id="{{video.id2}}" value="option1" style="display: none;">
+                  <label class="cbx d-flex" for="{{video.id2}}"><span class="px-2">
+                    <svg width="12px" height="10px" viewbox="0 0 12 10">
+                      <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                    </svg></span>
+                    <span style="margin-top: -4px;"><p class="m-0 p-0 h6">{{video.channel.owner.first_name}}: </p>{{video.channel.channel_name}}</span>
+                    </label>
+                </div>
+              </li>
+              {% endfor %}
+              <li class="pb-2">
+                <div>
+                  <input class="form-check-input inp-cbx" type="checkbox" id="cx" value="option1" style="display: none;">
+                  <label class="cbx d-flex" for="cx"><span class="px-2">
+                    <svg width="12px" height="10px" viewbox="0 0 12 10">
+                      <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                    </svg></span>
+                    <span style="margin-top: -4px;"><p class="m-0 p-0">Rahim: </p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Distinctio molestias explicabo cupiditate maxime nemo, reiciendis voluptatibus repudiandae temporibus impedit quasi animi nobis excepturi maiores nihil at cumque illo vel pariatur!</span>
+                    </label>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div id="question-footer" class="col-12 question-footer">
+            <div class="d-flex ps-4 pt-3 pb-2 pe-2">
+            {% for logo in logo %}
+              <img class="profile" src="{{logo.image}}" alt="" />
+            {% endfor %}
+            <div class="container-fluid m-0 p-0">
+            <form method='post' onsubmit="">
+              <div class="input-group input-group-sm align-items-end ms-2 mb-3">
+              <input type="hidden" name='parentid' id='parentid' value=''>
+                <textarea
+                  class="form-control overflow-hidden comment-box"
+                  placeholder="Write your question here..."
+                  id="question-txtarea"
+                  name = 'question'
+                  rows="1"
+                ></textarea>
+                <div id="question-cancel-btn" class="cancel-btn">
+                  <button type='button' value="Clear" onclick="javascript:eraseQuestionText();">
+                    <i class="fa fa-eraser"></i>
+                  </button>
+                </div>
+                <button>
+                <i class="send fa fa-send"></i>
+                </button>
+              </div>
+              </form>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+        <!-- related video -->
+        <div class="container-fluid mx-0 mb-0 mt-3">
+          <div class="row justify-content-center">
+            <div class="col-4">
+              <hr />
+            </div>
+            <div class="col-4 p-0 text-center comment-label">Related Video</div>
+            <div class="col-4">
+              <hr />
+            </div>
+          </div>
+        </div>
+        <div class="d-flex flex-column">
+        {% for video in related_video %}
+        <a href="/play_C={{video.channel.namews}}_V={{video.id2}}">
+        <div class="d-flex related-video mb-2">
+            <div class="related-video-thumbnail">
+              <img
+              src="{{video.thumbnail}}"
+              alt=""
+            />
+            </div>
+            <div class="d-flex flex-column">
+              <p class="related-video-title ps-3 p-0 m-0 h6">
+                {{video.title}}
+              </p>
+              <p class="related-video-channel m-0 p-0 pt-1 ps-3">
+                {{video.channel.channel_name}}
+              </p>
+              <p class="text-muted m-0 p-0 ps-3">{{video.total_views}} Views  .  {{video.datetime|timesince}} ago</p>
+            </div>
+          </div>
+        </a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="position-fixed bottom-0 start-0 p-3" style="z-index: 11">
+  <div id="piptoast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+    <div class="toast-header">
+      {% for video in video %}
+      <video id="my-video" class="video-js" src="{{video.video}}" controls style="width: 300px; height: 200px;"></video>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% for video in related_video %}
+  <a id="next-video" style href="play_C={{video.channel.namews}}_V={{video.id2}}"></a>
+{{break}}
+{% endfor %}
+
+
+<script src="{% static 'videojs/video.min.js' %}"></script>
+<script src="{% static 'videojs/videojs-social-media.min.js' %}"></script>
+<script src="{% static 'videojs/videojs-vjsdownload.js' %}"></script>
+<script src="{% static 'videojs/videojs-next-button.js' %}"></script>
+<script src="{% static 'videojs/videojs.persistvolume.js' %}"></script>
+<script src="{% static 'videojs/videojs-share.min.js' %}"></script>
+<script src="{% static 'videojs/videojs-overlay-hyperlink.js' %}"></script>
+<script src="{% static 'videojs/speed.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/videojs-pip@1.0.3/dist/videojs.pip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/videojs-upnext@2.2.1/dist/videojs-upnext.js"></script>
+<script src="https://cdn.sc.gl/videojs-hotkeys/latest/videojs.hotkeys.min.js"></script>
+
+
+<script>
+var player = videojs('my-video', {
+  aspectRatio: '16:9',
+  playbackRates: [0.5, 1, 1.5, 2, 10],
+  fluid: true,
+  plugins: {
+    vjsdownload: {
+      beforeElement: "playbackRateMenuButton",
+      textControl: "Download video",
+      name: "downloadButton",
+    },
+    hotkeys:{
+      enableVolumeScroll: false
+    },
+    persistvolume: {
+	    namespace: 'dawah-volume'
+    },
+  },
+});
+
+
+var lastScrollTop = 0;
+$(window).scroll(function() {
+  var scroll = $(this).scrollTop();
+    // Go picture in picture if user scrolls down and video is playing
+  if (scroll > lastScrollTop) {
+    player.ready(function() {
+      if (
+        scroll > 300 &&
+        !player.paused() &&
+        !player.isInPictureInPicture()
+      ) {
+        player.requestPictureInPicture().catch((e)=> {
+          console.log(e)
+        })
+      }
+    });
+    // Back to normal video player if user scrolls top to the actual video player
+  } else {
+    if (scroll < 300 && player.isInPictureInPicture()) {
+      player.exitPictureInPicture();
+    }
+  }
+  lastScrollTop = scroll;
+});
+
+
+
+//window.addEventListener("scroll", (event) => {
+//    let scroll = this.scrollY;
+//    var link = $("#video");
+//    var offset = link.offset();
+//    var top = offset.top;
+//    var bottom = (link.height()+top/2);
+//    if (scroll >= bottom) {
+//    player.ready(function() {
+//      if (
+//        scroll >= bottom &&
+//        !player.paused() &&
+//        !player.isInPictureInPicture()
+//      ) {
+//        player.requestPictureInPicture();
+//      }
+//    });
+//    // Back to normal video player if user scrolls top to the actual video player
+//  } else {
+//    if (scroll <= bottom && player.isInPictureInPicture()) {
+//      player.exitPictureInPicture();
+//    }
+//  }
+//  });
+
+
+
+var shareOptions = {
+  socials: ['fbFeed', 'tw', 'email', 'messenger', 'telegram', 'whatsappFeed'],
+ 
+  url: window.location.href,
+  {% for video in video %}
+  title: '{{video.title}}',
+  image: 'video.thumbnail',
+  {% endfor %}
+ 
+  // required for Facebook and Messenger
+  fbAppId: '268700591681138',
+  // optional for Facebook
+  redirectUri: window.location.href + '#close',
+ 
+  // optional for VK
+  isVkParse: true,
+  
+  // optinal embed code
+  embedCode : '<iframe src="' + window.location.href + '" width="560" height="315" frameborder="0" allowfullscreen></iframe>'
+}
+
+player.share(shareOptions);
+
+player.overlay({
+  debug: true,
+  overlays: [{
+      content: '<i class="fa fa-external-link"></i>',
+      start: 0,
+      end: 3,
+      align: 'top-right'
+    },
+    {
+      {% for video in related_video reversed %}
+      content: '<a href="play_C={{video.channel.namews}}_V={{video.id2}}">{{video.title}}</a>',
+      {{break}}
+      {% endfor %}
+      start: 3,
+      end: 15,
+      align: 'top-right'
+    },
+    {
+      content: '<i class="fa fa-external-link"></i>',
+      start: 15,
+      end: 'end',
+      align: 'top-right'
+    },]
+});
+
+let control_bar = player.getChild('controlBar');
+let volume_panel = control_bar.getChild('volumePanel');
+{% for video in related_video|slice:":1" %}
+next_btn = control_bar.addChild("NextButton", {'name': 'nextButton', 'next': 'play_C={{video.channel.namews}}_V={{video.id2}}'});
+{% endfor %}
+control_bar.el().insertBefore(next_btn.el(), volume_panel.el());
+
+
+
+player.upnext({
+  timeout : 5000,
+  headText : 'Up Next',
+  cancelText: 'Cancel',
+  {% for video in related_video reversed %}
+  getTitle : function() { return '{{video.title}}' },
+  {{break}}
+  {% endfor %}
+  next : function () { performActionAfterTimeout() }
+});
+
+player.on('ended', function() {
+  setTimeout(function() {
+    var linkUrl = document.getElementById('next-video').href;
+    location.href = linkUrl;
+  }, 4900);
+});
+
+</script>
+
+
+
+
+<script src="{% static 'tippyjs/dist/popper.min.js' %}"></script>
+<script src="{% static 'tippyjs/dist/tippy-bundle.umd.min.js' %}"></script>
+<script>
+//tippy('#search-btn', {
+//  content: 'Search',
+//  arrow: false,
+//  offset: [0, 20],
+//});
+
+
+tippy('.vjs-next-button', {
+  content: '{% for video in video %}<div class="d-flex"><img src="{{video.thumbnail}}" style="width:176px; height:98px;"><div class=" ps-2 d-flex flex-column overflow-hidden" style="width: 300px; height:98px;"><p>{{video.title}}</p></div></div>{{break}}{% endfor %}',
+  offset: [130, 20],
+  animation: 'scale',
+  allowHTML: true,
+});
+
+
+</script>
+
+
+
+<script>
+{% for video in video %}
+$(document).ready(function(){
+    setInterval(function(){
+      $.ajax({
+        type:'GET',
+        url: "play_C={{video.channel.namews}}_V={{video.id2}}/getvideodetails",
+        success: function(response){
+          $("#showallcomment").empty();
+          for (var key in response.comment){
+            var temp = '<div id="logo"><img class="profile" src="'+response.logo[key]+'" alt="" /> </div>';
+            var user = '<p class="ps-2 h6 m-0 p-0" id="commentuser">'+response.name[key][0]+'<small class="ms-2 text-muted" style="font-size: 12px;">'+response.name[key][1]+'</small></p>';
+            var comments = '<p class="text-muted m-0 p-0 ps-2" id="commenttext">'+response.comment[key].text+'</p>';
+            var allcomments = temp+'<div class="d-flex flex-column" id="showcomment">'+user+''+comments+'</div>';
+            var showallcomment = '<div class="d-flex flex-fill ps-4 pb-2" id="commentsection">'+allcomments+'</div>';
+            var replay = '<div class="d-flex justify-content-start pt-0 ms-3 ps-5 replay-btn"><form method="post" onSubmit="onLove(this);"><input type="hidden" id="love" value="'+response.comment[key].id+'"><button type="submit"><div class="d-flex"><i class="fa fa-heart pt-1" aria-hidden="true"></i><p class="small ps-1">'+response.comment_total_love[key]+'</p></div></button></form><div class="d-flex align-items-centerm ms-3" role="button" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1"><i class="fa fa-reply-all mt-1" aria-hidden="true"></i><p class="small ms-1">Replay</p></div></div>';
+            var replay_box = '<div class="collapse multi-collapse" id="multiCollapseExample1"><div class="card card-body">Type your replay</div></div>'
+            $("#showallcomment").append(showallcomment+replay+replay_box);
+            for (var key1 in response.parentid){
+              if (response.parentid[key1] === response.comment[key].id){
+              var temp = '<div id="logo"><img class="replay-profile" src="'+response.replay_logo[key1]+'" alt="" /> </div>';
+              var user = '<h6 class="ps-2 m-0 p-0" id="commentuser" style="font-size: 14px;">'+response.replay_name[key1][0]+'<small class="ms-2 text-muted" style="font-size: 12px;">'+response.replay_name[key][1]+'</small></h6>';
+              var comments = '<p class="text-muted m-0 p-0 ps-2" id="commenttext">'+response.replay[key1].text+'</p>';
+              var allcomments = temp+'<div class="d-flex flex-column" id="showcomment">'+user+''+comments+'</div>';
+              var showallcomment = '<div class="d-flex flex-fill ps-4 pb-2 ms-5" id="commentsection">'+allcomments+'</div>';
+              var replay = '<div class="d-flex justify-content-start pt-0 replay-btn" style="margin-left: 110px;"><form method="post" onSubmit="onLove(this);"><input type="hidden" id="love" value="'+response.replay[key1].id+'"><button type="submit"><div class="d-flex"><i class="fa fa-heart pt-1" aria-hidden="true"></i><p class="small ps-1">'+response.replay_total_love[key1]+'</p></div></button></form><div class="d-flex align-items-centerm ms-3" role="button"><i class="fa fa-reply-all mt-1" aria-hidden="true"></i><p class="small ms-1">Replay</p></div></div>';
+              var replay_box = '<div class="collapse multi-collapse" id="multiCollapseExample1"><div class="card card-body">Type your replay</div></div>'
+              $("#showallcomment").append(showallcomment+replay+replay_box);
+              }
+            }
+          }
+        }
+      });
+  }, 1000);
+});
+{% endfor %}
+</script>
+
+
+<script>
+  function onLove(data){
+    event.preventDefault();
+    var formData = new FormData();
+    formData.append("love", data.elements[0].value);
+
+    var xhr=new XMLHttpRequest();
+    {% for video in video %}
+    xhr.open("POST", "http://localhost:8000/play_C={{video.channel.namews}}_V={{video.id2}}", true);
+    {% endfor %}
+    xhr.send(formData);
+    xhr.addEventListener('load', (event) =>{
+      //alert("Loved successfull");
+    });
+  }
+</script>
+
+
+<script>
+  function onLike(event){
+
+    var value = document.getElementById("like").value;
+    if(value === "like"){
+      document.getElementById("like").value = "notlike";
+      document.getElementById("likebtn").style["color"] = "#919191";
+      total_like = (parseInt(document.getElementById("totallikeget").value))-1;
+      total_unlike = (parseInt(document.getElementById("totalunlikeget").value));
+      document.getElementById("totallikeset").innerHTML = total_like;
+      document.getElementById("totallikeget").value = total_like;
+    }
+    else{
+      document.getElementById("like").value = "like";
+      document.getElementById("likebtn").style["color"] = "";
+      document.getElementById("unlikebtn").style["color"] = "#919191";
+      total_like = (parseInt(document.getElementById("totallikeget").value))+1;
+      if ((document.getElementById("unlike").value) === "unlike"){
+        total_unlike = (parseInt(document.getElementById("totalunlikeget").value))-1;
+        document.getElementById("unlike").value = "notunlike";
+      }
+      else{
+        total_unlike = parseInt(document.getElementById("totalunlikeget").value);
+      }
+      document.getElementById("totallikeset").innerHTML = total_like;
+      document.getElementById("totallikeget").value = total_like.toString();
+      document.getElementById("totalunlikeset").innerHTML = total_unlike;
+      document.getElementById("totalunlikeget").value = total_unlike.toString();
+    }
+    if(parseInt(total_like)+parseInt(total_unlike) === 0){
+      document.getElementById("progress").style["width"]= "0px";
+    }
+    else{
+      percentage = parseInt(total_like)*parseInt(100/(parseInt(total_like)+parseInt(total_unlike)));
+      pr = percentage.toString()+"%";
+      document.getElementById("progress").style["width"]= pr;
+    }
+
+    event.preventDefault();
+
+    var formData = new FormData();
+    formData.append("like", document.getElementById("like").value);
+
+    var xhr=new XMLHttpRequest();
+    {% for video in video %}
+    xhr.open("POST", "http://localhost:8000/play_C={{video.channel.namews}}_V={{video.id2}}", true);
+    {% endfor %}
+    xhr.send(formData);
+  }
+</script>
+
+
+<script>
+  function onComment(event){
+    event.preventDefault();
+
+    var formData = new FormData();
+    formData.append("comment", document.getElementById("txtarea").value);
+    formData.append("parentid", document.getElementById("parentid").value);
+    
+    console.log(formData);
+
+    var xhr=new XMLHttpRequest();
+    {% for video in video %}
+    xhr.open("POST", "http://localhost:8000/play_C={{video.channel.namews}}_V={{video.id2}}", true);
+    {% endfor %}
+    xhr.send(formData);
+    xhr.addEventListener('load', (event) =>{
+      document.getElementById("txtarea").value = "";
+      document.getElementById("txtarea").style.height = 0;
+    });
+  }
+</script>
+
+
+<script>
+  function onUnlike(event){
+
+    var value = document.getElementById("unlike").value;
+    if(value === "unlike"){
+      document.getElementById("unlike").value = "notunlike";
+      document.getElementById("unlikebtn").style["color"] = "#919191";
+      total_unlike = (parseInt(document.getElementById("totalunlikeget").value))-1;
+      total_like = parseInt(document.getElementById("totallikeget").value);
+      document.getElementById("totalunlikeset").innerHTML = total_unlike;
+      document.getElementById("totalunlikeget").value = total_unlike;
+    }
+    else{
+      document.getElementById("unlike").value = "unlike";
+      document.getElementById("unlikebtn").style["color"] = "";
+      document.getElementById("likebtn").style["color"] = "#919191";
+      total_unlike = (parseInt(document.getElementById("totalunlikeget").value))+1;
+      if ((document.getElementById("like").value) === "like"){
+        total_like = (parseInt(document.getElementById("totallikeget").value))-1;
+        document.getElementById("like").value = "notlike";
+      }
+      else{
+        total_like = (parseInt(document.getElementById("totallikeget").value));
+      }
+      document.getElementById("totalunlikeset").innerHTML = total_unlike;
+      document.getElementById("totalunlikeget").value = total_unlike.toString();
+      document.getElementById("totallikeset").innerHTML = total_like;
+      document.getElementById("totallikeget").value = total_like.toString();
+    }
+    percentage = parseInt(total_like)*parseInt(100/(parseInt(total_like)+parseInt(total_unlike)));
+    pr = percentage.toString()+"%";
+    document.getElementById("progress").style["width"]= pr;
+
+    event.preventDefault();
+
+    var formData = new FormData();
+    formData.append("unlike", document.getElementById("unlike").value);
+    
+    console.log(formData);
+
+    var xhr=new XMLHttpRequest();
+    {% for video in video %}
+    xhr.open("POST", "http://localhost:8000/play_C={{video.channel.namews}}_V={{video.id2}}", true);
+    {% endfor %}
+    xhr.send(formData);
+  }
+</script>
+
+
+<script>
+  function onFollow(event){
+
+    var value = document.getElementById("follower").value;
+    if(value === "follow"){
+      document.getElementById("follower").value = "unfollow";
+      total_follower = (parseInt(document.getElementById("totalfollowget").value))-1;
+      document.getElementById("totalfollowset").innerHTML = total_follower.toString()+" followers";
+      document.getElementById("totalfollowget").value = total_follower;
+      $("#followbtn").empty();
+      var btn = '<button class="btn mt-1 btn-success btn-sm follow-btn" type="submit" role="button">follow</i></button>';
+      $("#followbtn").append(btn);
+    }
+    else{
+      document.getElementById("follower").value = "follow";
+      total_follower = (parseInt(document.getElementById("totalfollowget").value))+1;
+      document.getElementById("totalfollowset").innerHTML = total_follower.toString()+" followers";
+      document.getElementById("totalfollowget").value = total_follower;
+      $("#followbtn").empty();
+      var btn = '<button class="btn mt-1 btn-secondary btn-sm follow-btn" type="submit" role="button">Unfollow</i></button>';
+      $("#followbtn").append(btn);
+    }
+
+    event.preventDefault();
+
+    var formData = new FormData();
+    formData.append("follow", document.getElementById("follow").value);
+    
+    console.log(formData);
+
+    var xhr=new XMLHttpRequest();
+    {% for video in video %}
+    xhr.open("POST", "http://localhost:8000/play_C={{video.channel.namews}}_V={{video.id2}}", true);
+    {% endfor %}
+    xhr.send(formData);
+  }
+</script>
+
+
+<script>
+//  window.addEventListener("scroll", (event) => {
+//    let scroll = this.scrollY;
+//    var link = $("#video");
+//    var offset = link.offset();
+//    var top = offset.top;
+//    var bottom = (link.height()+top)/2;
+//    console.log(scroll);
+//    console.log(bottom);
+//    if (bottom < scroll) {
+//      console.log("Enter");
+//      let video = $("#my-video");
+//      video.requestPictureInPicture();
+//    }
+//    else if (bottom >= scroll ) {
+//      console.log("out");
+//      let video = $("#my-video");
+//      video.exitPictureInPicture();
+//    }
+//  });
+</script>
+
+
+
+<!-- auto expand comment and question box -->
+
+
+<script>
+
+function eraseText() {
+  document.getElementById("txtarea").value = "";
+  document.getElementById("txtarea").style.height = 0;
+}
+
+function eraseQuestionText() {
+  document.getElementById("question-txtarea").value = "";
+  document.getElementById("question-txtarea").style.height = 0;
+  document.getElementById("question-section").style.height = "700px";
+}
+
+let textareas = document.querySelectorAll('.comment-box'),
+    textareas1 = document.querySelectorAll('.question-section'),
+    hiddenDiv = document.createElement('div'),
+    content = null;
+
+for (let j of textareas) {
+  j.classList.add('txtstuff');
+}
+
+for (let j of textareas1) {
+  j.classList.add('txtstuff');
+}
+
+hiddenDiv.classList.add('txta');
+hiddenDiv.style.display = 'none';
+hiddenDiv.style.whiteSpace = 'pre-wrap';
+hiddenDiv.style.wordWrap = 'break-word';
+
+for(let i of textareas) {
+  (function(i) {
+    i.addEventListener('input', function() {
+      i.parentNode.appendChild(hiddenDiv);
+      i.style.resize = 'none';
+      i.style.overflow = 'hidden';
+      content = i.value;
+      content = content.replace(/\n/g, '<br>');
+      hiddenDiv.innerHTML = content + '<br style="line-height: 3px;">';
+      hiddenDiv.style.visibility = 'hidden';
+      hiddenDiv.style.display = 'block';
+      i.style.height = hiddenDiv.offsetHeight + 'px';
+      hiddenDiv.style.visibility = 'visible';
+      hiddenDiv.style.display = 'none';
+      qs = document.getElementById("question-section");
+      qs.style.height = "700px";
+      qs.style.height = qs.scrollHeight + "px";
+    });
+  })(i);
+}
+
+</script>
+
+
+{% endblock %} {% block extra_script %}
+<script src="{% static 'js/popover.js' %}"></script>
+{% endblock %}
