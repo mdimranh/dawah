@@ -151,7 +151,7 @@ def Dashboard(request, namews, id2):
 
         topvideo = []
         myvideo = video.objects.filter(channel = getchannel).order_by('-datetime')
-        for mv in myvideo:
+        for mv in myvideo[:5]:
             try:
                 percentage = mv.likes.count()*int(100//(mv.likes.count()+mv.unlikes.count()))
             except ZeroDivisionError:
@@ -182,6 +182,46 @@ def Dashboard(request, namews, id2):
             'sidebar': True
         }
         return render(request, 'channel/dashboard.html', context)
+
+
+def EditVideo(request, namews, id2):
+    Video = video.objects.get(id2 = id2)
+    Folder = folder.objects.filter(channel = Video.channel)
+    if request.user.is_authenticated:
+        follow = Profile.objects.get(owner = request.user.id).following.all()
+        followlist = []
+        for follow in follow:
+            followlist.append(follow)
+    else:
+        followlist = []
+    current_user = request.user.id
+    Channel = channel.objects.filter(owner = current_user)
+    logo = Profile.objects.filter(owner_id = request.user.id)
+
+    no_video = 0
+    no_video1 = False
+    if request.user.is_authenticated:
+        notification_video = None
+        notification_video_channel = Profile.objects.get(owner = request.user.id).following.all()
+        time = Profile.objects.get(owner = request.user.id).notification_read_time
+        for i in notification_video_channel:
+            notification_video = video.objects.filter(channel = i, datetime__gt = time)
+            for Video in notification_video:
+                no_video += 1
+                no_video1 = True
+
+
+    context = {
+        'folder':Folder,
+        'channel':Channel,
+        'logo':logo,
+        'followlist' : followlist,
+        'no_video' : no_video,
+        'no_video1' : no_video1,
+        'video': Video
+    }
+    return render(request, 'video/edit_video.html', context)
+
 
 def getData(request, namews, id2):
     getchannel = channel.objects.get(id2 = id2)

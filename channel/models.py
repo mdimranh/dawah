@@ -23,7 +23,7 @@ class channel(models.Model):
     follower = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='Follower', default=None, blank=True)
     @property
     def channel_name(self):
-        return self.owner.first_name+' '+self.owner.last_name
+        return self.owner.fullname
 
     def total_follower(self):
         return self.follower.count()
@@ -98,7 +98,7 @@ class Follow(models.Model):
     video = models.ForeignKey(video, on_delete=models.CASCADE)
 
     def username(self):
-        return self.user.first_name+" "+self.user.last_name
+        return self.user.fullname
 
     def channelname(self):
         return self.channel.channel_name
@@ -152,7 +152,7 @@ class comment(models.Model):
         return self.text[0:25]+"..."
 
     def names(self):
-        return self.user.first_name+ ' '+self.user.last_name
+        return self.user.fullname
 
     def sorttext(self):
         return self.text[0:30]+"..."

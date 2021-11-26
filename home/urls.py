@@ -10,6 +10,7 @@ urlpatterns = [
     path('play_C=<str:namews>_V=<str:id2>/createcomment', views.createComment, name="createcomment"),
     path('channel/<str:channel_name>/<int:id>/upload-video', views.Upload_video, name="upload_video"),
     path('channel/<str:channel_name>/<int:id>/upload-video-save', views.Upload_video_save, name="upload_video_save"),
+    path('channel/<str:channel_name>/<int:id>/edit-video-save', views.Edit_video_save, name="edit_video_save"),
     path('channel/<str:channel_name>/<int:id>/createfolder', views.createfolder, name="create_folder"),
     path('channel/<str:namews>/<str:name>_<int:id>', views.Folder, name="folder"),
     path('search/<str:value>', views.Search, name="search"),

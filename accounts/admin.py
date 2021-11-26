@@ -13,12 +13,12 @@ class UserAdmin(BaseUserAdmin):
     add_form = UserCreationForm
     form = UserChaneForm
 
-    list_display = ('phone', 'first_name', 'last_name', 'is_active', 'is_admin', 'is_staff')
+    list_display = ('email', 'phone', 'fullname', 'is_active', 'is_admin', 'is_staff')
     list_filter = ('is_admin','is_active')
 
     fieldsets = (
         (
-            None, {'fields':('phone', 'first_name', 'last_name', 'password')}
+            None, {'fields':('email', 'phone', 'fullname', 'password')}
         ),
         (
             'permissions', {'fields': ('is_active', 'is_admin', 'is_staff')}
@@ -28,14 +28,14 @@ class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (
             None, {
-                'fields':('phone', 'first_name', 'last_name', 'password', 'is_active', 'password1', 'password2')
+                'fields':('email', 'phone', 'fullname', 'password', 'is_active', 'password1', 'password2')
             }
         ),
         ('permissions', {'fields':('is_admin', 'is_staff')})
     )
 
     ordering = ()
-    search_fields = ('phone',)
+    search_fields = ('email','phone',)
     filter_horizontal = ()
 
 admin.site.register(user, UserAdmin)

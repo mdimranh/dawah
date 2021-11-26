@@ -150,7 +150,7 @@ def Folder(request,channel_name, name, id):
 @csrf_exempt
 def Upload_video_save(request, channel_name, id):
     if request.method == 'POST':
-        if 'title' in request.POST:
+        if 'title' in request.POST and 'video' in request.POST:
             Channel = channel.objects.get(id = id)
             videothumbnail = request.FILES['thumbnail']
             fsf = FileSystemStorage("media/video_thumbnail/")
@@ -160,6 +160,17 @@ def Upload_video_save(request, channel_name, id):
             fsv = FileSystemStorage("media/videos/")
             videoname = fsv.save(videofile.name, videofile)
             video_url = settings.MEDIA_URL+"videos/"+videoname
+            duration = request.POST['duration']
+            seconds = float(duration) % (24*3600)
+            hour = seconds // 3600
+            minutes = seconds // 60
+            seconds %= 60
+            if hour > 0:
+                duration = "%d:%02d:%02d" % (hour, minutes, seconds)
+            elif hour == 0 and minutes > 0:
+                duration = "%02d:%02d" % (minutes, seconds)
+            else:
+                duration = "%02d s" % (seconds)
 
             Video = video(
                 channel = Channel,
@@ -168,6 +179,7 @@ def Upload_video_save(request, channel_name, id):
                 description = request.POST['description'],
                 tag = request.POST['tag'],
                 video = video_url,
+                duration = duration,
                 visibility = request.POST['visibility']
             )
 
@@ -193,19 +205,19 @@ def Upload_video_save(request, channel_name, id):
                     Video.id2 = id2
                     break
 
-            vfile = ('G:/Project/dawah1/'+video_url)
-            video_file = VideoFileClip(vfile)
-            duration = video_file.duration
-            seconds = duration % (24*3600)
-            hour = seconds // 3600
-            minutes = seconds // 60
-            seconds %= 60
-            if hour > 0:
-                Video.duration = "%d:%02d:%02d" % (hour, minutes, seconds)
-            elif hour == 0 and minutes > 0:
-                Video.duration = "%02d:%02d" % (minutes, seconds)
-            else:
-                Video.duration = "%02d s" % (seconds)
+            # vfile = ('G:/Project/dawah1/'+video_url)
+            # video_file = VideoFileClip(vfile)
+            # duration = video_file.duration
+            # seconds = duration % (24*3600)
+            # hour = seconds // 3600
+            # minutes = seconds // 60
+            # seconds %= 60
+            # if hour > 0:
+            #     Video.duration = "%d:%02d:%02d" % (hour, minutes, seconds)
+            # elif hour == 0 and minutes > 0:
+            #     Video.duration = "%02d:%02d" % (minutes, seconds)
+            # else:
+            #     Video.duration = "%02d s" % (seconds)
             Video.save()
 
             getsavedvideo = video.objects.get(id2 = id2)
@@ -218,8 +230,30 @@ def Upload_video_save(request, channel_name, id):
                     Folder = folder.objects.get(id = fl)
                     getsavedvideo.folder.add(Folder)
             getsavedvideo.save()
+            messages.success(f"/play_C={getsavedvideo.channel.namews}_V={getsavedvideo.id2}")
+            return HttpResponse('Success')
 
-            return HttpResponse("Successfull")
+        elif 'title' in request.POST and 'video' not in request.POST:
+            Video = video.objects.get(id2 = request.POST['id2'])
+            videothumbnail = request.FILES['thumbnail']
+            fsf = FileSystemStorage("media/video_thumbnail/")
+            filename = fsf.save(videothumbnail.name, videothumbnail)
+            videothumbnail_url = settings.MEDIA_URL+"video_thumbnail/"+filename
+
+            Video.title = request.POST['title']
+            Video.description = request.POST['description']
+            Video.visibility = request.POST['visibility']
+            Video.thumbnail = videothumbnail_url
+
+            if request.POST['folder'] == '':
+                Folder = None
+            else:
+                flist = (request.POST['folder']).split(",")
+                for fl in flist:
+                    Folder = folder.objects.get(id = fl)
+                    Video.folder.add(Folder)
+            Video.save()
+            return HttpResponse('Success')
         
         elif 'folder_name' in request.POST:
             thumbnail = request.FILES['folderthumbnail']
@@ -238,6 +272,39 @@ def Upload_video_save(request, channel_name, id):
             profile.notification_read_time = datetime.now()
             profile.save()
             return HttpResponse("Success")
+    else:
+        return HttpResponse("Successfull")
+
+from django.utils.datastructures import MultiValueDictKeyError
+@csrf_exempt
+def Edit_video_save(request, channel_name, id):
+    if request.method == 'POST':
+        print("I am in video update section...")
+        if 'title' in request.POST:
+            Video = video.objects.get(id2 = request.POST['id2'])
+            try:
+                videothumbnail = request.FILES['thumbnail']
+                fsf = FileSystemStorage("media/video_thumbnail/")
+                filename = fsf.save(videothumbnail.name, videothumbnail)
+                videothumbnail_url = settings.MEDIA_URL+"video_thumbnail/"+filename
+                Video.thumbnail = videothumbnail_url
+            except MultiValueDictKeyError:
+                pass
+
+            Video.title = request.POST['title']
+            Video.description = request.POST['description']
+            Video.visibility = request.POST['visibility']
+
+            if request.POST['folder'] == '':
+                Folder = None
+            else:
+                flist = (request.POST['folder']).split(",")
+                for fl in flist:
+                    Folder = folder.objects.get(id = fl)
+                    Video.folder.add(Folder)
+            Video.save()
+            print("Video updated successfully...")
+            return HttpResponse('Success')
     else:
         return HttpResponse("Successfull")
 
@@ -338,7 +405,7 @@ def getNotification(request):
     profilelist = []
     comment_video_thumbnail = []
     for c in getcomment:
-        userlist.append(c.user.first_name+" "+c.user.last_name)
+        userlist.append(c.user.fullname)
         timeduration = str(now() - c.created_at)
         comment_timelist.append(time_format(timeduration))
         getprofile = Profile.objects.get(owner = c.user)
@@ -454,7 +521,7 @@ def play(request,namews, id2):
                     addlike = videoLike(
                         user = user,
                         title = Video.title[0: 30]+"...",
-                        username = user.first_name+" "+user.last_name,
+                        username = user.fullname,
                         channel = Video.channel,
                         video = Video
                     )
@@ -512,7 +579,7 @@ def play(request,namews, id2):
                 addview = videoView(
                     user = request.user,
                     title = data.title[0: 30]+"...",
-                    username = request.user.first_name+" "+request.user.last_name,
+                    username = request.user.fullname,
                     channel = data.channel,
                     video = data
                 )
@@ -603,14 +670,14 @@ def getVideoDetails(request, namews, id2):
     for x in comments:
         timeduration = str(now() - x.created_at)
         td = time_format(timeduration)
-        namelist.append((x.user.first_name+" "+x.user.last_name, td))
+        namelist.append((x.user.fullname, td))
         logo = Profile.objects.get(owner = x.user.id)
         logolist.append(logo.image)
         comment_total_love.append(x.love.count())
     for r in replay:
         timeduration = str(now() - r.created_at)
         td = time_format(timeduration)
-        replay_namelist.append((r.user.first_name+" "+r.user.last_name, td))
+        replay_namelist.append((r.user.fullname, td))
         logo = Profile.objects.get(owner = r.user.id)
         replay_logolist.append(logo.image)
         replay_total_love.append(r.love.count())
