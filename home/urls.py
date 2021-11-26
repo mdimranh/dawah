@@ -14,4 +14,5 @@ urlpatterns = [
     path('channel/<str:channel_name>/<int:id>/createfolder', views.createfolder, name="create_folder"),
     path('channel/<str:namews>/<str:name>_<int:id>', views.Folder, name="folder"),
     path('search/<str:value>', views.Search, name="search"),
+    path('t_<str:tag>', views.Tag, name="tag"),
 ]

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin import filters
 from django.contrib.admin.sites import site
-from .models import channel, video, folder, Follow, comment, videoLike, videoView, dataAnalysis
+from .models import Tags, channel, video, folder, Follow, comment, videoLike, videoView, dataAnalysis
 
 
 class channelAdmin(admin.ModelAdmin):
@@ -51,3 +51,5 @@ class dataAnalysisAdmin(admin.ModelAdmin):
     search_fields=("channel",)
     list_display = ('channel','duration')
 admin.site.register(dataAnalysis, dataAnalysisAdmin)
+
+admin.site.register(Tags)

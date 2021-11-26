@@ -671,13 +671,13 @@
       aria-labelledby="offcanvasExampleLabel"
     >
       <div class="offcanvas-header">
-        <div class="d-flex flex-column align-items-start">
+        <div class="d-flex flex-column justify-content-center align-items-start">
         {% if user.is_authenticated %}
           {% for logo in logo %}
           <img class="profile" src="{{logo.image}}" alt="" />
           {% endfor %}
           <a href="{% url 'profile' %}"
-            >{{user.first_name}} {{user.last_name}}</a
+            >{{user.fullname}}</a
           >
           {% else %}
           <img class="profile" src="{% static 'img/default.jpg' %}" alt="" />
@@ -702,11 +702,11 @@
             <a href="/{{channel.namews}}_{{channel.id2}}/dashboard">Dashboard</a>
           </div>
           {% endfor %}
-          <div class="d-flex items align-items-center py-1">
+          {% comment %} <div class="d-flex items align-items-center py-1">
             <i class="fa fa-edit px-2"></i>
             <a href="#">Edit Profile</a>
           </div>
-          <hr class="my-2 ms-1 me-4" />
+          <hr class="my-2 ms-1 me-4" /> {% endcomment %}
           {% if channel %}{% else %}
           <div class="d-flex items align-items-center">
             <a href="#">

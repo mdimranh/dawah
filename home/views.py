@@ -1,10 +1,10 @@
-from django.http import response
+from django.http import request, response
 from django.http.response import JsonResponse
 from django.utils.functional import partition
 from django.views.decorators.csrf import csrf_exempt
 from accounts.models import CustomUser, Profile
 from django.shortcuts import redirect, render
-from channel.models import video, channel, folder, Follow, comment, videoLike, videoView
+from channel.models import Tags, video, channel, folder, Follow, comment, videoLike, videoView
 from django.conf import settings
 from django.db.models import Count, Q
 from datetime import date,datetime, timedelta
@@ -150,7 +150,8 @@ def Folder(request,channel_name, name, id):
 @csrf_exempt
 def Upload_video_save(request, channel_name, id):
     if request.method == 'POST':
-        if 'title' in request.POST and 'video' in request.POST:
+        if 'title' in request.POST:
+            print("im am here-------------------------------")
             Channel = channel.objects.get(id = id)
             videothumbnail = request.FILES['thumbnail']
             fsf = FileSystemStorage("media/video_thumbnail/")
@@ -230,29 +231,11 @@ def Upload_video_save(request, channel_name, id):
                     Folder = folder.objects.get(id = fl)
                     getsavedvideo.folder.add(Folder)
             getsavedvideo.save()
-            messages.success(f"/play_C={getsavedvideo.channel.namews}_V={getsavedvideo.id2}")
-            return HttpResponse('Success')
-
-        elif 'title' in request.POST and 'video' not in request.POST:
-            Video = video.objects.get(id2 = request.POST['id2'])
-            videothumbnail = request.FILES['thumbnail']
-            fsf = FileSystemStorage("media/video_thumbnail/")
-            filename = fsf.save(videothumbnail.name, videothumbnail)
-            videothumbnail_url = settings.MEDIA_URL+"video_thumbnail/"+filename
-
-            Video.title = request.POST['title']
-            Video.description = request.POST['description']
-            Video.visibility = request.POST['visibility']
-            Video.thumbnail = videothumbnail_url
-
-            if request.POST['folder'] == '':
-                Folder = None
-            else:
-                flist = (request.POST['folder']).split(",")
-                for fl in flist:
-                    Folder = folder.objects.get(id = fl)
-                    Video.folder.add(Folder)
-            Video.save()
+            for tag in getsavedvideo.tag.split(" ,"):
+                tag, create = Tags.objects.get_or_create(name = tag)
+                tag.video.add(getsavedvideo)
+                tag.save()
+            print("Saved-------------------------------")
             return HttpResponse('Success')
         
         elif 'folder_name' in request.POST:
@@ -393,9 +376,13 @@ def getNotification(request):
     for Video in notification_video1:
         list1.append(Video.id)
     getvideo = video.objects.filter(id__in = list1, visibility = 'public').order_by('datetime')
-    getchannel = channel.objects.get(owner = request.user)
-    getcomment = comment.objects.filter(video__channel = getchannel).order_by('created_at')
-    no_comment = comment.objects.filter(video__channel = getchannel, created_at__gt = time).count()
+    if channel.objects.filter(owner = request.user).exists():
+        getchannel = channel.objects.get(owner = request.user)
+        getcomment = comment.objects.filter(video__channel = getchannel).order_by('created_at')
+        no_comment = comment.objects.filter(video__channel = getchannel, created_at__gt = time).count()
+    else:
+        getcomment = comment.objects.filter(parent__user = request.user).order_by('created_at')
+        no_comment = comment.objects.filter(parent__user = request.user, created_at__gt = time).count()
     for v in getvideo:
         channellist.append(v.channel.channel_name)
         namewslist.append(v.channel.namews)
@@ -762,3 +749,8 @@ def searchReuslt(value):
     wb.save(file)
 
     return output_data
+
+
+def Tag(request, tag):
+    Video = Tags.objects.get(name = tag)
+    return render(request, 'home/search.html', {'video': Video, 'tag': True})

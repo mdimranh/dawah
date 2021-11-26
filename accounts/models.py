@@ -7,11 +7,16 @@ from django.db.models.deletion import CASCADE
 from django.conf import settings
 from django.utils.timezone import now
 
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from datetime import datetime
+import hashlib
+
 class CustomUserManager(BaseUserManager):
     
     def create_user(self, phone, email, fullname, password):
-        if not phone:
-            raise ValueError('User must have a phone number.')
+        if not email:
+            raise ValueError('User must have a email.')
 
         phone = phone.title()
         email = email.title()
@@ -30,8 +35,8 @@ class CustomUserManager(BaseUserManager):
 
     def create_superuser(self, phone, email, fullname, password=None):
         user = self.create_user(
-            phone,
-            email = email,
+            email,
+            phone = phone,
             fullname = fullname,
             password = password
         )
@@ -69,6 +74,29 @@ class CustomUser(AbstractBaseUser):
 
     class Meta:
         verbose_name_plural = 'Users'
+
+
+class EmailConfirmed(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    activation_key = models.CharField(max_length=500)
+    email_confirmd = models.BooleanField(default=False)
+    date_created = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.user.email
+
+    class Meta:
+        verbose_name_plural = 'User email confirmed'
+
+@receiver(post_save, sender=CustomUser)
+def create_user_email_confirmation(sender, instance, created, **kwargs):
+    if created:
+        dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        email_confirmed_instance = EmailConfirmed(user = instance)
+        user_encoded = f'{instance.email}-{dt}'.encode()
+        activation_key = hashlib.sha224(user_encoded).hexdigest()
+        email_confirmed_instance.activation_key = activation_key
+        email_confirmed_instance.save()
 
     
 class Profile(models.Model):

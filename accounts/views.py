@@ -10,44 +10,68 @@ from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
+from django.shortcuts import get_object_or_404, render
+
+from .models import EmailConfirmed
+
 User = get_user_model()
 
 @csrf_exempt
 def signup(request):
     if request.method == 'POST' and request.FILES['image']:
-        if 'first_name' in request.POST:
-            first_name = request.POST['first_name']
-            last_name = request.POST['last_name']
-            Phone = request.POST['phone']
+        if 'fullname' in request.POST:
+            email = request.POST['email']
+            print(email)
+            phone = request.POST['phone']
+            fullname = request.POST['fullname']
             password = request.POST['password']
 
-            if User.objects.filter(phone=Phone).exists():
-                messages.info(request,'This phone is already exist.')
+            if User.objects.filter(email=email).exists():
+                messages.info(request,'This email is already exist.')
                 return redirect('signup')
             else:
-                user = User.objects.create_user(phone=Phone, password=password, first_name=first_name,
-                                                last_name=last_name)
+                user = User.objects.create_user(email=email, phone=phone, password=password, fullname=fullname)
+                user.is_active = False
                 user.save()
+                euser = EmailConfirmed.objects.get(user = user)
+                site = get_current_site(request)
+                email = user.email
+                email_body = render_to_string(
+                    'account/verify.html',
+                    {
+                        'email': email,
+                        'domain': site.domain,
+                        'activation_key': euser.activation_key
+                    }
+                )
+                send_mail(
+                    subject='Email Confirmation',
+                    message=email_body,
+                    from_email='mdimranh.cse@gmail.com',
+                    recipient_list=[email],
+                    fail_silently=True
+                )
+                messages.success(request, "Account created successfull. We will send you link in your email for active your account. Please active your account by click the link.")
 
                 image = request.FILES['image']
                 fs = FileSystemStorage("media/logo/")
                 filename = fs.save(image.name, image)
                 image_url = settings.MEDIA_URL+"logo/"+filename
-                Owner = CustomUser.objects.get(phone = Phone)
+                Owner = CustomUser.objects.get(email = email)
                 profile = Profile(
                     owner = Owner,
                     image = image_url,
                 )
                 profile.save()
-
-                messages.info(request, 'successfull')
                 return redirect('login')
         
-        if 'new_first_name' in request.POST:
+        if 'new_fullname' in request.POST:
             getuser = CustomUser.objects.get(id = request.user.id)
-            getuser.first_name = request.POST['new_first_name']
-            getuser.last_name = request.POST['new_last_name']
-            getuser.phone = request.POST['new_phone']
+            getuser.fullname = request.POST['new_fullname']
+            getuser.email = request.POST['new_email']
             getuser.save()
             getprofile = Profile.objects.get(owner = request.user)
             image = request.FILES['new_logo']
@@ -81,6 +105,20 @@ def signup(request):
         return render(request, 'account/signup.html')
 
 
+
+def email_confirm(request, activation_key):
+   euser = get_object_or_404(EmailConfirmed, activation_key = activation_key)
+   if euser is not None:
+       print(euser.user)
+       euser.email_confirmd = True
+       euser.save()
+       
+       user1 = User.objects.get(email = euser)
+       user1.is_active = True
+       user1.save()
+       return render(request, 'account/success.html')
+
+
 @csrf_exempt
 def profileUpdate(request):
     if request.method == 'POST':
@@ -102,10 +140,10 @@ def profileUpdate(request):
 
 def login(request):
     if request.method == 'POST':
-        phone = request.POST['phone']
+        email = request.POST['email']
         password = request.POST['password']
 
-        user = auth.authenticate(phone=phone, password=password)
+        user = auth.authenticate(email=email, password=password)
 
         if user is not None:
             logo = Profile.objects.filter(owner = request.user.id)

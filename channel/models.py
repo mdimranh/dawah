@@ -90,6 +90,13 @@ class video(models.Model):
     def __str__(self):
         return self.title
 
+class Tags(models.Model):
+    name = models.TextField()
+    video = models.ManyToManyField(video, default=None, blank=True)
+
+    def __str__(self):
+        return self.name
+
 
 class Follow(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
