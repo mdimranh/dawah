@@ -80,11 +80,9 @@
                   {% csrf_token %}
                   <div class="wizard-header">
                     <div class="d-flex flex-row-reverse">
-                      <a href="{% url 'home' %}"
-                        ><button type="button" class="btn btn-danger">
+                      <button type="button" class="btn btn-danger" onclick="goBack()">
                           X
-                        </button></a
-                      >
+                        </button>
                     </div>
                     <h3 class="wizard-title">Create your channel</h3>
                     <p class="category">
@@ -358,5 +356,10 @@
         },
       },
     });
+  </script>
+  <script>
+  function goBack() {
+    window.history.back();
+  }
   </script>
 </html>

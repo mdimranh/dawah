@@ -23,6 +23,8 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 # Application definition
 
 INSTALLED_APPS = [
+    'jet.dashboard',
+    'jet',
     'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -163,3 +165,62 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'mdimranh.cse@gmail.com'
 EMAIL_HOST_PASSWORD = 'yycpjtrriwopnysc'
+
+
+
+
+
+
+JET_DEFAULT_THEME = 'default'
+JET_THEMES = [
+    {
+        'theme': 'default', # theme folder name
+        'color': '#47bac1', # color of the theme's button in user menu
+        'title': 'Default' # theme title
+    },
+    {
+        'theme': 'green',
+        'color': '#44b78b',
+        'title': 'Green'
+    },
+    {
+        'theme': 'light-green',
+        'color': '#2faa60',
+        'title': 'Light Green'
+    },
+    {
+        'theme': 'light-violet',
+        'color': '#a464c4',
+        'title': 'Light Violet'
+    },
+    {
+        'theme': 'light-blue',
+        'color': '#5EADDE',
+        'title': 'Light Blue'
+    },
+    {
+        'theme': 'light-gray',
+        'color': '#222',
+        'title': 'Light Gray'
+    }
+]
+
+
+JET_SIDE_MENU_COMPACT = True
+
+JET_CHANGE_FORM_SIBLING_LINKS = True
+
+JET_SIDE_MENU_ITEMS = [  # A list of application or custom item dicts
+    {'label': ('Account'), 'app_label': 'core', 'items': [
+        {'label': ("User's"), 'url': '/admin/accounts/customuser/', 'url_blank': False},
+        {'label': ("Profile's"), 'url': '/admin/accounts/profile/', 'url_blank': False},
+        {'label': ('Email confirmed'), 'url': '/admin/accounts/emailconfirmed/', 'url_blank': False},
+    ]},
+    {'label': ("Channel's"), 'app_label': 'core', 'items': [
+        {'label': ("Channel's"), 'url': '/admin/channel/channel/', 'url_blank': False},
+        {'label': ("Video's"), 'url': '/admin/channel/video/', 'url_blank': False},
+        {'label': ("Folder's"), 'url': '/admin/channel/folder/', 'url_blank': False},
+        {'label': ("Follower's"), 'url': '/admin/channel/follow/', 'url_blank': False},
+        {'label': ("Comment's"), 'url': '/admin/channel/comment/', 'url_blank': False},
+    ]},
+]

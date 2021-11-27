@@ -118,6 +118,21 @@ def email_confirm(request, activation_key):
        user1.save()
        return render(request, 'account/success.html')
 
+def password_recover(request, activation_key):
+    if request.method == 'POST':
+        if 'password' in request.POST:
+            print(f"email = {request.POST['user_email']}")
+            user = User.objects.get(email = request.POST['user_email'])
+            user.set_password(request.POST['password'])
+            user.save()
+            messages.success(request, 'Password set successfully. Please login..')
+            return redirect('/account/login')
+    else:
+        euser = get_object_or_404(EmailConfirmed, activation_key = activation_key)
+        if euser is not None:
+            euser.email_confirmd = True
+            euser.save()
+            return render(request, 'account/newpass.html', {'user_email': euser})
 
 @csrf_exempt
 def profileUpdate(request):
@@ -140,18 +155,46 @@ def profileUpdate(request):
 
 def login(request):
     if request.method == 'POST':
-        email = request.POST['email']
-        password = request.POST['password']
+        if 'email' in request.POST:
+            email = request.POST['email']
+            password = request.POST['password']
 
-        user = auth.authenticate(email=email, password=password)
+            user = auth.authenticate(email=email, password=password)
 
-        if user is not None:
-            logo = Profile.objects.filter(owner = request.user.id)
-            auth.login(request, user)
-            return redirect('/', {'logo': logo})
-        else:
-            messages.info(request, 'Invalid username or password!')
-            return redirect('login')
+            if user is not None:
+                logo = Profile.objects.filter(owner = request.user.id)
+                auth.login(request, user)
+                return redirect('/', {'logo': logo})
+            else:
+                messages.info(request, 'Invalid username or password!')
+                return redirect('login')
+        elif 'recover-email' in request.POST:
+            if User.objects.filter(email = request.POST['recover-email']).exists():
+                user = User.objects.get(email = request.POST['recover-email'])
+                #send email
+                euser = EmailConfirmed.objects.get(user = user)
+                site = get_current_site(request)
+                email = user.email
+                email_body = render_to_string(
+                    'account/recover.html',
+                    {
+                        'email': email,
+                        'domain': site.domain,
+                        'activation_key': euser.activation_key
+                    }
+                )
+                send_mail(
+                    subject='Dawah Password recover',
+                    message=email_body,
+                    from_email='mdimranh.cse@gmail.com',
+                    recipient_list=[email],
+                    fail_silently=True
+                )
+                messages.success(request, "We will send you link in your email for recover your password. Please recover your password by click the link.")
+                return redirect(request.path_info)
+            else:
+                messages.error(request, 'This email is not exists!!')
+                return redirect(request.path_info)
 
     else:
         return render(request, 'account/login.html')

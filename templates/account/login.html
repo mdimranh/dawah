@@ -154,7 +154,7 @@
                 Remember me
               </label>
             </div>
-            <a href="#">Forget Password?</a>
+            <span type="button" class="" data-bs-toggle="modal" data-bs-target="#forgotPass">Forgot Password?</span>
           </div>
           <button type="submit" class="btn mt-3 btn-sm w-100">
             Login
@@ -187,6 +187,27 @@
           </div>
           </div>
         </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="forgotPass" aria-hidden="true" aria-labelledby="forgotPassLabel" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header m-0 py-1 px-2">
+            <h6 class="modal-title" id="forgotPassLabel">Recover Password</h6>
+            <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+          <form method="post">
+            {% csrf_token %}
+          <label for="email">Enter email</label>
+          <input class="form-control mt-1" type="email" name="recover-email" id='email' placeholder="email">
+          <div class="text-center">
+            <button type="submit" class="btn btn-success btn-sm mt-4">Recover</button>
+          </div>
+        </form>
+          </div>
         </div>
       </div>
     </div>

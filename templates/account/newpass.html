@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block extra_link %}
+    {% comment %} <link rel="stylesheet" href="{% static 'css/success.css' %}"> {% endcomment %}
+    <style>
+        form{
+            {% comment %} border: 1px solid red; {% endcomment %}
+            padding: 15px;
+            border-radius: 20px;
+            box-shadow: rgba(255, 77, 45, 0.3) 0px 2px 4px 0px, rgba(255, 77, 45, 0.5) 0px 2px 16px 0px;
+        }
+        .btn{
+            background-color: rgb(255, 77, 45);
+            color: white;
+        }
+        .btn:hover{
+            background-color: rgb(255, 77, 80);
+            color: white;
+        }
+
+        .card{
+            box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+            max-width: 700px;
+            width: 100%;
+        }
+
+
+
+        .cardImage{
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(128, 128, 128, 0.411);
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .card p:nth-child(1){
+            font-weight: bold;
+        }
+
+        .card p:nth-child(2){
+            font-size: 14px;
+            padding-left: 8px;
+            margin-top: -2px;
+            margin-bottom: 0;
+        }
+
+        .name{
+            font-size: 14px;
+        }
+
+        .name span{
+            font-size: 13px;
+            color: tomato;
+        }
+
+        .card-body p{
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+{% endblock %}
+
+{% block title %}
+    <title>Set password - dawah</title>
+{% endblock title %}
+
+
+{% block body %}
+<div class="container">
+    <div class="d-flex align-items-center flex-column mt-4">
+        <div class="container" style="max-width: 700px">
+            <form method="post" class="d-flex flex-column">
+            <h5 class="text-center mb-5">Set new password</h5>
+            {% csrf_token %}
+                <input class="form-control pass mb-3 mt-1" type="text" name="password" id="pass" placeholder="New Password">
+                <input class="form-control pass mb-1 mt-1" type="text" name="password1" id="pass1" placeholder="Confirm Password">
+                <small class="m-0 p-0 cloue text-end text-danger mb-2"></small>
+                <input type="hidden" name="user_email" value="{{user_email}}">
+                <button class="btn mt-2 mb-2" type="submit" id="recover_btn" disabled>Recover</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock body %}
+
+
+{% block extra_script %}
+    <script>
+        $("#pass").on("change keyup paste", function(){
+            pass = $("#pass").val();
+            pass1 = $("#pass1").val();
+            if(pass === pass1){
+                document.getElementById('recover_btn').removeAttribute('disabled');
+                $('.cloue').text("");
+            }
+            else{
+                document.getElementById('recover_btn').removeAttribute('disabled');
+                document.getElementById('recover_btn').disabled = true;
+                $('.cloue').text("Password not match.");
+            }
+        });
+
+        $("#pass1").on("change keyup paste", function(){
+            pass = $("#pass").val();
+            pass1 = $("#pass1").val();
+            if(pass === pass1){
+                document.getElementById('recover_btn').removeAttribute('disabled');
+                $('.cloue').text("");
+            }
+            else{
+                document.getElementById('recover_btn').removeAttribute('disabled');
+                document.getElementById('recover_btn').disabled = true;
+                $('.cloue').text("Password not match.");
+            }
+        });
+        {% comment %} document.getElementById(recover_btn).disabled = true;
+        document.getElementById(recover_btn).removeAttribute('disabled'); {% endcomment %}
+    </script>
+{% endblock %}

@@ -83,7 +83,7 @@ input{
                     <button onclick="myFunction()" type="button" class="btn btn-sm btn-success">Edit Profile</button>
                 {% endif %}
                     {% if no_channel == 0 %}
-                        <a href="/account/channel/create-channel">
+                        <a href="/create-channel">
                             <button type="button" class="btn btn-sm btn-primary">Create Channel</button>
                         </a>
                     {% endif %}
@@ -97,9 +97,8 @@ input{
                         <img id="add-person" class="label" style="display: none;" src="{% static 'img/camera.png' %}"/>
                     </div>
                         <input id="file-input" type="file" accept="image/*" onchange="loadFile(event)"/>
-                        <h4 id='name' class="name text-center mt-2">{{user.first_name}} {{user.last_name}}</h4>
-                        <input style="display: none;" id='name1' name='new_first_name' type="text" class="form-control name mt-2" value="{{user.first_name}}"></input>
-                        <input style="display: none;" id='name2' name='new_last_name' type="text" class="form-control name mt-2" value="{{user.last_name}}"></input>
+                        <h4 id='name' class="name text-center mt-2">{{user.fullname}}</h4>
+                        <input style="display: none;" id='name1' name='new_first_name' type="text" class="form-control name mt-2" value="{{user.fullname}}"></input>
                 </div>
             </div>
             {% if user.phone|length >= 1 %}
@@ -184,7 +183,7 @@ input{
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
             <div class="modal-header">
-            <div class="modal-title h6">{{user.first_name}} {{user.last_name}}</div>
+            <div class="modal-title h6">{{user.fullname}}</div>
                 <button type="button" class="btn-close btn" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -207,7 +206,6 @@ input{
         var y = document.getElementById("edit1");
         var name = document.getElementById("name");
         var name1 = document.getElementById("name1");
-        var name2 = document.getElementById("name2");
         var save_btn = document.getElementById("save-btn");
         var add_person = document.getElementById("add-person");
         if (x.style.display === "none") {
@@ -215,7 +213,6 @@ input{
             y.style.display = "none";
             name.style.display = "";
             name1.style.display = "none";
-            name2.style.display = "none";
             save_btn.style.display = "none";
             add_person.style.display = "none";
         } else {
@@ -223,7 +220,6 @@ input{
             y.style.display = "flex";
             name.style.display = "none";
             name1.style.display = "flex";
-            name2.style.display = "flex";
             save_btn.style.display = "flex";
             add_person.style.display = "flex";
         }
@@ -246,8 +242,7 @@ input{
             event.preventDefault();
 
             var formData = new FormData();
-            formData.append("new_first_name", document.getElementById("name1").value);
-            formData.append("new_last_name", document.getElementById("name2").value);
+            formData.append("new_fullname", document.getElementById("name1").value);
             formData.append("new_phone", document.getElementById("phone").value);
             formData.append("new_logo", document.getElementById("file-input").files[0]);
             

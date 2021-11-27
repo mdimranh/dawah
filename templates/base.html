@@ -919,6 +919,7 @@ document.getElementById("arrowtoast").onclick = function(){
     </script>
 
     <script>
+    {% if user.is_authenticated %}
       $(document).ready(function(){
         setInterval(function(){
           $.ajax({
@@ -988,6 +989,7 @@ document.getElementById("arrowtoast").onclick = function(){
           });
         }, 1500);
       });
+      {% endif %}
     </script>
 
 
