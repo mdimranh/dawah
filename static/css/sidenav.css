@@ -1,0 +1,94 @@
+.menu:hover{
+    cursor: pointer;
+}
+
+.sidenav{
+    position: fixed;
+    width: 200px;
+    top: 90px;
+    bottom:0;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    overflow-y: auto;
+    z-index: 100;
+    transition: 0.2s;
+}
+
+.sidenav.active{
+    width: 51px;
+    transition: 0.2s;
+    overflow-x: hidden;
+}
+
+.main-content.active{
+    margin-left: 50px;
+    transition: 0.2s;
+}
+
+.main-content{
+    transition: 0.2s;
+}
+
+.sidenav ul{
+    list-style: none;
+    padding: 5px 15px;
+}
+
+.sidenav h5{
+    padding: 0px 15px;
+    margin-top: -18px;
+}
+
+.sidenav ul li{
+    padding: 6px 0;
+}
+
+.sidenav ul li:hover{
+    cursor: pointer;
+    color: green;
+}
+
+.sidenav ul li:hover i{
+    color: green;
+}
+
+.sidenav i{
+    font-size: 23px;
+    color: rgb(104, 98, 98);
+}
+
+.sidenav p{
+    padding: 0;
+    margin: 0 15px;
+    font-size: 16px;
+}
+
+.sidenav .channel-logo{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(0, 128, 0, 0.1);
+}
+
+.cname{
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+@media screen and (max-width:891px) {
+    .sidenav{
+        width: 51px;
+        overflow-x: hidden;
+    }
+    h5{
+        display: none;
+    }
+    .library{
+        display: none;
+    }
+    .main-content{
+        margin-left: 40px;
+    }
+}
