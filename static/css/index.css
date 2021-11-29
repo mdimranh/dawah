@@ -6,6 +6,10 @@ i {
   color: white;
 }
 
+.city{
+  font-size: small;
+}
+
 /*----------- Top navbar -------------*/
 
 .profile {

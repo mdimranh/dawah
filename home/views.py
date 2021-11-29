@@ -292,6 +292,14 @@ def Edit_video_save(request, channel_name, id):
         return HttpResponse("Successfull")
 
 
+@csrf_exempt
+def Delete_video(request, id):
+    video.objects.get(id2 = request.POST['id2']).delete()
+    print("I am here...")
+    return HttpResponse('Success')
+
+
+
 def createfolder(request, channel_name, id):
     Folder = folder.objects.filter(channel_id = id)
     context = {

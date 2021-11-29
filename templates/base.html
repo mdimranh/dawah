@@ -241,6 +241,7 @@
                 <a href="{% url 'home' %}"
                   ><img class="logo" src="{% static 'img/logo1.png' %}" alt=""
                 /></a>
+                <p class="city ps-1"></p>
               </div>
               <div class="col-sm-4 col-4 d-flex align-items-center">
                 <input
@@ -1088,6 +1089,14 @@ document.getElementById("arrowtoast").onclick = function(){
     value = val.split(' ').join('+');
     location.href = "/search/"+value;
   }
+</script>
+
+<script>
+  $(document).ready(function(){
+    $.get("http://ipinfo.io", function(response){
+      $(".city").text(response.city);
+    }, "jsonp");
+  });
 </script>
 
 

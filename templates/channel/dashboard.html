@@ -339,9 +339,9 @@
               <p class="p-0 m-0 select-count"></p>
               <button class="btn btn-danger btn-sm ms-3 my-1">Delete</button>
             </div>
-            <table class="table table-hover table-secondary" style="border: 1px solid lightgray;">
+            <table id="allvideo" class="table table-hover table-secondary" style="border: 1px solid lightgray;">
               <thead class="table-info sticky-top">
-                <th><input class="form-check-input select-all" type="checkbox" value="all" id="flexCheckDefault"></th>
+                <th><input class="form-check-input select-all video-check" type="checkbox" value="all" id="flexCheckDefault"></th>
                 <th scope="col">Videos</th>
                 <th scope="col">Titles</th>
                 <th scope="col">Date</th>
@@ -353,7 +353,7 @@
               <tbody>
                 {% for video in video %}
                   <tr style="height: 61px;" class="w-50">
-                    <td><input class="form-check-input mt-3" type="checkbox" value="{{video.id2}}" id="flexCheckDefault"></td>
+                    <td><input class="form-check-input mt-3 video-check" type="checkbox" value="{{video.id2}}" id="flexCheckDefault"></td>
                     <td><img class="thumbnail" src="{{video.thumbnail}}" /></td>
                     <td class="d-flex flex-column align-items-start">
                       <div class="d-flex align-items-center justify-content-start">
@@ -361,7 +361,7 @@
                           <a href="/play_C={{video.channel.namews}}_V={{video.id2}}"><i class="fa fa-play-circle fa-lg me-2"></i></a>
                           <a href="/edit_C={{video.channel.namews}}_V={{video.id2}}"><i class="fa fa-pencil-square fa-lg mx-2"></i></a>
                           {% comment %} <i class="fa fa-share-square fa-lg mx-2"></i> {% endcomment %}
-                          <i class="fa fa-trash fa-lg mx-2"></i>
+                          <i class="fa fa-trash fa-lg mx-2" data-bs-toggle="modal" data-bs-target="#deleteConfirm" onclick='confirmDelete("{{video.id2}}", "{{video.title}}", "{{video.datetime}}", "{{video.thumbnail}}", "{{video.total_views}}", "{{forloop.counter}}")'></i>
                         </div>
                         <div class="video-title" >{{video.title}}</div>
                       </div>
@@ -512,22 +512,40 @@
 
 <!-- .......... Delete confirmation modal ............... -->
 <div class="modal fade" id="deleteConfirm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteConfirmLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Understood</button>
+      <div class="modal-body d-flex flex-column">
+        <form class="d-flex flex-column" method="post" onsubmit="onDeleteVideo(event)">
+          <p class="pb-4 pt-0 m-0 h5">Confirm to delete</p>
+          <div class="d-flex">
+            <img src="" class="modal-thumbnail">
+            <div class="d-flex flex-column">
+              <p class="ms-2 p-0 title modal-video-title"></p>
+              <p class="ms-2 p-0 text-muted modal-datetime"></p>
+              <p class="ms-2 p-0 text-muted modal-views"></p>
+              <p class="id2 d-none"></p>
+              <p class="row-number d-none"></p>
+            </div>
+          </div>
+          <div class="form-group form-check my-3">
+            <input type="checkbox" class="form-check-input" id="delete-checkbox">
+            <label class="form-check-label" id="confirm-check" for="delete-checkbox">Sure, I'll delete this video</label>
+          </div>
+          <div class="d-flex justify-content-end mt-3">
+            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" id="delete-btn" class="btn btn-success btn-sm mx-2" disabled>Delete</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
 </div>
+
+
+<div class="alert bg-success align-items-center alert-bottom" role="alert" style="display: none;">
+  <div class="text-white">Video delete successfull</div>
+</div>
+
 
 
 
@@ -854,19 +872,18 @@ $(function($){
 <script>
   $('.select-all').click(function(event) {   
     if(this.checked) {
-        // Iterate each checkbox
-        $(':checkbox').each(function() {
+        $('.video-check').each(function() {
             this.checked = true;                        
         });
     } else {
-        $(':checkbox').each(function() {
+        $('.video-check').each(function() {
             this.checked = false;                       
         });
     }
   });
-  $('input[type="checkbox"]').change(function(){ 
-    var count = $("[type='checkbox']:checked").length;
-    var checkBox = 'input[type="checkbox"]';
+  $('table input[type="checkbox"]').change(function(){ 
+    var count = $(".video-check:checked").length;
+    var checkBox = '.video-check';
     if($(checkBox).length == count){
       $('.select-all').prop('checked', true);
     }
@@ -883,7 +900,7 @@ $(function($){
       $('.select-count').text("All selected");
     }
     else{
-      $('.select-count').text(count+" selected");
+      $('.select-count').text(count - 1 +" selected");
     }
     if(count > 0){
       $('.extra-div').css({"height":"35px", "transition":"0.2s", "visibility":"visible"});
@@ -895,7 +912,56 @@ $(function($){
 
 </script>
 
+<script>
+function confirmDelete(id2, title, datetime, thumbnail, views, row) {
+  $('.modal-thumbnail').attr("src", thumbnail);
+  $('.modal-video-title').text(title);
+  $('.modal-datetime').text(datetime);
+  $('.modal-views').text(views+" views");
+  $('.id2').text(id2);
+  $('.row-number').text(row);
+}
+</script>
 
+<script>
+  $('#delete-checkbox').click(function(event) {   
+    if(this.checked) {
+      document.getElementById('delete-btn').removeAttribute('disabled');
+    } else {
+      document.getElementById('delete-btn').disabled = true;
+    }
+  });
+</script>
 
+<script>
+  $(".alert-bottom").hide();
+  function onDeleteVideo(event){
+    event.preventDefault();
+
+    var formData = new FormData();
+    formData.append("id2", $(".id2").text());
+    
+    console.log(formData);
+
+    var xhr=new XMLHttpRequest();
+    {% for video in video %}
+    {% if forloop.counter < 2 %} 
+    xhr.open("POST", "http://localhost:8000/{{video.channel.id}}/delete-video", true);
+    {% endif %} 
+    {% endfor %}
+    xhr.addEventListener('load', (event) =>{
+      $("#deleteConfirm").modal("hide");
+      document.getElementById("allvideo").deleteRow(parseInt($(".row-number").text()));
+      myAlertBottom();
+    });
+    xhr.send(formData);
+  }
+  function myAlertBottom(){
+    $(".alert-bottom").show();
+    setTimeout(function(){
+      $(".alert-bottom").hide(); 
+    }, 5000);
+  }
+</script>
 
 {% endblock %}
