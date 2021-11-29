@@ -91,8 +91,14 @@
   }
 
   .video-title{
-    margin-left: -125px;
+    margin-left: -100px;
     min-width: 250px;
+    height: 55px;
+    line-height: 25px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   tr .action{
@@ -103,8 +109,8 @@
     cursor: pointer;
   }
 
-  tr .video-title{
-    height: 61px;
+  tr .date{
+    min-width: 130px;
   }
 
   tr:hover .video-title{
@@ -115,9 +121,9 @@
     visibility: visible;
   }
 
-  .title {
+  /* .title {
     width: 400px;
-  }
+  } */
 
   .fa-trash {
     color: red;
