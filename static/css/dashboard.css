@@ -93,6 +93,7 @@
   .video-title{
     margin-left: -100px;
     min-width: 250px;
+    max-width: 450px;
     height: 55px;
     line-height: 25px;
     display: -webkit-box;
@@ -127,27 +128,6 @@
 
   .fa-trash {
     color: red;
-  }
-
-  @media screen and (max-width: 700px) {
-    .sidenav {
-      width: 52px;
-      transition: 0.3s;
-    }
-
-    .sidenav div p {
-      padding-left: 10px;
-      transition: 0.3s;
-    }
-
-    .tab-content {
-      margin-left: 60px;
-      transition: 0.3s;
-    }
-
-    .toggle {
-      display: none;
-    }
   }
 
   .number {
@@ -318,4 +298,87 @@
     bottom: 10px;
     right: 10px;
     width: auto;
+  }
+
+  /* #myInput {
+    margin-left: -8px;
+    background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.m.wikipedia.org%2Fwiki%2FFile%3AVector_search_icon.svg&psig=AOvVaw3gyts0isZonXG9Zog5XurG&ust=1638337222113000&source=images&cd=vfe&ved=0CAgQjRxqFwoTCPDJj_Ovv_QCFQAAAAAdAAAAABAJ');
+    background-position: 10px 12px;
+    background-repeat: no-repeat;
+    width: 100%;
+    font-size: 15px;
+    padding: 3px 5px 3px 10px;
+    border: 1px solid rgb(202, 201, 201);
+  } */
+
+  /* #myInput:focus{
+    border: none;
+  } */
+
+  #myInput{
+    width: 100%;
+  }
+
+  .video-table{
+    position: absolute;
+    top: 186px;
+    bottom: 0;
+    left: 170px;
+    right: 0;
+    overflow-x: auto;
+    transition: 0.3s;
+  }
+
+  /* .video-table table{
+    margin-left: 15px;
+  } */
+
+  .col1{
+    position: -webkit-sticky;
+    position: sticky;
+    left: 0;
+    width: 15px;
+  }
+
+  .col2{
+    position: -webkit-sticky;
+    position: sticky;
+    left: 30px;
+  }
+
+  .col3{
+    position: -webkit-sticky;
+    position: sticky;
+    left: 135px;
+  }
+
+  .main-content.active .video-table{
+    margin-left: -118px;
+    transition: 0.3s;
+  }
+
+
+  @media screen and (max-width: 700px) {
+    .sidenav {
+      width: 52px;
+      transition: 0.3s;
+    }
+
+    .sidenav div p {
+      padding-left: 10px;
+      transition: 0.3s;
+    }
+
+    .tab-content {
+      margin-left: 60px;
+      transition: 0.3s;
+    }
+
+    .toggle {
+      display: none;
+    }
+
+    .video-table{
+      margin-left: -118px;
+    }
   }
