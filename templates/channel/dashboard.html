@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
 {% endblock %} {% block dashboard %}
 
-<div class="d-flex align-items-start main-content">
+<div class="d-flex align-items-start dashboard-content">
   <div
     class="nav sidenav flex-column me-3 pt-3 no-wrap"
     style="flex-wrap: nowrap"
@@ -347,14 +347,14 @@
             <table id="allvideo" class="table table-hover table-light" style="border: 1px solid lightgray;">
               <input class="form-control sticky-top" type="text" id="myInput" onkeyup="myFunction()" placeholder="Search video title here..">
               <thead class="table-success sticky-top" style="top: 37px;">
-                <th class="col1"><input class="form-check-input select-all video-check" type="checkbox" value="all" id="flexCheckDefault"></th>
-                <th class="col2" scope="col">Videos</th>
-                <th class="col3" scope="col">Titles</th>
-                <th scope="col">Date</th>
-                <th scope="col">Visibility</th>
-                <th scope="col">Views</th>
-                <th scope="col">Comments</th>
-                <th scope="col">Like Vs Dislike</th>
+                <th class="col1 small"><input class="form-check-input select-all video-check" type="checkbox" value="all" id="flexCheckDefault"></th>
+                <th class="col2 small" scope="col">Videos</th>
+                <th class="col3 small" scope="col">Titles</th>
+                <th class="small" scope="col">Date</th>
+                <th class="small" scope="col">Visibility</th>
+                <th class="small" scope="col">Views</th>
+                <th class="small" scope="col">Comments</th>
+                <th class="small text-nowrap" scope="col">Like Vs Dislike</th>
               </thead>
               <tbody>
                 {% for video in video %}
@@ -577,7 +577,7 @@
 </script>
 
 <script>
-  const navigate = document.querySelector(".main-content");
+  const navigate = document.querySelector(".dashboard-content");
   document.querySelector(".toggle").onclick = function () {
     this.classList.toggle("active");
     navigate.classList.toggle("active");

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{% static 'icon/icofont/css/icofont.css' %}" />
     <link rel="stylesheet" href="{% static 'icon/material-design/css/material-design-iconic-font.min.css' %}" />
     <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/sidenav.css' %}" />
     <link rel="stylesheet" href="{% static 'animations/ripple-effect.css' %}" />
     <link rel="stylesheet" href="{% static 'tippyjs/dist/tippy.css' %}" />
     <link rel="stylesheet" href="{% static 'tippyjs/animations/scale-extreme.css' %}" />
@@ -29,7 +30,7 @@
     />
     <style>
     .main-content {
-      margin-top: 70px;
+      margin-top: 60px;
       padding-top: 30px;
     }
 
@@ -237,6 +238,8 @@
               <div class="col-sm-4 col-4 d-flex align-items-center">
               {% if sidebar %}
                 <i class="fa fa-navicon fa-lg me-3 toggle"></i>
+              {% else %}
+                <i class="zmdi zmdi-menu me-3 menu" data-bs-toggle="offcanvas" href="#mainoffcanvas" role="button" aria-controls="offcanvasExample"></i>
               {% endif %}
                 <a href="{% url 'home' %}"
                   ><img class="logo" src="{% static 'img/logo1.png' %}" alt=""
@@ -809,7 +812,31 @@
   </div>
 </div>
 
-{% block body %}{% endblock %}
+
+<div class="d-flex main-content">
+  <div class="sidenav offcanvas offcanvas-start" tabindex="-1" id="mainoffcanvas">
+    <ul>
+      <li class="d-flex"><i class="zmdi zmdi-home"></i><p class="mx-3 p-0">Home</p></li>
+      <li class="d-flex"><i class="fa fa-star"></i><p class="mx-3 p-0">Following</p></li>
+      <hr class="my-2">
+      <li class="d-flex"><i class="zmdi zmdi-portable-wifi"></i><p class="mx-3 p-0">Live</p></li>
+      <li class="d-flex"><i class="zmdi zmdi-comments"></i><p class="mx-3 p-0">Q.A</p></li>
+      <hr class="my-2">
+      <li class="d-flex"><i class="zmdi zmdi-favorite"></i><p class="mx-3 p-0">Favourite</p></li>
+      <li class="d-flex"><i class="zmdi zmdi-bookmark mx-1"></i><p class="mx-3 p-0">Bookmark</p></li>
+      <li class="d-flex"><i class="zmdi zmdi-thumb-up"></i><p class="mx-3 p-0">Liked</p></li>
+      <li class="d-flex"><i class="fa fa-clock-o"></i><p class="mx-3 p-0">History</p></li>
+      <hr class="my-2">
+      <p class="mb-3 mx-0 p-0 fw-bold headline">Following</p>
+      {% for channel in followlist %}
+      <li class="d-flex my-0 pt-1 pb-0"><img class="channel-logo" src="{{channel.logo}}"><p class="cname">{{channel.channel_name}}</p></li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="body-content">{% block body %}{% endblock %}</div>
+</div>
+
+
 {% block dashboard %}{% endblock dashboard %}
 
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
@@ -1101,6 +1128,13 @@ document.getElementById("arrowtoast").onclick = function(){
 </script>
 
 
-    {% block extra_script %}{% endblock %}
-  </body>
+<script>
+  $(".menu").click(function(){
+    $(".body-content").toggleClass("active");
+    $(".sidenav").toggleClass("active");
+  });
+</script>
+
+  {% block extra_script %}{% endblock %}
+</body>
 </html>

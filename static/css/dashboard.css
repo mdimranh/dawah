@@ -1,6 +1,14 @@
+.main-content{
+  display: none;
+}
+
+.main-content .sidenav{
+  display: none;
+}
+
 .sidenav {
     position: fixed;
-    margin-top: -22px;
+    margin-top: -10px;
     padding-top: 10px;
     width: 170px;
     overflow-y: auto;
@@ -54,17 +62,17 @@
     color: rgb(0, 81, 12);
   }
 
-  .main-content.active .sidenav {
+  .dashboard-content.active .sidenav {
     width: 52px;
     transition: 0.3s;
   }
 
-  .main-content.active .tab-content {
+  .dashboard-content.active .tab-content {
     margin-left: 60px;
     transition: 0.3s;
   }
 
-  .main-content.active .sidenav div p {
+  .dashboard-content.active .sidenav div p {
     padding-left: 10px;
     transition: 0.3s;
   }
@@ -352,7 +360,7 @@
     left: 135px;
   }
 
-  .main-content.active .video-table{
+  .dashboard-content.active .video-table{
     margin-left: -118px;
     transition: 0.3s;
   }

@@ -19,13 +19,23 @@
     overflow-x: hidden;
 }
 
-.main-content.active{
+.sidenav.active .headline{
+    display: none;
+}
+
+.sidenav.active .channel-logo{
+    margin-left: -5px;
+}
+
+.body-content.active{
     margin-left: 50px;
     transition: 0.2s;
 }
 
-.main-content{
+.body-content{
     transition: 0.2s;
+    margin-top: 10px;
+    margin-left: 200px;
 }
 
 .sidenav ul{
@@ -87,5 +97,8 @@
     }
     .library{
         display: none;
+    }
+    .body-content{
+        margin-left: 51px;
     }
 }
