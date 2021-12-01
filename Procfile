@@ -1,0 +1,1 @@
+web: gunicorn dawah1.wsgi --log-file -
