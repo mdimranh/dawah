@@ -56,7 +56,7 @@ class CustomUser(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ('fullname')
+    REQUIRED_FIELDS = ('fullname',)
 
     objects = CustomUserManager()
 
