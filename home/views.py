@@ -707,56 +707,56 @@ def getVideoDetails(request, namews, id2):
 @csrf_exempt
 def Search(request, value):
     val = value.replace('+', ' ')
-    rslt = searchReuslt(val)
-    result = video.objects.filter(title__in = rslt)
+    # rslt = searchReuslt(val)
+    # result = video.objects.filter(title__in = rslt)
     context={
-        "video": result,
+        # "video": result,
         "value": val
     }
     return render(request, 'home/search.html', context)
 
-import os
-import numpy as np
-import pandas as pd
-from sentence_transformers import SentenceTransformer
-from sklearn.metrics.pairwise import cosine_similarity
+# import os
+# import numpy as np
+# import pandas as pd
+# from sentence_transformers import SentenceTransformer
+# from sklearn.metrics.pairwise import cosine_similarity
 
-def searchReuslt(value):
-    model = SentenceTransformer('distilbert-base-nli-stsb-mean-tokens')
-    df = pd.read_excel('G:\Project\dawah1\media\searchdata.xlsx')
+# def searchReuslt(value):
+    # model = SentenceTransformer('distilbert-base-nli-stsb-mean-tokens')
+    # df = pd.read_excel('G:\Project\dawah1\media\searchdata.xlsx')
 
-    def find_similar(vector_representation, all_representations, k=1):
-        similarity_matrix = cosine_similarity(vector_representation, all_representations)
-        np.fill_diagonal(similarity_matrix, 0)
-        similarities = similarity_matrix[0]
-        if k == 1:
-            return [np.argmax(similarities)]
-        elif k is not None:
-            return np.flip(similarities.argsort()[-k:][::1])
+    # def find_similar(vector_representation, all_representations, k=1):
+    #     similarity_matrix = cosine_similarity(vector_representation, all_representations)
+    #     np.fill_diagonal(similarity_matrix, 0)
+    #     similarities = similarity_matrix[0]
+    #     if k == 1:
+    #         return [np.argmax(similarities)]
+    #     elif k is not None:
+    #         return np.flip(similarities.argsort()[-k:][::1])
 
-    paragraph = df.iloc[:, 0] # the first column values
-    embeddings_distilbert = model.encode(paragraph.values)
-    search_string = value
-    search_vect = model.encode([search_string])
-    distilbert_similar_indexes = find_similar(search_vect, embeddings_distilbert)
-    output_data = []
-    for index in distilbert_similar_indexes:
-        output_data.append(paragraph[index])
+    # paragraph = df.iloc[:, 0] # the first column values
+    # embeddings_distilbert = model.encode(paragraph.values)
+    # search_string = value
+    # search_vect = model.encode([search_string])
+    # distilbert_similar_indexes = find_similar(search_vect, embeddings_distilbert)
+    # output_data = []
+    # for index in distilbert_similar_indexes:
+    #     output_data.append(paragraph[index])
 
-    import openpyxl
-    file = (r'G:\Project\dawah1\media\searchdata.xlsx')
-    wb = openpyxl.load_workbook(filename=file)
-    rs = video.objects.all()
-    sheet = wb['Sheet1']
-    from googletrans import Translator
-    for Video in rs:
-        translator = Translator()
-        translation = translator.translate(Video.title)
-        new_row = [translation.text]
-        sheet.append(new_row)
-    wb.save(file)
+    # import openpyxl
+    # file = (r'G:\Project\dawah1\media\searchdata.xlsx')
+    # wb = openpyxl.load_workbook(filename=file)
+    # rs = video.objects.all()
+    # sheet = wb['Sheet1']
+    # from googletrans import Translator
+    # for Video in rs:
+    #     translator = Translator()
+    #     translation = translator.translate(Video.title)
+    #     new_row = [translation.text]
+    #     sheet.append(new_row)
+    # wb.save(file)
 
-    return output_data
+    # return output_data
 
 
 def Tag(request, tag):
