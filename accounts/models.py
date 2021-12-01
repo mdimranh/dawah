@@ -35,8 +35,8 @@ class CustomUserManager(BaseUserManager):
 
     def create_superuser(self, phone, email, fullname, password=None):
         user = self.create_user(
-            email,
-            phone = phone,
+            phone,
+            email = email,
             fullname = fullname,
             password = password
         )
@@ -56,7 +56,7 @@ class CustomUser(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ('phone', 'fullname')
+    REQUIRED_FIELDS = ('fullname')
 
     objects = CustomUserManager()
 
