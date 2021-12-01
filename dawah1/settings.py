@@ -102,10 +102,11 @@ ACCOUNT_AUTHENTICATION_METHOD = 'phone'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dawah',
-        'USER' : 'postgres',
-        'PASSWORD' : 'mdimranh',
-        'HOST' : 'localhost',
+        'NAME': 'df6qbujqcqujvi',
+        'USER' : 'qnakuvecsvjrez',
+        'PASSWORD' : '76abb3598b33d8c72e5e789a81fca535ad0daab50254b0356eecb78dd7dffeba',
+        'PORT' : '5432',
+        'HOST' : 'ec2-3-211-228-251.compute-1.amazonaws.com',
     }
 }
 
