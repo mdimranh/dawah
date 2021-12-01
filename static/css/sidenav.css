@@ -140,7 +140,7 @@
     .sidenav.active{
         width: 51px;
         overflow-x: hidden;
-        top: 91px;
+        top: 56px;
         transition: 0.2s;
     }
     .navigation1{
@@ -180,7 +180,7 @@
     }
     .sidenav.active{
         width: 0;
-        top: 91px;
+        top: 56px;
         transition: 0.2s;
     }
     .navigation1{
