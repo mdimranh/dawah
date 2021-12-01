@@ -301,6 +301,7 @@ def Delete_video(request, id):
 
 
 def createfolder(request, channel_name, id):
+    print("Yes------------------------->")
     Folder = folder.objects.filter(channel_id = id)
     context = {
         "folder" : list(Folder.values())
