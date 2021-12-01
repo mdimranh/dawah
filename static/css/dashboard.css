@@ -1,50 +1,80 @@
-.main-content{
+/* .main-content{
   display: none;
-}
+} */
 
 .main-content .sidenav{
   display: none;
 }
 
-.sidenav {
+  .dashboard-sidenav {
     position: fixed;
-    margin-top: -10px;
-    padding-top: 10px;
+    top: 56px;
+    bottom: 0;
     width: 170px;
+    flex-wrap: nowrap;
     overflow-y: auto;
     overflow-x: hidden;
-    box-shadow: 2px 0px 8px rgba(179, 179, 179, 0.8);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     transition: 0.3s;
+    background: white;
+    z-index: 110;
   }
 
-  .sidenav::-webkit-scrollbar {
+  .dashboard-backdrop{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 109;
+    visibility: hidden;
+  }
+
+  table .sticky-top{
+    z-index: 108;
+  }
+
+  .search-input{
+    z-index: 107;
+    position: sticky;
+    left: 0;
+  }
+
+  .dashboard-sidenav-logo{
+    padding-left: 15px;
+    padding-bottom: 15px;
+    display: none;
+  }
+
+  .dashboard-sidenav::-webkit-scrollbar {
     width: 4px;
     margin-left: 5px;
   }
 
-  .sidenav::-webkit-scrollbar-track {
+  .dashboard-sidenav::-webkit-scrollbar-track {
     background: rgba(128, 128, 128, 0.2);
     border-left: 1px solid rgba(128, 128, 128, 0.301);
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
   }
 
-  .sidenav::-webkit-scrollbar-thumb {
+  .dashboard-sidenav::-webkit-scrollbar-thumb {
     background-color: rgba(128, 128, 128, 0.5);
     border-radius: 20px;
   }
 
-  .sidenav div {
+  .dashboard-sidenav div {
     padding-left: 12px;
     padding-top: 5px;
     padding-bottom: 5px;
     border-left: 5px solid rgba(0, 0, 0, 0);
   }
-  .sidenav div i {
+  .dashboard-sidenav div i {
     color: gray;
     font-size: 20px;
   }
-  .sidenav div:hover {
+  .dashboard-sidenav div:hover {
     background: rgba(0, 81, 12, 0.3);
     border-left: 5px solid rgba(0, 81, 12, 0.4);
   }
@@ -52,17 +82,17 @@
     overflow: hidden;
   }
 
-  .sidenav div.active {
+  .dashboard-sidenav div.active {
     border-left: 5px solid rgb(0, 81, 12);
     background: rgba(0, 81, 12, 0.2);
   }
 
-  .sidenav div.active i,
-  .sidenav div.active p {
+  .dashboard-sidenav div.active i,
+  .dashboard-sidenav div.active p {
     color: rgb(0, 81, 12);
   }
 
-  .dashboard-content.active .sidenav {
+  .dashboard-content.active .dashboard-sidenav {
     width: 52px;
     transition: 0.3s;
   }
@@ -72,13 +102,45 @@
     transition: 0.3s;
   }
 
-  .dashboard-content.active .sidenav div p {
+  
+  /* .tab-content {
+    position: absolute;
+    top: 52px;
+    padding-top: 15px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+  } */
+
+  /* .dashboard-section{
+      position: absolute;
+      top: 65px;
+      bottom: 0;
+      right: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+  } */
+
+  .dashboard-content.active .dashboard-sidenav div p {
     padding-left: 10px;
     transition: 0.3s;
   }
 
+  .top-video{
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+  }
+
   .tab-content {
-    margin-left: 180px;
+    position: absolute;
+    top: 52px;
+    padding-top: 15px;
+    left: 0px;
+    margin-left: 170px;
+    right: 0;
+    left: 0;
+    bottom: 0;
     overflow-y: auto;
     overflow-x: hidden;
     transition: 0.3s;
@@ -329,9 +391,9 @@
 
   .video-table{
     position: absolute;
-    top: 186px;
+    top: 50px;
     bottom: 0;
-    left: 170px;
+    left: 0;
     right: 0;
     overflow-x: auto;
     transition: 0.3s;
@@ -367,24 +429,48 @@
 
 
   @media screen and (max-width: 700px) {
-    .sidenav {
-      width: 52px;
+    .dashboard-sidenav {
+      position: absolute;
+      top: 0;
+      width: 170px;
       transition: 0.3s;
+      z-index: 110;
     }
 
-    .sidenav div p {
+    .dashboard-sidenav-logo{
+      display: block;
+    }
+
+    .dashboard-content.active .dashboard-sidenav{
+      width: 0px;
+    }
+
+    .dashboard-sidenav div p {
       padding-left: 10px;
       transition: 0.3s;
     }
 
     .tab-content {
-      margin-left: 60px;
+      margin-left: 0px;
       transition: 0.3s;
     }
 
-    .toggle {
-      display: none;
+    .dashboard-content.active .tab-content {
+      margin-left: 0px;
+      transition: 0.3s;
     }
+
+    .dashboard-content.active .dashboard-backdrop {
+      visibility: visible;
+    }
+
+    .dashboard-backdrop {
+      visibility: hidden;
+    }
+
+    /* .toggle {
+      display: none;
+    } */
 
     .video-table{
       margin-left: -118px;

@@ -8,13 +8,8 @@
 {% endblock %} {% block dashboard %}
 
 <div class="d-flex align-items-start dashboard-content">
-  <div
-    class="nav sidenav flex-column me-3 pt-3 no-wrap"
-    style="flex-wrap: nowrap"
-    id="v-pills-tab"
-    role="tablist"
-    aria-orientation="vertical"
-  >
+  <div class="nav dashboard-sidenav flex-column me-3 pt-3 no-wrap" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+    <a href="{% url 'home' %}" ><img class="logo dashboard-sidenav-logo" src="{% static 'img/logo1.png' %}" alt=""/></a>
     <div
       class="p active m-0 py-2 d-flex align-items-center h5"
       id="v-pills-dashboard-tab"
@@ -83,18 +78,16 @@
   </div>
   <div
     class="tab-content flex-fill"
-    id="v-pills-tabContent"
-    style="margin-top: -11px; padding-top: 12px; margin-bottom: 10px"
-  >
+    id="v-pills-tabContent">
     <!-- .......... Dashboard section............... -->
 
     <div
-      class="tab-pane mb-3 fade show active"
+      class="tab-pane fade show active"
       id="v-pills-dashboard"
       role="tabpanel"
       aria-labelledby="v-pills-videos-tab"
     >
-      <div class="container-fluid">
+      <div class="container-fluid dashboard-section">
         <div class="row">
           <div class="col-lg-3 col-6 mb-3">
             <div
@@ -245,7 +238,7 @@
               </div>
             <div class="table-div">
             <table class="table table-hover table-secondary" style="border: 1px solid lightgray;">
-              <thead class="table-info sticky-top">
+              <thead class="table-info">
                 <th scope="col">Videos</th>
                 <th scope="col">Titles</th>
                 <th scope="col">Views</th>
@@ -345,7 +338,7 @@
               <button class="btn btn-danger btn-sm ms-3 my-1">Delete</button>
             </div> {% endcomment %}
             <table id="allvideo" class="table table-hover table-light" style="border: 1px solid lightgray;">
-              <input class="form-control sticky-top" type="text" id="myInput" onkeyup="myFunction()" placeholder="Search video title here..">
+              <input class="form-control sticky-left sticky-top search-input" type="text" id="myInput" onkeyup="myFunction()" placeholder="Search video title here..">
               <thead class="table-success sticky-top" style="top: 37px;">
                 <th class="col1 small"><input class="form-check-input select-all video-check" type="checkbox" value="all" id="flexCheckDefault"></th>
                 <th class="col2 small" scope="col">Videos</th>
@@ -477,8 +470,7 @@
             <td>Public</td>
             <td>
               <div class="d-flex">
-                <i class="fa fa-pencil-square fa-lg mx-1"></i>
-                <i class="fa fa-trash fa-lg mx-1"></i>
+                <i class="fa fa-pencil-square fa-lg mx-1" data-bs-toggle="modal" data-bs-target="#editFolder" onclick='editFolder("{{folder.id}}", "{{folder.thumbnail}}", "{{folder.name}}", "{{folder.no_video}}")'></i>
               </div>
             </td>
           </tr>
@@ -548,6 +540,56 @@
   </div>
 </div>
 
+<!-- .......... Folder edit modal ............... -->
+<div class="modal fade" id="editFolder" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editFolderLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body d-flex flex-column">
+        <form class="d-flex flex-column" method="post">
+          <p class="pb-4 pt-0 m-0 h5">Edit folder</p>
+          <div class="d-flex">
+            <label for="folderthumbnail"><img src="" id="folder-modal-thumbnail" class="folder-modal-thumbnail modal-thumbnail"></label>
+            <input
+              class="form-control d-none"
+              placeholder="choose thumbnail"
+              type="file"
+              id="folderthumbnail"
+              name="folderthumbnail"
+              onchange="loadThumbnail(event)"
+            />
+            <div class="d-flex flex-column">
+              <div class="d-flex mb-2 align-items-center">
+                <p class="mx-2 my-0 p-0 h6 fw-bold">Name:</p>
+                <input class="form-control px-2 py-0 m-0" type="text" name="folder-title" id="take-folder-title" style="display: none;">
+                <p class="m-0 p-0 h6 modal-folder-title"></p>
+              </div>
+              <div class="d-flex mb-2 align-items-center">
+                <p class="mx-2 my-0 p-0 h6 fw-bold">Visibility:</p>
+                <select class="form-select py-0" aria-label="Default select example">
+                  <option selected value="public">Public</option>
+                  <option value="private">Private</option>
+                </select>
+              </div>
+              <p class="folder-id d-none"></p>
+              {% comment %} <p class="ms-2 p-0 text-muted modal-folder-datetime"></p> {% endcomment %}
+              <p class="ms-2 p-0 h5 text-muted modal-folder-videos"></p>
+            </div>
+          </div>
+          <div class="form-group form-check my-3">
+            <input type="checkbox" class="form-check-input" id="edit-checkbox">
+            <label class="form-check-label" id="edit-check" for="edit-checkbox">Sure, I'll delete this folder</label>
+          </div>
+          <div class="d-flex justify-content-end mt-3">
+            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-success btn-sm ms-2" data-bs-dismiss="modal">Update</button>
+            <button type="submit" id="delete-btn" class="btn btn-danger btn-sm mx-2" disabled>Delete</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <div class="alert bg-success align-items-center alert-bottom" role="alert" style="display: none;">
   <div class="text-white">Video delete successfull</div>
@@ -562,17 +604,32 @@
 <script src="{% static 'js/chart/core.js' %}"></script>
 <script src="{% static 'js/chart/charts.js' %}"></script>
 <script src="{% static 'js/chart/animated.js' %}"></script>
-
-<script>
+{% comment %} <script>
   $(document).ready(function () {
     setInterval(function () {
       let intViewportHeight = window.innerHeight - 89;
-      let intViewportHeight1 = window.innerHeight - 80;
+      let intViewportHeight1 = window.innerHeight - 0;
       document.getElementById("v-pills-tab").style["height"] =
         "" + intViewportHeight1 + "px";
       document.getElementById("v-pills-tabContent").style["height"] =
         "" + intViewportHeight + "px";
     });
+  });
+</script> {% endcomment %}
+
+
+<script>
+var loadThumbnail = function(event) {
+	var image = document.getElementById('folder-modal-thumbnail');
+	image.src = URL.createObjectURL(event.target.files[0]);
+};
+</script>
+
+<script>
+  $( ".modal-folder-title" ).click(function() {
+    $('.modal-folder-title').css({'display':'none'});
+    $('#take-folder-title').css({'display':'block'});
+    $('#take-folder-title').focus();
   });
 </script>
 
@@ -927,6 +984,15 @@ function confirmDelete(id2, title, datetime, thumbnail, views, row) {
   $('.modal-views').text(views+" views");
   $('.id2').text(id2);
   $('.row-number').text(row);
+}
+</script>
+
+<script>
+function editFolder(id, thumbnail, name, video) {
+  $('.folder-modal-thumbnail').attr("src", thumbnail);
+  $('.modal-folder-title').text(name);
+  $('.modal-folder-videos').text("Total video: "+video);
+  $('#take-folder-title').val(name);
 }
 </script>
 

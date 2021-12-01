@@ -4,19 +4,29 @@
 
 .sidenav{
     position: fixed;
-    width: 200px;
-    top: 90px;
+    width: 180px;
+    top: 56px;
     bottom:0;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     overflow-y: auto;
-    z-index: 100;
+    overflow-x: hidden;
+    z-index: 101;
     transition: 0.2s;
+    background: white;
 }
 
 .sidenav.active{
     width: 51px;
     transition: 0.2s;
     overflow-x: hidden;
+}
+
+.sidenav-logo{
+    display: none;
+}
+
+.sidenav.active .sidenav-logo{
+    display: none;
 }
 
 .sidenav.active .headline{
@@ -28,14 +38,14 @@
 }
 
 .body-content.active{
-    margin-left: 50px;
+    margin-left: 51px;
     transition: 0.2s;
 }
 
 .body-content{
     transition: 0.2s;
-    margin-top: 10px;
-    margin-left: 200px;
+    margin-top: 0px;
+    margin-left: 180px;
 }
 
 .sidenav ul{
@@ -72,6 +82,17 @@
     font-size: 16px;
 }
 
+.sidenav a{
+    text-decoration: none;
+    color: black;
+    margin-top: -8px;
+}
+
+.sidenav ul li:hover a{
+    cursor: pointer;
+    color: green;
+}
+
 .sidenav .channel-logo{
     width: 30px;
     height: 30px;
@@ -87,10 +108,24 @@
     overflow: hidden;
 }
 
+.backdrop{
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    visibility: hidden;
+}
+
 @media screen and (max-width:891px) {
     .sidenav{
-        width: 51px;
+        width: 180px;
         overflow-x: hidden;
+        top: 0;
+        transition: 0.2s;
     }
     h5{
         display: none;
@@ -100,5 +135,67 @@
     }
     .body-content{
         margin-left: 51px;
+        transition: 0.2s;
+    }
+    .sidenav.active{
+        width: 51px;
+        overflow-x: hidden;
+        top: 91px;
+        transition: 0.2s;
+    }
+    .navigation1{
+        z-index: 98;
+    }
+    .sidenav.active .sidenav-logo{
+        display: none;
+    }
+    .sidenav-logo{
+        display: block;
+    }
+    .backdrop.active{
+        visibility: hidden;
+    }
+    .backdrop{
+        visibility: visible;
+    }
+}
+
+@media screen and (max-width:550px) {
+    .sidenav{
+        width: 180px;
+        overflow-x: hidden;
+        top: 0;
+        transition: 0.2s;
+    }
+    .sidenav-logo{
+        display: block;
+    }
+    .body-content{
+        margin-left: 0;
+        transition: 0.2s;
+    }
+    .body-content.active{
+        margin-left: 0;
+        transition: 0.2s;
+    }
+    .sidenav.active{
+        width: 0;
+        top: 91px;
+        transition: 0.2s;
+    }
+    .navigation1{
+        z-index: 98;
+    }
+    .sidenav.active .sidenav-logo{
+        display: none;
+    }
+    .sidenav-logo{
+        display: block;
+    }
+    .backdrop.active{
+        visibility: hidden;
+    }
+    .backdrop{
+        visibility: visible;
     }
 }
