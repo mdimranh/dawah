@@ -48,7 +48,7 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser):
-    phone = models.CharField(max_length=20, verbose_name='User phone', default=None)
+    phone = models.CharField(max_length=20, verbose_name='User phone', default=None, blank=True, null=True)
     email = models.EmailField(verbose_name='User email', unique=True)
     fullname = models.CharField(max_length=150, verbose_name='full name')
     is_active = models.BooleanField(default=True)
@@ -56,7 +56,7 @@ class CustomUser(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ('phone','fullname',)
+    REQUIRED_FIELDS = ('fullname',)
 
     objects = CustomUserManager()
 
