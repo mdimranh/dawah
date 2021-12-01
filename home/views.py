@@ -10,7 +10,7 @@ from django.db.models import Count, Q
 from datetime import date,datetime, timedelta
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.files.storage import FileSystemStorage
-from moviepy.editor import VideoFileClip
+# from moviepy.editor import VideoFileClip
 from django.utils import timezone
 from django.utils.timezone import now
 from django.contrib import messages
