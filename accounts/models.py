@@ -19,7 +19,7 @@ class CustomUserManager(BaseUserManager):
             raise ValueError('User must have a email.')
 
         phone = phone.title()
-        email = email.title()
+        email = email.lower()
         fullname = fullname.title()
 
         user = self.model(
