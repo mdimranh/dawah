@@ -18,18 +18,14 @@ def create_channel(request):
 
     if request.method == 'POST':
         logo = Profile.objects.get(owner = current_user)
-        fname = ""
-        lname = ""
-        for name in request.user.first_name:
+        cname = ""
+        for name in request.user.fullname:
             if name != " ":
-                fname += name
-        for name in request.user.last_name:
-            if name != " ":
-                lname += name
+                cname += name
         Channel = channel(
             owner_id = current_user.id,
             #channel_name = current_user.first_name +' '+ current_user.last_name,
-            namews = fname+lname,
+            namews = cname,
             logo = logo.image,
             phone = request.POST['phoneNumber'],
             email = request.POST['email'],
