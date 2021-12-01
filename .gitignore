@@ -1,4 +1,3 @@
 venv
 media/dataset
-media/folder
-media/videos
+media/videos/*
