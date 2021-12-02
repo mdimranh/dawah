@@ -839,11 +839,13 @@
       <li class="d-flex"><i class="zmdi zmdi-bookmark mx-1"></i><p class="mx-3 p-0">Bookmark</p></li>
       <li class="d-flex"><i class="zmdi zmdi-thumb-up"></i><p class="mx-3 p-0">Liked</p></li>
       <li class="d-flex"><i class="fa fa-clock-o"></i><p class="mx-3 p-0">History</p></li>
+      {% if followlist %}
       <hr class="my-2">
       <p class="mb-3 mx-0 p-0 fw-bold headline">Following</p>
       {% for channel in followlist %}
       <li><a class="d-flex" href="/channel/{{channel.namews}}_{{channel.id}}"><img class="channel-logo" src="{{channel.logo}}"><p class="cname">{{channel.channel_name}}</p></a></li>
       {% endfor %}
+      {% endif %}
     </ul>
   </div>
   <div class="backdrop active"></div>
