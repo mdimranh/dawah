@@ -829,7 +829,7 @@
       <a href="{% url 'home' %}" ><img class="logo sidenav-logo" src="{% static 'img/logo1.png' %}" alt=""/></a>
     </div>
     <ul>
-      <li class="d-flex"><a href="/"><i class="zmdi zmdi-home"></i><p class="mx-3 p-0">Home</p></a></li>
+      <li><a class="d-flex" href="/"><i class="zmdi zmdi-home"></i><p class="mx-3 p-0">Home</p></a></li>
       {% if user.is_authenticated %}
         <li class="d-flex"><i class="fa fa-star"></i><p class="mx-3 p-0">Following</p></li>
       {% endif %}
