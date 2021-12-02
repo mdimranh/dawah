@@ -829,16 +829,20 @@
       <a href="{% url 'home' %}" ><img class="logo sidenav-logo" src="{% static 'img/logo1.png' %}" alt=""/></a>
     </div>
     <ul>
-      <li class="d-flex"><i class="zmdi zmdi-home"></i><p class="mx-3 p-0">Home</p></li>
-      <li class="d-flex"><i class="fa fa-star"></i><p class="mx-3 p-0">Following</p></li>
+      <li class="d-flex"><a href="/"><i class="zmdi zmdi-home"></i><p class="mx-3 p-0">Home</p></a></li>
+      {% if user.is_authenticated %}
+        <li class="d-flex"><i class="fa fa-star"></i><p class="mx-3 p-0">Following</p></li>
+      {% endif %}
       <hr class="my-2">
       <li class="d-flex"><i class="zmdi zmdi-portable-wifi"></i><p class="mx-3 p-0">Live</p></li>
       <li class="d-flex"><i class="zmdi zmdi-comments"></i><p class="mx-3 p-0">Q.A</p></li>
+      {% if user.is_authenticated %}
       <hr class="my-2">
       <li class="d-flex"><i class="zmdi zmdi-favorite"></i><p class="mx-3 p-0">Favourite</p></li>
       <li class="d-flex"><i class="zmdi zmdi-bookmark mx-1"></i><p class="mx-3 p-0">Bookmark</p></li>
       <li class="d-flex"><i class="zmdi zmdi-thumb-up"></i><p class="mx-3 p-0">Liked</p></li>
       <li class="d-flex"><i class="fa fa-clock-o"></i><p class="mx-3 p-0">History</p></li>
+      {% endif %}
       {% if followlist %}
       <hr class="my-2">
       <p class="mb-3 mx-0 p-0 fw-bold headline">Following</p>
