@@ -6,6 +6,7 @@ urlpatterns = [
     path('play_C=<str:namews>_V=<str:id2>', views.play, name="play"),
     path('play_C=<str:namews>_V=<str:id2>/getvideodetails', views.getVideoDetails, name="getvideodetails"),
     path('getnotifications', views.getNotification, name="getnotifications"),
+    path('notificationseen/<int:id>', views.notificationseen, name="notificationseen"),
     path('channel/<str:namews>_<int:id>', views.Channel, name="channel"),
     path('play_C=<str:namews>_V=<str:id2>/createcomment', views.createComment, name="createcomment"),
     path('channel/<str:channel_name>/<int:id>/upload-video', views.Upload_video, name="upload_video"),

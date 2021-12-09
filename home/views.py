@@ -252,11 +252,6 @@ def Upload_video_save(request, channel_name, id):
             )
             Folder.save()
             return HttpResponse("Successfull")
-        elif 'notification' in request.POST:
-            profile = Profile.objects.get(owner = request.user)
-            profile.notification_read_time = datetime.now()
-            profile.save()
-            return HttpResponse("Success")
     else:
         return HttpResponse("Successfull")
 
@@ -760,6 +755,11 @@ def Search(request, value):
     # wb.save(file)
 
     # return output_data
+def notificationseen(request, id):
+    profile = Profile.objects.get(owner = id)
+    profile.notification_read_time = datetime.now()
+    profile.save()
+    return HttpResponse("Success")
 
 
 def Tag(request, tag):

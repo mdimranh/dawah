@@ -1042,16 +1042,16 @@ document.getElementById("arrowtoast").onclick = function(){
 
 
     <script>
-      document.getElementById('notification_btn').addEventListener('click', function (event) {
+      document.getElementById('notification_btn').addEventListener('click', notificationseen({{user.id}}));
+      function notificationseen(value) {
         event.preventDefault();
         var formData = new FormData();
-        formData.append("notification", "notification");
+        formData.append("id", 'id');
         var xhr=new XMLHttpRequest();
-        {% for channel in channel %}
-        xhr.open("POST", "http://dawahbd.herokuapp.com/channel/{{channel.channel_name}}/{{channel.id}}/upload-video-save", true);
-        {% endfor %}
+        url = 'http://dawahbd.herokuapp.com/notificationseen/'+'value';
+        xhr.open("POST", url, true);
         xhr.send(formData);
-      });
+      }
     </script>
 
 
