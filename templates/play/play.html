@@ -1372,7 +1372,7 @@ $(document).ready(function(){
 
     var xhr=new XMLHttpRequest();
     {% for video in video %}
-    xhr.open("POST", "https://dawahbd.herokuapp.com/play_C={{video.channel.namews}}_V={{video.id2}}", true);
+    xhr.open("POST", "http://dawahbd.herokuapp.com/play_C={{video.channel.namews}}_V={{video.id2}}", true);
     {% endfor %}
     xhr.send(formData);
     xhr.addEventListener('load', (event) =>{
@@ -1427,7 +1427,7 @@ $(document).ready(function(){
 
     var xhr=new XMLHttpRequest();
     {% for video in video %}
-    xhr.open("POST", "https://dawahbd.herokuapp.com/play_C={{video.channel.namews}}_V={{video.id2}}", true);
+    xhr.open("POST", "http://dawahbd.herokuapp.com/play_C={{video.channel.namews}}_V={{video.id2}}", true);
     {% endfor %}
     xhr.send(formData);
   }
@@ -1446,7 +1446,7 @@ $(document).ready(function(){
 
     var xhr=new XMLHttpRequest();
     {% for video in video %}
-    xhr.open("POST", "https://dawahbd.herokuapp.com/play_C={{video.channel.namews}}_V={{video.id2}}", true);
+    xhr.open("POST", "http://dawahbd.herokuapp.com/play_C={{video.channel.namews}}_V={{video.id2}}", true);
     {% endfor %}
     xhr.send(formData);
     xhr.addEventListener('load', (event) =>{
@@ -1499,7 +1499,7 @@ $(document).ready(function(){
 
     var xhr=new XMLHttpRequest();
     {% for video in video %}
-    xhr.open("POST", "https://dawahbd.herokuapp.com/play_C={{video.channel.namews}}_V={{video.id2}}", true);
+    xhr.open("POST", "http://dawahbd.herokuapp.com/play_C={{video.channel.namews}}_V={{video.id2}}", true);
     {% endfor %}
     xhr.send(formData);
   }
@@ -1538,7 +1538,7 @@ $(document).ready(function(){
 
     var xhr=new XMLHttpRequest();
     {% for video in video %}
-    xhr.open("POST", "https://dawahbd.herokuapp.com/play_C={{video.channel.namews}}_V={{video.id2}}", true);
+    xhr.open("POST", "http://dawahbd.herokuapp.com/play_C={{video.channel.namews}}_V={{video.id2}}", true);
     {% endfor %}
     xhr.send(formData);
   }
