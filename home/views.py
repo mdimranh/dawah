@@ -755,8 +755,8 @@ def Search(request, value):
     # wb.save(file)
 
     # return output_data
-def notificationseen(request, id):
-    profile = Profile.objects.get(owner = id)
+def notificationseen(request):
+    profile = Profile.objects.get(owner = request.user.id)
     profile.notification_read_time = datetime.now()
     profile.save()
     return HttpResponse("Success")

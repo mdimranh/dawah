@@ -1042,14 +1042,13 @@ document.getElementById("arrowtoast").onclick = function(){
 
 
     <script>
-      document.getElementById('notification_btn').addEventListener('click', notificationseen({{user.id}}));
-      function notificationseen(value) {
+      document.getElementById('notification_btn').addEventListener('click', notificationseen());
+      function notificationseen() {
         event.preventDefault();
         var formData = new FormData();
         formData.append("id", 'id');
         var xhr=new XMLHttpRequest();
-        url = 'http://dawahbd.herokuapp.com/notificationseen/'+'value';
-        xhr.open("POST", url, true);
+        xhr.open("POST", "http://dawahbd.herokuapp.com/notificationseen", true);
         xhr.send(formData);
       }
     </script>
