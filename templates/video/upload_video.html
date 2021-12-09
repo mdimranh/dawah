@@ -382,7 +382,6 @@
           <div class="osahan-area text-center my-5">
             <button type="button" id='modalbtn' class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#videoupload">Upload</button>
           </div>
-          <button class="btn" id="duration">check</button>
         </div>
       </div>
     </div>
@@ -605,7 +604,7 @@ function getfolder() {
 
     var xhr=new XMLHttpRequest();
     {% for channel in channel %}
-    xhr.open(event.method, "https://dawahbd.herokuapp.com/channel/{{channel.channel_name}}/{{channel.id}}/upload-video-save", true);
+    xhr.open("POST", "https://dawahbd.herokuapp.com/channel/{{channel.channel_name}}/{{channel.id}}/upload-video-save", true);
     {% endfor %}
     xhr.upload.addEventListener("progress", function (ev) {
       var percentage=(ev.loaded/ev.total*100|0);
