@@ -19,7 +19,7 @@ SECRET_KEY = 'django-insecure-t0yabg+@fdoq6tka)q+p*y4w6+$5=_y^mj5caqgy=7pbgr50)i
 DEBUG = True
 
 ALLOWED_HOSTS = ['dawahbd.herokuapp.com', '127.0.0.1']
-
+CORS_ORIGIN_ALLOW_ALL = True
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 
@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.humanize',
     'django.contrib.staticfiles',
+    'corsheaders',
 
     'home',
     'channel',
@@ -59,6 +60,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
