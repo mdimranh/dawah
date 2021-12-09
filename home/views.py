@@ -150,6 +150,8 @@ def Folder(request,channel_name, name, id):
 @csrf_exempt
 def Upload_video_save(request, channel_name, id):
     if request.method == 'POST':
+        print("im am here-------------------------------")
+        print(request.POST['title'])
         if 'title' in request.POST:
             print("im am here-------------------------------")
             Channel = channel.objects.get(id = id)
