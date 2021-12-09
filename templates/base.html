@@ -857,7 +857,7 @@
 </div>
 
 <div class="dashboard-backdrop active"></div>
-<div class="dashboard-content">{% block dashboard %}{% endblock dashboard %}</div>
+<div class="dashboard-content active">{% block dashboard %}{% endblock dashboard %}</div>
 
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 <script src="{% static 'js/jquery.min.js' %}"></script>
@@ -1151,13 +1151,30 @@ document.getElementById("arrowtoast").onclick = function(){
 <script>
   $(".menu").click(function(){
     $(".body-content").toggleClass("active");
+    $(".dashboard-content").toggleClass("active");
     $(".sidenav").toggleClass("active");
     $(".backdrop").toggleClass("active");
+    $(".dashboard-backdrop").toggleClass("active");
   });
   $(".backdrop").click(function(){
     $(".body-content").toggleClass("active");
+    $(".dashboard-content").toggleClass("active");
     $(".sidenav").toggleClass("active");
     $(".backdrop").toggleClass("active");
+    $(".dashboard-backdrop").toggleClass("active");
+  });
+</script>
+
+<script>
+  $(".toggle").click(function(){
+    $(".dashboard-content").toggleClass("active");
+    $(".dashboard-sidenav").toggleClass("active");
+    $(".dashboard-backdrop").toggleClass("active");
+  });
+  $(".backdrop").click(function(){
+    $(".dashboard-content").toggleClass("active");
+    $(".dashboard-sidenav").toggleClass("active");
+    $(".dashboard-backdrop").toggleClass("active");
   });
 </script>
 
