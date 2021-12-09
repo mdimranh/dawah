@@ -1043,15 +1043,21 @@ document.getElementById("arrowtoast").onclick = function(){
 
     <script>
       document.getElementById('notification_btn').addEventListener('click', notificationseen());
-      function notificationseen() {
-        event.preventDefault();
-        var formData = new FormData();
-        formData.append("id", 'id');
-        var xhr=new XMLHttpRequest();
-        xhr.open("POST", "http://dawahbd.herokuapp.com/notificationseen", true);
-        xhr.send(formData);
-      }
     </script>
+
+    <script>
+      function notificationseen() {
+        $(function(){
+            $.ajax({
+              type:'GET',
+              url: "http://dawahbd.herokuapp.com/notificationseen",
+              success: function(response){
+                console.log("Notification seen updated");
+              },
+            });
+        });
+      }
+      </script>
 
 
 
