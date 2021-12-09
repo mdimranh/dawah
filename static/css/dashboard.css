@@ -460,12 +460,12 @@
       transition: 0.3s;
     }
 
-    .dashboard-content.active .dashboard-backdrop {
-      visibility: visible;
-    }
-
     .dashboard-backdrop {
       visibility: hidden;
+    }
+
+    .dashboard-backdrop.active {
+      visibility: visible;
     }
 
     /* .toggle {
