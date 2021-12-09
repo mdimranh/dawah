@@ -633,13 +633,22 @@ var loadThumbnail = function(event) {
   });
 </script>
 
-<!-- <script>
+<script>
   const navigate = document.querySelector(".dashboard-content");
   document.querySelector(".toggle").onclick = function () {
     this.classList.toggle("active");
     navigate.classList.toggle("active");
+    $(".dashboard-backdrop").toggleClass("active");
   };
-</script> -->
+</script>
+
+<script>
+  $(".dashboard-backdrop").click(function(){
+    $(".dashboard-content").toggleClass("active");
+    $(".toggle").toggleClass("active");
+    $(".dashboard-backdrop").toggleClass("active");
+  });
+</script>
 
 <script>
   var ctx = document.getElementById("pie-chart1").getContext("2d");
