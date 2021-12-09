@@ -605,7 +605,7 @@ function getfolder() {
 
     var xhr=new XMLHttpRequest();
     {% for channel in channel %}
-    xhr.open("POST", "https://dawahbd.herokuapp.com/channel/{{channel.channel_name}}/{{channel.id}}/upload-video-save", true);
+    xhr.open(event.method, "https://dawahbd.herokuapp.com/channel/{{channel.channel_name}}/{{channel.id}}/upload-video-save", true);
     {% endfor %}
     xhr.upload.addEventListener("progress", function (ev) {
       var percentage=(ev.loaded/ev.total*100|0);
