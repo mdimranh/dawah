@@ -15,13 +15,13 @@ http://dawahbd.herokuapp.com
 Clone the project
 
 ```bash
-  git clone https://https://github.com/mdimranh/ShopNow-Ecommerce-app.git
+  git clone https://github.com/mdimranh/dawah.git
 ```
 
 Go to the project directory
 
 ```bash
-  cd ecomapp
+  cd dawah1
 ```
 
 Install dependencies
